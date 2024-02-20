@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 
 export const QnAform = () => {
-    const [buttonClick, setButtonClick] = useState(null);
     const buttons = ["전체", "PC 주문접수", "쿠폰관리", "정산"];
+    const [buttonClick, setButtonClick] = useState<number | null>(null);
 
-    const handleClick = (buttonText) => {
-        setButtonClick(buttonText);
+    const handleClick = (index: number) => {
+        setButtonClick(index);
     };
 
-    const getButtonClassName = (buttonText) => {
-        if (buttonText === buttonClick) {
-            return "flex items-center justify-center h-9 min-w-11 px-2.5 border-none rounded-[100px] bg-font-black text-white";
-        } else {
-            return "flex items-center justify-center h-9 min-w-11 px-2.5 border border-font-black rounded-[100px] bg-white text-font-black";
-        }
+    const getButtonClassName = (index: number) => {
+        return buttonClick === index
+            ? "flex items-center justify-center h-9 min-w-11 px-2.5 border-none rounded-[100px] bg-font-black text-white"
+            : "flex items-center justify-center h-9 min-w-11 px-2.5 border border-font-black rounded-[100px] bg-white text-font-black";
     };
 
     return (
@@ -34,13 +32,14 @@ export const QnAform = () => {
             </div>
             <div className="bg-white border rounded-lg">
                 <div className="flex gap-2 pt-5 px-4 pb-[15px]">
-                    {buttons.map((buttonText) => (
+                    {buttons.map((buttonName, idx) => (
                         <button
-                            key={buttonText}
-                            onClick={() => handleClick(buttonText)}
-                            className={getButtonClassName(buttonText)}
+                            key={idx}
+                            onClick={() => handleClick(idx)}
+                            className={getButtonClassName(idx)}
+                            value={buttons}
                         >
-                            <span className="text-sm font-normal mx-0.5">{buttonText}</span>
+                            <span className="text-sm font-normal mx-0.5">{buttonName}</span>
                         </button>
                     ))}
                 </div>
