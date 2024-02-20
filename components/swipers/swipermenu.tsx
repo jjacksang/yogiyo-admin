@@ -6,6 +6,10 @@ import { useState } from "react";
 
 SwiperCore.use([Autoplay, Pagination]);
 
+interface dummy {
+    realIndex: number;
+}
+
 export const SwiperMenu = () => {
     const [activeImg, setActiveImg] = useState(0);
     const images = [
@@ -17,7 +21,7 @@ export const SwiperMenu = () => {
         "/bannerimage/배너이미지6.png",
     ];
 
-    const handleSlideNum = (swiper) => {
+    const handleSlideNum = (swiper: dummy) => {
         setActiveImg(swiper.realIndex);
     };
 
