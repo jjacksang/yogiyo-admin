@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getAxios = axios.create({
+export const getAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
@@ -38,6 +38,11 @@ export const emailLogin = async (email: string, password: string) => {
     }
 };
 
-// export const SocialKakao = async (req: ReqAuth) => {
-//     const baseURL = "https://kauth.kakao.com/authorize";
-// };
+export const KakaoLogin = () => {
+    const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
+    const REDIERCT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
+    const RESPONSE_TYPE = "code";
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIERCT_URI}&response_type=${RESPONSE_TYPE}`;
+    window.location.href = KAKAO_AUTH_URL;
+    console.log(RESPONSE_TYPE);
+};

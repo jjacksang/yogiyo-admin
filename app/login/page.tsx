@@ -2,6 +2,7 @@
 import { HomeLogo } from "@/components/common/HomeLogo";
 import Footer from "@/components/home/footer";
 import { useRouter } from "next/navigation";
+import { KakaoLogin } from "../services/loginAPI";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -22,7 +23,10 @@ export default function LoginForm() {
                     <p className="mb-8 text-center text-[#333333] text-base font-normal">
                         아래 인증 수단에서 하나를 선택해 본인인증을 진행해주세요.
                     </p>
-                    <button className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-kakao">
+                    <button
+                        className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-kakao"
+                        onClick={KakaoLogin}
+                    >
                         <img src="/Icons/카카오로고.png" className="mr-2.5 w-[32px] h-[32px]" />
                         <span className="text-xl font-semibold">카카오로 연동하기</span>
                     </button>
