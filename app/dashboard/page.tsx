@@ -2,17 +2,19 @@ import Link from "next/link";
 import React from "react";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
+import DashboardMain from "@/components/common/DashboardMain";
 
 type Props = {}
 
 const Page = (props: Props) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="flex flex-col min-h-screen">
       <DashboardNavbar />
-      <div style={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
+      <div className="flex flex-row flex-1">
         <DashboardSidebar />
-        <div style={{ flex: 1 }}> {/* 메인 컨텐츠 영역 */}
-          {/* 여기에 페이지의 주요 내용 */}
+        <div className="flex-1 bg-[#F7F7F7]"> {/* 메인 컨텐츠 영역 */}
+
+          <DashboardMain/>
         </div>
       </div>
     </div>
