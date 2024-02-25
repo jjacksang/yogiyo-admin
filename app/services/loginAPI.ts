@@ -56,16 +56,4 @@ export const KakaoLogin = () => {
 
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get("code");
-
-    if (authorizationCode) {
-        axios
-            .post("owner/login", { code: authorizationCode })
-            .then((res) => {
-                setLogin({ isLogged: true, userInfo: res.data });
-                document.cookie = `token=${res.data.token}`;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
 };
