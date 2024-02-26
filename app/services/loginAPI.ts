@@ -1,6 +1,5 @@
+import { SocialLogin } from "@/lib/types";
 import axios from "axios";
-import { useSetRecoilState } from "recoil";
-import { loginState } from "../recoil/state";
 
 export const getAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -30,24 +29,45 @@ export const emailLogin = async (email: string, password: string) => {
         providerType: "DEFAULT",
     };
     console.log(userData);
+
     const resSubmit = await getAxios.post("/owner/login", userData);
     if (resSubmit.status >= 200 && resSubmit.status < 300) {
-        // window.location.href = "/";
         console.log(`${resSubmit.data.userId} 로그인 성공`);
         console.log(resSubmit);
 
         const userId = resSubmit.data.userId;
         const userEmail = resSubmit.data.email;
 
-        document.cookie = `userId=${userId}; path=/`;
-        document.cookie = `email=${userEmail}; path=/`;
+        // document.cookie = `userId=${userId}; path=/`;
+        // document.cookie = `email=${userEmail}; path=/`;
+
+        // window.location.href = "/";
+        return { userId, userEmail };
     } else {
         console.log("Login api error");
+        return null;
     }
 };
 
+export const getCookie = async (reqbody: SocialLogin) => {
+    const headers = {
+        "Content-Type": "application/json",
+    };
+    const config = { headers };
+    const resTokenAPI = await getAxios.post("owner/login", reqbody, { withCredentials: true });
+
+    const isLoggedIn = true;
+    const userId = resTokenAPI.data.userId;
+    const email = resTokenAPI.data.email;
+
+    console.log(resTokenAPI.data.userId);
+    console.log(resTokenAPI.data.email);
+
+    return { userId, email, isLoggedIn };
+};
+
 export const KakaoLogin = () => {
-    const setLogin = useSetRecoilState(loginState);
+    //const setLogin = useSetRecoilState(loginState);
     const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
     const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
     const RESPONSE_TYPE = "code";

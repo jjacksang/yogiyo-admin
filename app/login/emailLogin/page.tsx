@@ -1,13 +1,17 @@
 "use client";
 
 import { HomeLogo } from "@/components/common/HomeLogo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { emailLogin } from "@/app/services/loginAPI";
+import { useSetRecoilState } from "recoil";
+import { loginState } from "@/app/recoil/state";
+import { useRouter } from "next/navigation";
 
 const EmailLogin = () => {
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [nickname, setNickname] = useState("");
+    const setLogin = useSetRecoilState(loginState);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id == "email") {
@@ -17,8 +21,15 @@ const EmailLogin = () => {
         }
     };
 
-    const handleSubmit = () => {
-        const emailSubmit = emailLogin(email, password);
+    const handleSubmit = async () => {
+        const data = await emailLogin(email, password);
+        if (data) {
+            document.cookie = `user=${JSON.stringify(data)}; max-age=${30 * 60}; path=/`;
+            router.push("/");
+        } else {
+            console.log("로그인 실패");
+        }
+        setLogin(true);
     };
 
     return (

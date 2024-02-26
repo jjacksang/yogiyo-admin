@@ -1,35 +1,10 @@
 "use client";
-import axios from "axios";
 import { HomeLogo } from "@/components/common/HomeLogo";
 import Footer from "@/components/home/footer";
 import { useRouter } from "next/navigation";
-import { useSetRecoilState } from "recoil";
-import { loginState } from "../recoil/state";
+import { KakaoLogin } from "../services/loginAPI";
 
 export default function LoginForm() {
-    const KakaoLogin = () => {
-        const setLogin = useSetRecoilState(loginState);
-        const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
-        const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
-        const RESPONSE_TYPE = "code";
-        const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`;
-        window.location.href = KAKAO_AUTH_URL;
-
-        const url = new URL(window.location.href);
-        const authorizationCode = url.searchParams.get("code");
-
-        if (authorizationCode) {
-            axios
-                .post("member/login", { code: authorizationCode })
-                .then((res) => {
-                    setLogin({ isLogged: true, userInfo: res.data.user });
-                    document.cookie = `token=${res.data.token}`;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-    };
     const router = useRouter();
     const handleEmailJoin = () => {
         router.push("/login/emailJoin");
