@@ -10,6 +10,17 @@ const DashboardSidebar = (props: Props) => {
             아직 가게가 없습니다
           </div>
         </div>
+        <div className="text-xs leading-4 font-bold flex flex-row justify-between gap-1 w-full my-4 px-3 py-0">
+          <button className="flex flex-col justify-center items-center flex-1 h-[76px] w-[76px] text-center gap-[9.4px] border border-gray-200 rounded bg-white text-gray-800">
+            <p>주문내역</p>
+          </button>
+          <button className="flex flex-col justify-center items-center flex-1 h-[76px] w-[76px] text-center gap-[9.4px] border border-gray-200 rounded bg-white text-gray-800">
+            <p>통계</p>
+          </button>
+          <button className="flex flex-col justify-center items-center flex-1 h-[76px] w-[76px] text-center gap-[9.4px] border border-gray-200 rounded bg-white text-gray-800">
+            <p>사장님장부</p>
+          </button>
+        </div>
       </div>
     );
   };
