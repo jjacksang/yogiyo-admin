@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface OwnerJoin {
     nickname: string;
     email: string;
@@ -23,4 +21,24 @@ export interface SocialLogin {
     password: string | null;
     authcode: string;
     providerType: string;
+}
+
+export interface KakaoAuth {
+    client_id: string;
+    redirect_uri: string;
+    repose_type: string;
+}
+
+export interface ReqAuth {
+    code: string;
+    client_id: string;
+    redirect_uri: string;
+    state?: string;
+}
+
+export interface userState {
+    userId: number;
+    nickname: string;
+    email: string;
+    isLoggedIn: false;
 }

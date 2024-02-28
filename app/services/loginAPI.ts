@@ -77,3 +77,7 @@ export const KakaoLogin = () => {
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get("code");
 };
+
+    const url = new URL(window.location.href);
+    const authorizationCode = url.searchParams.get("code");
+};

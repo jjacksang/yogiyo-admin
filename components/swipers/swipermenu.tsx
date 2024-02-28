@@ -1,3 +1,4 @@
+"use client";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -21,8 +22,8 @@ export const SwiperMenu = () => {
         "/bannerimage/배너이미지6.png",
     ];
 
-    const handleSlideNum = (swiper: dummy) => {
-        setActiveImg(swiper.realIndex);
+    const handleSlideNum = (number: dummy) => {
+        setActiveImg(number.realIndex);
     };
 
     return (
