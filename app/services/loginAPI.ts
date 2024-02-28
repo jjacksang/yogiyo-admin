@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const getAxios = axios.create({
+export const getAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
+    withCredentials: true,
 });
 
 export const emailJoin = async (email: string, password: string, nickname: string) => {
@@ -13,7 +14,7 @@ export const emailJoin = async (email: string, password: string, nickname: strin
     };
     console.log(userData);
     try {
-        const resJoin = await getAxios.post("/member/join", userData);
+        const resJoin = await getAxios.post("/owner/join", userData);
         return resJoin.data;
     } catch (error) {
         console.log(error);
@@ -27,17 +28,30 @@ export const emailLogin = async (email: string, password: string) => {
         authCode: null,
         providerType: "DEFAULT",
     };
+
     console.log(userData);
-    const resSubmit = await getAxios.post("/member/login", userData);
+
+    const resSubmit = await getAxios.post("/owner/login", userData);
     if (resSubmit.status >= 200 && resSubmit.status < 300) {
-        // window.location.href = "/";
         console.log(`${resSubmit.data.userId} 로그인 성공`);
         console.log(resSubmit);
+
+        const userId = resSubmit.data.userId;
+        const userEmail = resSubmit.data.email;
+
+        const resMyPage = await getAxios.get("/owner/mypage");
+
+        return { userId, userEmail };
     } else {
         console.log("Login api error");
+        return null;
     }
 };
 
-// export const SocialKakao = async (req: ReqAuth) => {
-//     const baseURL = "https://kauth.kakao.com/authorize";
-// };
+export const KakaoLogin = () => {
+    const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
+    const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
+    const RESPONSE_TYPE = "code";
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`;
+    window.location.href = KAKAO_AUTH_URL;
+};
