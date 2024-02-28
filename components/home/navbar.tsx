@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
-import { useRecoilState } from "recoil";
-import { userStateAtom } from "../../app/recoil/state";
+import { useRecoilValue } from "recoil";
+import { loginState, nicknameState } from "../../app/recoil/state";
 
 export const Navbar = () => {
-    const [userState, setUserState] = useRecoilState(userStateAtom);
+    const isLoggedIn = useRecoilValue(loginState);
+    const nickname = useRecoilValue(nicknameState);
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
             <div className="flex items-center">
@@ -19,27 +20,10 @@ export const Navbar = () => {
                     <img src="/images/yogiyologo.png" alt="Yogiyo Logo" />
                 </Link>
             </div>
-            {userState.isLoggedIn ? (
-                <div>
-                    <div className="hidden lg:flex items-center gap-2 py-0 px-2">
-                        <p>{userState.nickname} 님 환영합니다.</p>
-                        <button
-                            onClick={() =>
-                                setUserState({
-                                    userId: 1,
-                                    nickname: "",
-                                    email: "",
-                                    isLoggedIn: false,
-                                })
-                            }
-                        >
-                            로그아웃
-                        </button>
-                        <div className="border-l border-gray-300 h-4"></div> {/* 실선 */}
-                        <Link href="/login" className="text-xs leading-4 text-gray-600">
-                            로그인
-                        </Link>
-                    </div>
+            {isLoggedIn ? (
+                <div className="hidden lg:flex items-center gap-2 py-0 px-2">
+                    <p>{nickname}</p>
+                    <button>로그아웃</button>
                 </div>
             ) : (
                 <div>
