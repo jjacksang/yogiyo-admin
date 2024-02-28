@@ -23,6 +23,7 @@ const EmailLogin = () => {
 
     const handleSubmit = async () => {
         const data = await emailLogin(email, password);
+
         if (data) {
             document.cookie = `user=${JSON.stringify(data)}; max-age=${30 * 60}; path=/`;
             router.push("/");

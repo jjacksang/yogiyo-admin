@@ -13,5 +13,15 @@ export const userStateAtom = atom<userState>({
 
 export const loginState = atom({
     key: "loginState",
-    default: { isLogged: false, userInfo: {} },
+    default: false,
+});
+
+export const nicknameState = atom({
+    key: "nicknameState",
+    default: "",
+});
+
+export const tokenState = atom({
+    key: "tokenState",
+    default: "",
 });
