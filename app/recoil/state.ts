@@ -1,5 +1,6 @@
 import { userState } from "@/lib/types";
 import { atom } from "recoil";
+import { shopList } from "../../app/services/shopAPI"
 
 export const userStateAtom = atom<userState>({
     key: "user",
@@ -25,3 +26,8 @@ export const tokenState = atom({
     key: "tokenState",
     default: "",
 });
+
+export const shoplistState = atom<ShopList | null>({
+    key: "shoplistStateAtom",
+    default: null, 
+  });

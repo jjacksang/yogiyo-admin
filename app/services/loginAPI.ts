@@ -55,7 +55,3 @@ export const KakaoLogin = () => {
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`;
     window.location.href = KAKAO_AUTH_URL;
 };
-
-    const url = new URL(window.location.href);
-    const authorizationCode = url.searchParams.get("code");
-};
