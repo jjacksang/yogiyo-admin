@@ -1,4 +1,3 @@
-import { SocialLogin } from "@/lib/types";
 import axios from "axios";
 
 export const getAxios = axios.create({
@@ -49,25 +48,7 @@ export const emailLogin = async (email: string, password: string) => {
     }
 };
 
-// export const getCookie = async (reqbody: SocialLogin) => {
-//     const headers = {
-//         "Content-Type": "application/json",
-//     };
-//     const config = { headers };
-//     const resTokenAPI = await getAxios.post("owner/login", reqbody, { withCredentials: true });
-
-//     const isLoggedIn = true;
-//     const userId = resTokenAPI.data.userId;
-//     const email = resTokenAPI.data.email;
-
-//     console.log(resTokenAPI.data.userId);
-//     console.log(resTokenAPI.data.email);
-
-//     return { userId, email, isLoggedIn };
-// };
-
 export const KakaoLogin = () => {
-    //const setLogin = useSetRecoilState(loginState);
     const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
     const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
     const RESPONSE_TYPE = "code";
