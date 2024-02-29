@@ -25,7 +25,7 @@ const EmailLogin = () => {
         const data = await emailLogin(email, password);
 
         if (data) {
-            document.cookie = `user=${JSON.stringify(data)}; max-age=${30 * 60}; path=/`;
+            // document.cookie = `user=${JSON.stringify(data)}; max-age=${30 * 60}; path=/`;
             router.push("/");
         } else {
             console.log("로그인 실패");

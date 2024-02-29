@@ -2,7 +2,7 @@
 import { HomeLogo } from "@/components/common/HomeLogo";
 import Footer from "@/components/home/footer";
 import { useRouter } from "next/navigation";
-import { KakaoLogin } from "../services/loginAPI";
+import { SocialKakao } from "../services/loginAPI";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -11,6 +11,9 @@ export default function LoginForm() {
     };
     const handleEmailLogin = () => {
         router.push("/login/emailLogin");
+    };
+    const handleKakaoLogin = async () => {
+        await SocialKakao();
     };
 
     return (
@@ -25,7 +28,7 @@ export default function LoginForm() {
                     </p>
                     <button
                         className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-kakao"
-                        onClick={KakaoLogin}
+                        onClick={handleKakaoLogin}
                     >
                         <img src="/Icons/카카오로고.png" className="mr-2.5 w-[32px] h-[32px]" />
                         <span className="text-xl font-semibold">카카오로 연동하기</span>

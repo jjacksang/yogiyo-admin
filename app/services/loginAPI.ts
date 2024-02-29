@@ -40,15 +40,16 @@ export const emailLogin = async (email: string, password: string) => {
         const userEmail = resSubmit.data.email;
 
         const resMyPage = await getAxios.get("/owner/mypage");
+        const userNickname = resMyPage.data.nickname;
 
-        return { userId, userEmail };
+        return { userId, userEmail, userNickname };
     } else {
         console.log("Login api error");
         return null;
     }
 };
 
-export const KakaoLogin = () => {
+export const SocialKakao = async () => {
     const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
     const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
     const RESPONSE_TYPE = "code";
