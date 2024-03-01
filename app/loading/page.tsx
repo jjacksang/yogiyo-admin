@@ -2,13 +2,15 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import react, { useEffect } from "react";
 import axios from "axios";
-export default function loading() {
+
+export default function Loading() {
+    const router = useRouter();
     const getKakaoToken = async () => {
         const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
         const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
         const code = new URL(window.location.href).searchParams.get("code");
 
-        if (code) {
+        if (code && !localStorage.getItem("kakao_token")) {
             try {
                 const response = await axios({
                     method: "POST",
@@ -22,6 +24,7 @@ export default function loading() {
 
                 if (response.status === 200) {
                     localStorage.setItem("kakao_token", response.data.access_token);
+                    router.push("/");
                 } else {
                     console.log("token발급 실패");
                 }
