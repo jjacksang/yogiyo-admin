@@ -26,7 +26,7 @@ const EmailLogin = () => {
 
         if (data) {
             document.cookie = `user=${JSON.stringify(data)}; max-age=${30 * 60}; path=/`;
-            router.push("/");
+            router.push("/dashboard");
         } else {
             console.log("로그인 실패");
         }

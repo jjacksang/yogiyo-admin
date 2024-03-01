@@ -22,19 +22,20 @@ interface Shop {
     icon: string;
   }
   
-  interface ShopList {
-    content: Shop[];
-    nextCursor: number;
-    nextSubCursor: number;
-    hasNext: boolean;
+  export interface OwnerShopList {
+      id: number;
+      name: string;
+      icon: string;
   }
 
-  export const shopList = async () => {
+  export const ShopList = async () => {
     try {
-      const resShops = await getAxios.get("/member/shop/list"); 
+      const resShops = await getAxios.get("/owner/shop/"); 
   
-      const parsedShops: ShopList = resShops.data as ShopList;
+      const parsedShops: OwnerShopList = resShops.data as OwnerShopList;
   
+      console.log(resShops.data);
+      
       return parsedShops;
     } catch (error) {
       console.error("Error fetching shop list:", error);

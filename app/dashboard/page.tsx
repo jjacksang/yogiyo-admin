@@ -3,10 +3,15 @@ import React from "react";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
 import DashboardMain from "@/components/common/DashboardMain";
+import { ShopList } from "../services/shopAPI";
 
-type Props = {}
 
-const Page = (props: Props) => {
+
+const Page = () => {
+
+  ShopList() 
+  
+
   return (
     <div className="flex flex-col min-h-screen">
       <DashboardNavbar />

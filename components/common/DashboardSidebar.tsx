@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { shoplistState } from '../../app/recoil/state';
 import { useSetRecoilState } from 'recoil'
-import { shopList } from '@/app/services/shopAPI';
+import { ShopList } from '@/app/services/shopAPI';
 
 const DashboardSidebar = () => {
   const setShopList = useSetRecoilState(shoplistState)
 
   const fetchShopList = async () => {
     try {
-      const fetchedShopList = await shopList();
+      const fetchedShopList = await ShopList();
       setShopList(fetchedShopList); // 상태 업데이트
     } catch (error) {
       console.error("가게 목록을 가져오는 중 오류가 발생했습니다:", error);
