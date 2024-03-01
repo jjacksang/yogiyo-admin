@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import react, { useEffect } from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
-import { loginState, nicknameState, userStateAtom } from "../recoil/state";
+import { userStateAtom } from "../recoil/state";
 
 export default function Loading() {
     const setUserState = useSetRecoilState(userStateAtom);

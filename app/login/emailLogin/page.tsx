@@ -4,7 +4,7 @@ import { HomeLogo } from "@/components/common/HomeLogo";
 import { useEffect, useState } from "react";
 import { emailLogin } from "@/app/services/loginAPI";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { loginState, userStateAtom } from "@/app/recoil/state";
+import { userStateAtom } from "@/app/recoil/state";
 import { useRouter } from "next/navigation";
 
 const EmailLogin = () => {

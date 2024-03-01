@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { loginState, userStateAtom } from "../../app/recoil/state";
+import { userStateAtom } from "../../app/recoil/state";
 
 export const Navbar = () => {
     const user = useRecoilValue(userStateAtom);
@@ -21,8 +21,10 @@ export const Navbar = () => {
             </div>
             {user.isLoggedIn ? (
                 <div className="hidden lg:flex items-center gap-2 py-0 px-2">
-                    <p>{user.nickname}</p>
-                    <button>로그아웃</button>
+                    <p className="flex items-center text-sm text-font-gray">{user.nickname}님</p>
+                    <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
+                        <button>내정보</button>
+                    </div>
                 </div>
             ) : (
                 <div>
