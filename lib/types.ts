@@ -40,5 +40,5 @@ export interface userState {
     userId: number;
     nickname: string;
     email: string;
-    isLoggedIn: false;
+    isLoggedIn: boolean;
 }

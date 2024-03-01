@@ -6,20 +6,10 @@ export const userStateAtom = atom<userState>({
     key: "user",
     default: {
         userId: 1111111,
-        nickname: "unknown",
-        email: "unknown",
+        nickname: "",
+        email: "",
         isLoggedIn: false,
     },
-});
-
-export const loginState = atom({
-    key: "loginState",
-    default: false,
-});
-
-export const nicknameState = atom({
-    key: "nicknameState",
-    default: "",
 });
 
 export const tokenState = atom({
