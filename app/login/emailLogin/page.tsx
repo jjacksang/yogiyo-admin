@@ -3,8 +3,8 @@
 import { HomeLogo } from "@/components/common/HomeLogo";
 import { useEffect, useState } from "react";
 import { emailLogin } from "@/app/services/loginAPI";
-import { useSetRecoilState } from "recoil";
-import { loginState } from "@/app/recoil/state";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { loginState, nicknameState } from "@/app/recoil/state";
 import { useRouter } from "next/navigation";
 
 const EmailLogin = () => {
@@ -12,6 +12,7 @@ const EmailLogin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const setLogin = useSetRecoilState(loginState);
+    const setNickname = useSetRecoilState(nicknameState);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id == "email") {
@@ -26,6 +27,7 @@ const EmailLogin = () => {
 
         if (data) {
             // document.cookie = `user=${JSON.stringify(data)}; max-age=${30 * 60}; path=/`;
+            setNickname(data.nickname);
             router.push("/");
         } else {
             console.log("로그인 실패");

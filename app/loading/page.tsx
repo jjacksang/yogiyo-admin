@@ -2,8 +2,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import react, { useEffect } from "react";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { loginState, nicknameState, userStateAtom } from "../recoil/state";
 
 export default function Loading() {
+    const setUserState = useSetRecoilState(userStateAtom);
     const router = useRouter();
     const getKakaoToken = async () => {
         const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
@@ -24,12 +27,31 @@ export default function Loading() {
 
                 if (response.status === 200) {
                     localStorage.setItem("kakao_token", response.data.access_token);
-                    router.push("/");
+                    try {
+                        const resProfile = await axios({
+                            method: "GET",
+                            url: "https://kapi.kakao.com/v2/user/me",
+                            headers: {
+                                Authorization: `Bearer ${response.data.access_token}`,
+                            },
+                        });
+                        console.log(resProfile);
+                        const user = {
+                            userId: resProfile.data.id,
+                            email: resProfile.data.kakao_account.email,
+                            nickname: resProfile.data.properties.nickname,
+                            isLoggedIn: true,
+                        };
+                        setUserState(user);
+                        router.push("/");
+                    } catch (error) {
+                        console.log("프로필 가져오기 실패");
+                    }
                 } else {
                     console.log("token발급 실패");
                 }
             } catch (error) {
-                console.log(error.response.data);
+                // console.log(error.response.data);
             }
         }
     };

@@ -40,9 +40,9 @@ export const emailLogin = async (email: string, password: string) => {
         const userEmail = resSubmit.data.email;
 
         const resMyPage = await getAxios.get("/owner/mypage");
-        const userNickname = resMyPage.data.nickname;
+        const nickname = resMyPage.data.nickname;
 
-        return { userId, userEmail, userNickname };
+        return { userId, userEmail, nickname };
     } else {
         console.log("Login api error");
         return null;
