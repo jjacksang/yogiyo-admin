@@ -56,8 +56,47 @@ export default function Loading() {
         }
     };
 
+    const getNaverToken = async () => {
+        const CODE = new URL(window.location.href).searchParams.get("code");
+        const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
+        const CLIENT_SECRET = process.env.NEXT_PUBLIC_NAVER_SECRET_KEY;
+        const REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_LOGIN_REDIRECT_URI as string;
+        const STATE = new URL(window.location.href).searchParams.get("state");
+        console.log(CODE);
+
+        if (CODE) {
+            try {
+                const response = await axios({
+                    method: "GET",
+                    url: "https://nid.naver.com/oauth2.0/token",
+                    params: {
+                        grant_type: "authorization_code",
+                        client_id: CLIENT_ID,
+                        client_secret: CLIENT_SECRET,
+                        code: CODE,
+                        redirect_uri: REDIRECT_URI as string,
+                        state: STATE,
+                    },
+                });
+                console.log(response);
+                if (response.status === 200) {
+                    localStorage.setItem("naver_token", response.data.access_token);
+                } else {
+                    console.log("토큰 발급 실퍃ㅎ");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     useEffect(() => {
-        getKakaoToken();
+        const provider = localStorage.getItem("provider");
+        if (provider === "kakao") {
+            getKakaoToken();
+        } else if (provider === "naver") {
+            getNaverToken();
+        }
     }, []);
     return (
         <>

@@ -2,7 +2,8 @@
 import { HomeLogo } from "@/components/common/HomeLogo";
 import Footer from "@/components/home/footer";
 import { useRouter } from "next/navigation";
-import { SocialKakao } from "../services/loginAPI";
+import { SocialKakao, SocialNaver } from "../services/loginAPI";
+import React from "react";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -12,8 +13,15 @@ export default function LoginForm() {
     const handleEmailLogin = () => {
         router.push("/login/emailLogin");
     };
-    const handleKakaoLogin = async () => {
-        await SocialKakao();
+    const handleSocialLogin = (e: React.MouseEvent<HTMLDivElement>) => {
+        const provider = e.currentTarget.id;
+        localStorage.setItem("provider", provider);
+        if (provider === "kakao") {
+            SocialKakao();
+        } else if (provider === "naver") {
+            SocialNaver();
+        }
+        return { provider };
     };
 
     return (
@@ -26,19 +34,24 @@ export default function LoginForm() {
                     <p className="mb-8 text-center text-[#333333] text-base font-normal">
                         아래 인증 수단에서 하나를 선택해 본인인증을 진행해주세요.
                     </p>
-                    <button
-                        className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-kakao"
-                        onClick={handleKakaoLogin}
+                    <div
+                        className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-kakao cursor-pointer"
+                        onClick={handleSocialLogin}
+                        id="kakao"
                     >
                         <img src="/Icons/카카오로고.png" className="mr-2.5 w-[32px] h-[32px]" />
                         <span className="text-xl font-semibold">카카오로 연동하기</span>
-                    </button>
-                    <button className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-naver text-white">
+                    </div>
+                    <div
+                        className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-naver text-white cursor-pointer"
+                        onClick={handleSocialLogin}
+                        id="naver"
+                    >
                         <img src="/Icons/네이버로고.png" className="mr-2.5 w-[30px] h-[30px]" />
                         <span className="text-xl font-semibold">네이버로 연동하기</span>
-                    </button>
+                    </div>
                     <button
-                        className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-[#F5F5F5]"
+                        className="flex justify-center items-center w-full mt-2.5 p-6 border-none rounded-xl bg-[#F5F5F5] cursor-pointer"
                         onClick={handleEmailLogin}
                     >
                         <span className="text-xl font-semibold">이메일 로그인</span>
