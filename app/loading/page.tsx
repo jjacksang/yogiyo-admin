@@ -61,20 +61,19 @@ export default function Loading() {
         const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
         const CLIENT_SECRET = process.env.NEXT_PUBLIC_NAVER_SECRET_KEY;
         const REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_LOGIN_REDIRECT_URI as string;
-        const STATE = new URL(window.location.href).searchParams.get("state");
-        console.log(CODE);
+        const STATE = "test";
 
         if (CODE) {
             try {
                 const response = await axios({
                     method: "GET",
-                    url: "https://nid.naver.com/oauth2.0/token",
+                    url: "/oauth2.0/token",
                     params: {
                         grant_type: "authorization_code",
                         client_id: CLIENT_ID,
                         client_secret: CLIENT_SECRET,
                         code: CODE,
-                        redirect_uri: REDIRECT_URI as string,
+                        redirect_uri: REDIRECT_URI,
                         state: STATE,
                     },
                 });
