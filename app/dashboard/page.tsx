@@ -1,15 +1,13 @@
+"use client"
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
 import DashboardMain from "@/components/common/DashboardMain";
-import { ShopList } from "../services/shopAPI";
-
-
+import { shopListState } from "../recoil/state"
+import { useSetRecoilState } from "recoil";
 
 const Page = () => {
-
-  ShopList() 
   
 
   return (

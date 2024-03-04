@@ -17,7 +17,7 @@ export const tokenState = atom({
     default: "",
 });
 
-export const shoplistState = atom<OwnerShopList | null>({
-    key: "shoplistStateAtom",
-    default: null, 
-  });
+export const shopListState = atom<OwnerShopList[] | null>({
+    key: "shopListStateAtom", 
+    default: [],
+});
