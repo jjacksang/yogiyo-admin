@@ -35,7 +35,7 @@ const DashboardSidebar = () => {
       };
       const authorization = `Bearer ${process.env.NEXT_PUBLIC_APP_KEY}`;
 
-      await registerShop({ authorization, iconFile, bannerFile, shopData }); // 수정된 API 호출
+      await registerShop({ iconFile, bannerFile, shopData }); // 수정된 API 호출
       await fetchShopListHandler(); // 성공 후 가게 목록 조회
     } catch (error) {
       console.error("가게 등록 중 오류 발생:", error);

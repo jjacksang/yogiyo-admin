@@ -43,7 +43,7 @@ export default function Loading() {
                             isLoggedIn: true,
                         };
                         setUserState(user);
-                        router.push("/");
+                        router.push("/dashboard");
                     } catch (error) {
                         console.log("프로필 가져오기 실패");
                     }

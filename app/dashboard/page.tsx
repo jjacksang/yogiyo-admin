@@ -6,9 +6,11 @@ import DashboardSidebar from "@/components/common/DashboardSidebar";
 import DashboardMain from "@/components/common/DashboardMain";
 import { shopListState } from "../recoil/state"
 import { useSetRecoilState } from "recoil";
+import { registerShop } from "../services/shopAPI";
 
 const Page = () => {
   
+  registerShop();
 
   return (
     <div className="flex flex-col min-h-screen">
