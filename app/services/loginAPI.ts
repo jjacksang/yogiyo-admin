@@ -1,30 +1,9 @@
 import axios from "axios";
-import { useRecoilState } from "recoil";
-import { isLoggedInState } from "../recoil/state";
 
 export const getAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true,
 });
-
-export const LogoutBtn = async (userId: number) => {
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-    const headers = {
-        "Content-Type": "application/json",
-    };
-    const config = { headers, withCredentials: true };
-    const resLogout = await getAxios.post(`/owner/logout/${userId}`, "", config);
-    console.log(resLogout);
-
-    const defUserInfo = {
-        userId: 1111111,
-        nickname: "",
-        email: "",
-        isLoggedIn: false,
-    };
-
-    return defUserInfo;
-};
 
 export const emailJoin = async (email: string, password: string, nickname: string) => {
     const userData = {
@@ -79,8 +58,8 @@ export const SocialKakao = async () => {
 };
 
 export const SocialNaver = () => {
-    const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
-    const REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_LOGIN_REDIRECT_URI as string;
-
-    window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=test`;
+    const CLIENT_ID = `${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`;
+    const REDIRECT_URI = "http://localhost:3000/loading";
+    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+    window.location.href = NAVER_AUTH_URL;
 };
