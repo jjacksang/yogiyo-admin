@@ -4,6 +4,7 @@ import react, { useEffect } from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { userStateAtom } from "../recoil/state";
+import { getAxios } from "../services/loginAPI";
 
 export default function Loading() {
     const setUserState = useSetRecoilState(userStateAtom);
@@ -58,35 +59,14 @@ export default function Loading() {
 
     const getNaverToken = async () => {
         const CODE = new URL(window.location.href).searchParams.get("code");
-        const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
-        const CLIENT_SECRET = process.env.NEXT_PUBLIC_NAVER_SECRET_KEY;
-        const REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_LOGIN_REDIRECT_URI as string;
-        const STATE = "test";
-
-        if (CODE) {
-            try {
-                const response = await axios({
-                    method: "GET",
-                    url: "/oauth2.0/token",
-                    params: {
-                        grant_type: "authorization_code",
-                        client_id: CLIENT_ID,
-                        client_secret: CLIENT_SECRET,
-                        code: CODE,
-                        redirect_uri: REDIRECT_URI,
-                        state: STATE,
-                    },
-                });
-                console.log(response);
-                if (response.status === 200) {
-                    localStorage.setItem("naver_token", response.data.access_token);
-                } else {
-                    console.log("토큰 발급 실퍃ㅎ");
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        console.log(CODE);
+        const response = await getAxios.post("/owner/login", {
+            email: null,
+            password: null,
+            authCode: CODE,
+            providerType: "NAVER",
+        });
+        console.log(response);
     };
 
     useEffect(() => {
