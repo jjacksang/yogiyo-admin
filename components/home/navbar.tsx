@@ -1,26 +1,18 @@
-"use client";
-
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userStateAtom } from "../../app/recoil/state";
 import { LogoutBtn } from "@/app/services/loginAPI";
 
 export const Navbar = () => {
     const [user, setUser] = useRecoilState(userStateAtom);
-
-    const handleLogout = () => {
-        if (user) {
-            LogoutBtn(user.userId).then((res) => {
-                window.alert("로그아웃 되었습니다.");
-                console.log(res);
-                setUser(null);
-            });
-        } else {
-            console.error("로그아웃 실패: 되겠냐고");
+    useEffect(() => {
+        const savedUser = sessionStorage.getItem("user");
+        if (savedUser) {
+            setUser(JSON.parse(savedUser));
         }
-    };
-
+    }, []);
+    const handleLogout = () => {};
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
             <div className="flex items-center">
@@ -37,9 +29,7 @@ export const Navbar = () => {
             </div>
             {user && user.isLoggedIn ? (
                 <div className="hidden lg:flex items-center gap-2 py-0 px-2">
-                    <span className="flex items-center text-sm text-font-gray">
-                        {user.nickname}님
-                    </span>
+                    <p className="flex items-center text-sm text-font-gray">{user.nickname}님</p>
                     <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
                         <button>내정보</button>
                     </div>

@@ -5,6 +5,24 @@ export const getAxios = axios.create({
     withCredentials: true,
 });
 
+export const LogoutBtn = async (userId: number) => {
+    const headers = {
+        "Content-Type": "application/json",
+    };
+    const config = { headers, withCredentials: true };
+    const resLogout = await getAxios.post(`/owner/logout/${userId}`, "", config);
+    console.log(resLogout);
+
+    const defUserInfo = {
+        userId: 1111111,
+        nickname: "unknown",
+        email: "unknown",
+        isLoggedIn: false,
+    };
+
+    return defUserInfo;
+};
+
 export const emailJoin = async (email: string, password: string, nickname: string) => {
     const userData = {
         email,
@@ -52,14 +70,12 @@ export const emailLogin = async (email: string, password: string) => {
 export const SocialKakao = async () => {
     const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
     const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
-    const RESPONSE_TYPE = "code";
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`;
-    window.location.href = KAKAO_AUTH_URL;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 };
 
 export const SocialNaver = () => {
-    const CLIENT_ID = `${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}`;
-    const REDIRECT_URI = "http://localhost:3000/loading";
-    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
-    window.location.href = NAVER_AUTH_URL;
+    const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
+    const REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_LOGIN_REDIRECT_URI;
+    const STATE = "jjak";
+    window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}`;
 };
