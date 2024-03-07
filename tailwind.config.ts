@@ -27,6 +27,7 @@ const config: Config = {
                 "box-gray": "rgba(0,0,0,0.1)",
                 "font-black": "rgba(0,0,0,0.8)",
                 "swiper-num": "rgba(0, 0, 0, 0.4)",
+                "sin-blue": "#0c7fe4",
                 kakao: "#ffe800",
                 naver: "#03C75A",
             },
