@@ -15,7 +15,7 @@ export default function Loading() {
         const res = await getAxios.post("/owner/login", {
             email: null,
             password: null,
-            authCode: CODE,
+            authCode: CODE as string,
             providerType: "KAKAO",
         });
         console.log(res);
