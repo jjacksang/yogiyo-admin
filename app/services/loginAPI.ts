@@ -6,21 +6,19 @@ export const getAxios = axios.create({
 });
 
 export const LogoutBtn = async (userId: number) => {
-    const headers = {
-        "Content-Type": "application/json",
-    };
-    const config = { headers, withCredentials: true };
-    const resLogout = await getAxios.post(`/owner/logout/${userId}`, "", config);
-    console.log(resLogout);
-
-    const defUserInfo = {
-        userId: 1111111,
-        nickname: "unknown",
-        email: "unknown",
-        isLoggedIn: false,
-    };
-
-    return defUserInfo;
+    const resLogout = await getAxios
+        .post(`/owner/logout/${userId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer" + "token",
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 };
 
 export const emailJoin = async (email: string, password: string, nickname: string) => {

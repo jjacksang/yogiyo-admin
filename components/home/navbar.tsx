@@ -12,7 +12,14 @@ export const Navbar = () => {
             setUser(JSON.parse(savedUser));
         }
     }, []);
-    const handleLogout = () => {};
+    const handleLogout = async () => {
+        if (user) {
+            const res = await LogoutBtn(user.userId);
+            sessionStorage.clear();
+        } else {
+            console.log("user정보가 없다.");
+        }
+    };
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
             <div className="flex items-center">
