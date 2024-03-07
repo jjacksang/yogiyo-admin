@@ -21,7 +21,6 @@ export default function LoginForm() {
         } else if (provider === "naver") {
             SocialNaver();
         }
-        return { provider };
     };
 
     return (
