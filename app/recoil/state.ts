@@ -1,4 +1,5 @@
 import { userState } from "@/lib/types";
+import { OwnerShopList } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
 
 const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
@@ -29,6 +30,10 @@ export const tokenState = atom({
     default: "",
 });
 
+export const shoplistState = atom<OwnerShopList | null>({
+    key: "shoplistStateAtom",
+    default: null,
+});
 export const isLoggedInState = atom({
     key: "isLoggedIn",
     default: false,
