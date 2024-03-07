@@ -12,20 +12,13 @@ export default function Loading() {
     const getKakaoToken = async () => {
         const CODE = new URL(window.location.href).searchParams.get("code");
         console.log(CODE);
-        const response = await getAxios.post("/owner/login", {
+        const res = await getAxios.post("/owner/login", {
             email: null,
             password: null,
             authCode: CODE,
             providerType: "KAKAO",
         });
-        console.log(response);
-        if (response.status >= 200 && response.status < 300) {
-            console.log(response);
-        } else {
-            console.log("에러임");
-        }
-
-        console.log(response);
+        console.log(res);
     };
 
     const getNaverToken = async () => {
