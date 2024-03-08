@@ -9,7 +9,7 @@ import { DynamicRoute } from "@/lib/types";
 
 export default function Loading({ params }: DynamicRoute) {
     const setUserState = useSetRecoilState(userStateAtom);
-    const router = useRouter()
+    const router = useRouter();
     const providerType = params.provider;
 
     const getKakaoToken = async () => {
