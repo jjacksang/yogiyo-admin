@@ -64,6 +64,7 @@ export default function Loading({ params }: DynamicRoute) {
         } else if (provider === "naver") {
             getNaverToken();
         }
+    
     }, []);
     return (
         <>
