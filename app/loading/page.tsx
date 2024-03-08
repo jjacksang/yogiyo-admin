@@ -12,16 +12,13 @@ export default function Loading() {
     const getKakaoToken = async () => {
         const CODE = new URL(window.location.href).searchParams.get("code");
         console.log(CODE);
-        const res = await getAxios
-            .post("/owner/login", {
-                email: null,
-                password: null,
-                authCode: CODE as string,
-                providerType: "KAKAO",
-            })
-            .catch(function (error) {
-                console.log(error.toJSON);
-            });
+        const res = await getAxios.post("/owner/login", {
+            email: null,
+            password: null,
+            authCode: CODE as string,
+            providerType: "KAKAO",
+        });
+
         console.log(res);
     };
 
