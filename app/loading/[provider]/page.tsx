@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import react, { useEffect } from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
@@ -9,7 +9,7 @@ import { DynamicRoute } from "@/lib/types";
 
 export default function Loading({ params }: DynamicRoute) {
     const setUserState = useSetRecoilState(userStateAtom);
-
+    const router = useRouter();
     const providerType = params.provider;
 
     const getKakaoToken = async () => {
@@ -30,6 +30,7 @@ export default function Loading({ params }: DynamicRoute) {
             };
             sessionStorage.setItem("user", JSON.stringify(user));
             setUserState(user);
+            router.push("/");
         }
         console.log(res);
     };
@@ -52,6 +53,7 @@ export default function Loading({ params }: DynamicRoute) {
             };
             sessionStorage.setItem("user", JSON.stringify(user));
             setUserState(user);
+            router.push("/");
         }
         console.log(res);
     };
