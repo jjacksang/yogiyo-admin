@@ -21,10 +21,11 @@ export const LoginForm = () => {
                             <div className="flex flex-col gap-1">
                                 <p className="flex items-center text-lg font-bold text-font-black">
                                     {user.nickname}님
+                                    <span className="flex-auto border rounded">사장님</span>
                                 </p>
                                 <div className="text-sm text-custom-gray">{user.userId}</div>
                             </div>
-                            <div className="flex flex-row">
+                            <div className="flex flex-row gap-1">
                                 <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
                                     <button>내정보</button>
                                 </div>
