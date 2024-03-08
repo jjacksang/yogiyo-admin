@@ -21,20 +21,39 @@ export default function Loading({ params }: DynamicRoute) {
             authCode: CODE as string,
             providerType: providerType.toUpperCase(),
         });
-
+        if (res.status === 200) {
+            const user = {
+                userId: res.data.id,
+                email: res.data.email,
+                nickname: res.data.nickname,
+                isLoggedIn: true,
+            };
+            sessionStorage.setItem("user", JSON.stringify(user));
+            setUserState(user);
+        }
         console.log(res);
     };
 
     const getNaverToken = async () => {
         const CODE = new URL(window.location.href).searchParams.get("code");
         console.log(CODE);
-        const response = await getAxios.post("/owner/login", {
+        const res = await getAxios.post("/owner/login", {
             email: null,
             password: null,
             authCode: CODE,
             providerType: providerType.toUpperCase(),
         });
-        console.log(response);
+        if (res.status === 200) {
+            const user = {
+                userId: res.data.id,
+                email: res.data.email,
+                nickname: res.data.nickname,
+                isLoggedIn: true,
+            };
+            sessionStorage.setItem("user", JSON.stringify(user));
+            setUserState(user);
+        }
+        console.log(res);
     };
 
     useEffect(() => {
