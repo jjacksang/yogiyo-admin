@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export const getAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -6,6 +7,7 @@ export const getAxios = axios.create({
 });
 
 export const LogoutBtn = async (userId: number) => {
+    const router = useRouter();
     const resLogout = await getAxios
         .post(`/owner/logout/${userId}`, {
             headers: {
@@ -15,6 +17,7 @@ export const LogoutBtn = async (userId: number) => {
         })
         .then((response) => {
             console.log(response);
+            router.push("/");
         })
         .catch((error) => {
             console.log(error);
