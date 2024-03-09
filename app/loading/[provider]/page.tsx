@@ -22,7 +22,7 @@ export default function Loading({ params }: DynamicRoute) {
             providerType: providerType.toUpperCase(),
         });
         console.log(res.data);
-        if (res.status === 200) {
+        if (res.status >= 200 && res.status < 300) {
             const userId = res.data.userId;
             const userEmail = res.data.email;
 
