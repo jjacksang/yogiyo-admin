@@ -27,7 +27,7 @@ export default function Loading({ params }: DynamicRoute) {
 
             const resMyPage = await getAxios.get('/owner/mypage')
             const userNickname = resMyPage.data.nickname;
-            router.push('/')
+            
             try {
                 const userData = {
                     userId: userId,
@@ -40,6 +40,7 @@ export default function Loading({ params }: DynamicRoute) {
             } catch {
                 console.log("nickname 정보 불러오기 실패")
             }
+            router.push('/')
             return { userId, userEmail, userNickname }
     } else {
         console.log(res);
