@@ -21,7 +21,7 @@ export default function Loading({ params }: DynamicRoute) {
             authCode: CODE as string,
             providerType: providerType.toUpperCase(),
         });
-        if(res.status >= 200 && res.status < 300 ) {
+        if(res.status === 200 ) {
         const userId = res.data.userId;
             const userEmail = res.data.email;
 
