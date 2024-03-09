@@ -35,6 +35,7 @@ export default function Loading({ params }: DynamicRoute) {
                     nickname: userNickname,
                     isLoggedIn: true,
                 }
+                console.log(userData)
                 setUserState(userData)
             } catch {
                 console.log("nickname 정보 불러오기 실패")
