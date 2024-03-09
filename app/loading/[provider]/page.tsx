@@ -21,30 +21,31 @@ export default function Loading({ params }: DynamicRoute) {
             authCode: CODE as string,
             providerType: providerType.toUpperCase(),
         });
-        if(res.status === 200 ) {
-        const userId = res.data.userId;
+        console.log(res.data);
+        if (res.status === 200) {
+            const userId = res.data.userId;
             const userEmail = res.data.email;
 
-            const resMyPage = await getAxios.get('/owner/mypage')
+            const resMyPage = await getAxios.get("/owner/mypage");
             const userNickname = resMyPage.data.nickname;
-            
+
             try {
                 const userData = {
                     userId: res.data.userId,
                     email: res.data.email,
                     nickname: res.data.nickname,
                     isLoggedIn: true,
-                }
-                console.log(userData)
-                setUserState(userData)
+                };
+                console.log(userData);
+                setUserState(userData);
             } catch {
-                console.log("nickname 정보 불러오기 실패")
+                console.log("nickname 정보 불러오기 실패");
             }
-            router.push('/')
-            return { userId, userEmail, userNickname }
-    } else {
-        console.log(res);
-    }
+            router.push("/");
+            return { userId, userEmail, userNickname };
+        } else {
+            console.log(res);
+        }
     };
 
     const getNaverToken = async () => {
@@ -56,32 +57,32 @@ export default function Loading({ params }: DynamicRoute) {
             authCode: CODE,
             providerType: providerType.toUpperCase(),
         });
-        if(res.status === 200) {
+        console.log(res.data);
+        if (res.status === 200) {
             const userId = res.data.userId;
             const userEmail = res.data.email;
 
-            const resMyPage = await getAxios.get('/owner/mypage')
+            const resMyPage = await getAxios.get("/owner/mypage");
             const userNickname = resMyPage.data.nickname;
-            
-            router.push('/')
-            return { userId, userEmail, userNickname }
-        
-    } else {
-        console.log(res);
-    };
 
-    useEffect(() => {
-        const provider = localStorage.getItem("provider");
-        if (provider === "kakao") {
-            getKakaoToken();
-        } else if (provider === "naver") {
-            getNaverToken();
+            router.push("/");
+            return { userId, userEmail, userNickname };
+        } else {
+            console.log(res);
         }
-    
-    }, []);
-    return (
-        <>
-            <h2>로딩 페이지</h2>
-        </>
-    );
-}}
+
+        useEffect(() => {
+            const provider = localStorage.getItem("provider");
+            if (provider === "kakao") {
+                getKakaoToken();
+            } else if (provider === "naver") {
+                getNaverToken();
+            }
+        }, []);
+        return (
+            <>
+                <h2>로딩 페이지</h2>
+            </>
+        );
+    };
+}
