@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import react, { useEffect } from "react";
-import axios from "axios";
+
 import { useSetRecoilState } from "recoil";
 import { userStateAtom } from "../../recoil/state";
 import { getAxios } from "../../services/loginAPI";
@@ -21,18 +21,28 @@ export default function Loading({ params }: DynamicRoute) {
             authCode: CODE as string,
             providerType: providerType.toUpperCase(),
         });
-        if (res.status === 200) {
-            const user = {
-                userId: res.data.id,
-                email: res.data.email,
-                nickname: res.data.nickname,
-                isLoggedIn: true,
-            };
-            sessionStorage.setItem("user", JSON.stringify(user));
-            setUserState(user);
-            router.push("/");
-        }
+        if(res.status >= 200 && res.status < 300 ) {
+        const userId = res.data.userId;
+            const userEmail = res.data.email;
+
+            const resMyPage = await getAxios.get('/owner/mypage')
+            const userNickname = resMyPage.data.nickname;
+            router.push('/')
+            try {
+                const userData = {
+                    userId: userId,
+                    email: userEmail,
+                    nickname: userNickname,
+                    isLoggedIn: true,
+                }
+                setUserState(userData)
+            } catch {
+                console.log("nickname 정보 불러오기 실패")
+            }
+            return { userId, userEmail, userNickname }
+    } else {
         console.log(res);
+    }
     };
 
     const getNaverToken = async () => {
@@ -44,17 +54,17 @@ export default function Loading({ params }: DynamicRoute) {
             authCode: CODE,
             providerType: providerType.toUpperCase(),
         });
-        if (res.status === 200) {
-            const user = {
-                userId: res.data.id,
-                email: res.data.email,
-                nickname: res.data.nickname,
-                isLoggedIn: true,
-            };
-            sessionStorage.setItem("user", JSON.stringify(user));
-            setUserState(user);
-            router.push("/");
-        }
+        if(res.status === 200) {
+            const userId = res.data.userId;
+            const userEmail = res.data.email;
+
+            const resMyPage = await getAxios.get('/owner/mypage')
+            const userNickname = resMyPage.data.nickname;
+            
+            router.push('/')
+            return { userId, userEmail, userNickname }
+        
+    } else {
         console.log(res);
     };
 
@@ -65,10 +75,11 @@ export default function Loading({ params }: DynamicRoute) {
         } else if (provider === "naver") {
             getNaverToken();
         }
+    
     }, []);
     return (
         <>
             <h2>로딩 페이지</h2>
         </>
     );
-}
+}}
