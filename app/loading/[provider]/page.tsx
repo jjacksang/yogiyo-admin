@@ -21,13 +21,24 @@ export default function Loading({ params }: DynamicRoute) {
             authCode: CODE as string,
             providerType: providerType.toUpperCase(),
         });
-        if(res.status === 200) {
-            const userId = res.data.userId;
+        if(res.status >= 200 && res.status < 300 ) {
+        const userId = res.data.userId;
             const userEmail = res.data.email;
 
             const resMyPage = await getAxios.get('/owner/mypage')
             const userNickname = resMyPage.data.nickname;
             router.push('/')
+            try {
+                const userData = {
+                    userId: userId,
+                    email: userEmail,
+                    nickname: userNickname,
+                    isLoggedIn: true,
+                }
+                setUserState(userData)
+            } catch {
+                console.log("nickname 정보 불러오기 실패")
+            }
             return { userId, userEmail, userNickname }
     } else {
         console.log(res);
