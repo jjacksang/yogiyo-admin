@@ -30,9 +30,9 @@ export default function Loading({ params }: DynamicRoute) {
             
             try {
                 const userData = {
-                    userId: userId,
-                    email: userEmail,
-                    nickname: userNickname,
+                    userId: res.data.userId,
+                    email: res.data.email,
+                    nickname: res.data.nickname,
                     isLoggedIn: true,
                 }
                 console.log(userData)
