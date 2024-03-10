@@ -10,12 +10,12 @@ import { DynamicRoute } from "@/lib/types";
 export default function Loading({ params }: DynamicRoute) {
     const setUserState = useSetRecoilState(userStateAtom);
     const router = useRouter();
+    const providerType = params.provider;
 
-    // console.log(providerType);
+    console.log(providerType);
 
-    const getKakaoToken = async () => {
+    const getKakaoToken = async (providerType: string) => {
         const CODE = new URL(window.location.href).searchParams.get("code");
-        const providerType = params.provider;
         console.log(CODE);
         const res = await getAxios.post("/owner/login", {
             email: null,
@@ -50,7 +50,7 @@ export default function Loading({ params }: DynamicRoute) {
         }
     };
 
-    const getNaverToken = async () => {
+    const getNaverToken = async (providerType: string) => {
         const CODE = new URL(window.location.href).searchParams.get("code");
         console.log(CODE);
         const res = await getAxios.post("/owner/login", {
@@ -75,9 +75,9 @@ export default function Loading({ params }: DynamicRoute) {
 
         useEffect(() => {
             if (providerType === "kakao") {
-                getKakaoToken();
+                getKakaoToken(providerType as string);
             } else if (providerType === "naver") {
-                getNaverToken();
+                getNaverToken(providerType as string);
             }
         }, []);
         return (
