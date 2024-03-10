@@ -24,13 +24,14 @@ export default function Loading({ params }: DynamicRoute) {
             });
             if (res.status >= 200 && res.status < 300) {
                 const { userId, email: userEmail, nickname: userNickname } = res.data;
+                const resMyPage = await getAxios.get("/owner/mypage");
                 const userData = {
                     userId,
                     email: userEmail,
                     nickname: userNickname,
                     isLoggedIn: true,
                 };
-                const resMyPage = await getAxios.get("/owner/mypage");
+
                 setUserState(userData);
                 router.push("/");
                 console.log(resMyPage);
