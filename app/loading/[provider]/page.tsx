@@ -14,66 +14,33 @@ export default function Loading({ params }: DynamicRoute) {
 
     console.log(providerType);
     useEffect(() => {
-        const getKakaoToken = async (providerType: string) => {
+        const getSocialToken = async (providerType: string) => {
             const CODE = new URL(window.location.href).searchParams.get("code");
-            console.log(CODE);
             const res = await getAxios.post("/owner/login", {
                 email: null,
                 password: null,
                 authCode: CODE,
                 providerType: providerType.toUpperCase(),
             });
-            console.log(res.data);
             if (res.status >= 200 && res.status < 300) {
-                const userId = res.data.userId;
-                const userEmail = res.data.email;
-
+                const { userId, email: userEmail, nickname: userNickname } = res.data;
+                const userData = {
+                    userId,
+                    email: userEmail,
+                    nickname: userNickname,
+                    isLoggedIn: true,
+                };
                 const resMyPage = await getAxios.get("/owner/mypage");
-                const userNickname = resMyPage.data.nickname;
-                console.log("여기까지 정상 진행");
-                try {
-                    const userData = {
-                        userId: res.data.userId,
-                        email: res.data.email,
-                        nickname: res.data.nickname,
-                        isLoggedIn: true,
-                    };
-                    console.log(userData);
-                    setUserState(userData);
-                } catch {
-                    console.log("nickname 정보 불러오기 실패");
-                }
+                setUserState(userData);
                 router.push("/");
+                console.log(resMyPage);
                 return { userId, userEmail, userNickname };
             } else {
-                console.log(res);
-            }
-        };
-        const getNaverToken = async (providerType: string) => {
-            const CODE = new URL(window.location.href).searchParams.get("code");
-            console.log(CODE);
-            const res = await getAxios.post("/owner/login", {
-                email: null,
-                password: null,
-                authCode: CODE,
-                providerType: providerType.toUpperCase(),
-            });
-            console.log(res.data);
-            if (res.status === 200) {
-                const userId = res.data.userId;
-                const userEmail = res.data.email;
-
-                const resMyPage = await getAxios.get("/owner/mypage");
-                const userNickname = resMyPage.data.nickname;
-
-                router.push("/");
-                return { userId, userEmail, userNickname };
-            } else {
-                console.log(res);
+                console.log("api호출 오류");
             }
         };
         if (["kakao", "naver"].includes(providerType)) {
-            getKakaoToken(providerType);
+            getSocialToken(providerType);
         }
     }, [providerType, router, setUserState]);
 
