@@ -20,7 +20,7 @@ export default function Loading({ params }: DynamicRoute) {
         const res = await getAxios.post("/owner/login", {
             email: null,
             password: null,
-            authCode: CODE as string,
+            authCode: CODE,
             providerType: providerType.toUpperCase(),
         });
         console.log(res.data);
@@ -30,7 +30,7 @@ export default function Loading({ params }: DynamicRoute) {
 
             const resMyPage = await getAxios.get("/owner/mypage");
             const userNickname = resMyPage.data.nickname;
-
+            console.log("여기까지 정상 진행");
             try {
                 const userData = {
                     userId: res.data.userId,
