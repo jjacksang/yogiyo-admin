@@ -12,6 +12,8 @@ export default function Loading({ params }: DynamicRoute) {
     const router = useRouter();
     const providerType = params.provider;
 
+    console.log(providerType);
+
     const getKakaoToken = async () => {
         const CODE = new URL(window.location.href).searchParams.get("code");
         console.log(CODE);
