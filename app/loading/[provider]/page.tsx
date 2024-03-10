@@ -79,7 +79,7 @@ export default function Loading({ params }: DynamicRoute) {
             } else if (providerType === "naver") {
                 getNaverToken(providerType as string);
             }
-        }, []);
+        }, [providerType]);
         return (
             <>
                 <h2>로딩 페이지</h2>
