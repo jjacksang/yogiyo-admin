@@ -50,13 +50,13 @@ export const emailLogin = async (email: string, password: string) => {
 
     const resSubmit = await getAxios.post("/owner/login", userData);
     if (resSubmit.status >= 200 && resSubmit.status < 300) {
-        const { userId, email: userEmail, nickname: uesrNickname } = resSubmit.data;
+        const { userId, email: userEmail, nickname: userNickname } = resSubmit.data;
         console.log(`${resSubmit.data.userId} 로그인 성공`);
         console.log(resSubmit);
 
         const resMyPage = await getAxios.get("/owner/mypage");
 
-        return { userId, userEmail, uesrNickname };
+        return { userId, userEmail, userNickname };
     } else {
         console.log("Login api error");
         return null;
