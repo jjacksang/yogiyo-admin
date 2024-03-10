@@ -3,9 +3,11 @@ import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userStateAtom } from "../../app/recoil/state";
 import { LogoutBtn } from "@/app/services/loginAPI";
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
     const [user, setUser] = useRecoilState(userStateAtom);
+    const router = useRouter();
     useEffect(() => {
         const savedUser = sessionStorage.getItem("user");
         if (savedUser) {
@@ -16,6 +18,8 @@ export const Navbar = () => {
         if (user) {
             const res = await LogoutBtn(user.userId);
             sessionStorage.clear();
+            setUser(null);
+            router.push("/");
         } else {
             console.log("user정보가 없다.");
         }
