@@ -74,10 +74,9 @@ export default function Loading({ params }: DynamicRoute) {
         }
 
         useEffect(() => {
-            const provider = localStorage.getItem("provider");
-            if (provider === "kakao") {
+            if (providerType === "kakao") {
                 getKakaoToken();
-            } else if (provider === "naver") {
+            } else if (providerType === "naver") {
                 getNaverToken();
             }
         }, []);
