@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import react, { useEffect } from "react";
 
 import { useSetRecoilState } from "recoil";
@@ -7,14 +7,14 @@ import { userStateAtom } from "../../recoil/state";
 import { getAxios } from "../../services/loginAPI";
 import { DynamicRoute } from "@/lib/types";
 
-export default function Loading({ params }: DynamicRoute) {
+export default function Loading() {
     const setUserState = useSetRecoilState(userStateAtom);
     const router = useRouter();
-    const providerType = params.provider;
+    const { provider } = router.query;
 
-    console.log(providerType);
+    console.log(provider);
 
-    const getKakaoToken = async () => {
+    const getKakaoToken = async (providerType: string) => {
         const CODE = new URL(window.location.href).searchParams.get("code");
         console.log(CODE);
         const res = await getAxios.post("/owner/login", {
@@ -50,7 +50,7 @@ export default function Loading({ params }: DynamicRoute) {
         }
     };
 
-    const getNaverToken = async () => {
+    const getNaverToken = async (providerType: string) => {
         const CODE = new URL(window.location.href).searchParams.get("code");
         console.log(CODE);
         const res = await getAxios.post("/owner/login", {
@@ -75,9 +75,9 @@ export default function Loading({ params }: DynamicRoute) {
 
         useEffect(() => {
             if (providerType === "kakao") {
-                getKakaoToken();
+                getKakaoToken(provider as string);
             } else if (providerType === "naver") {
-                getNaverToken();
+                getNaverToken(provider as string);
             }
         }, []);
         return (
