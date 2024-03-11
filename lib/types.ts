@@ -42,3 +42,9 @@ export interface userState {
     email: string;
     isLoggedIn: boolean;
 }
+
+export interface DynamicRoute {
+    params: {
+        provider: string;
+    };
+}

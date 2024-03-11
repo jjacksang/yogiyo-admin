@@ -1,10 +1,29 @@
 import Link from "next/link";
-import React from "react";
-import { useRecoilValue } from "recoil";
+import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { userStateAtom } from "../../app/recoil/state";
+import { LogoutBtn } from "@/app/services/loginAPI";
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
-    const user = useRecoilValue(userStateAtom);
+    const [user, setUser] = useRecoilState(userStateAtom);
+    const router = useRouter();
+    useEffect(() => {
+        const savedUser = sessionStorage.getItem("user");
+        if (savedUser) {
+            setUser(JSON.parse(savedUser));
+        }
+    }, []);
+    const handleLogout = async () => {
+        if (user) {
+            const res = await LogoutBtn(user.userId);
+            sessionStorage.clear();
+            setUser(null);
+            router.push("/");
+        } else {
+            console.log("user정보가 없다.");
+        }
+    };
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
             <div className="flex items-center">
@@ -19,11 +38,14 @@ export const Navbar = () => {
                     <img src="/images/yogiyologo.png" alt="Yogiyo Logo" />
                 </Link>
             </div>
-            {user.isLoggedIn ? (
+            {user && user.isLoggedIn ? (
                 <div className="hidden lg:flex items-center gap-2 py-0 px-2">
                     <p className="flex items-center text-sm text-font-gray">{user.nickname}님</p>
                     <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
                         <button>내정보</button>
+                    </div>
+                    <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
+                        <button onClick={handleLogout}>로그아웃</button>
                     </div>
                 </div>
             ) : (

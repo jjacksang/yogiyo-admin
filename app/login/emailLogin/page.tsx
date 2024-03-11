@@ -1,9 +1,9 @@
 "use client";
 
 import { HomeLogo } from "@/components/common/HomeLogo";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { emailLogin } from "@/app/services/loginAPI";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { userStateAtom } from "@/app/recoil/state";
 import { useRouter } from "next/navigation";
 
@@ -25,13 +25,12 @@ const EmailLogin = () => {
         const data = await emailLogin(email, password);
 
         if (data) {
-            setUserState((prevState) => ({
-                ...prevState,
+            setUserState({
                 userId: data.userId,
-                nickname: data.nickname,
+                nickname: data.userNickname,
                 email: data.userEmail,
                 isLoggedIn: true,
-            }));
+            });
 
             router.push("/");
         } else {
