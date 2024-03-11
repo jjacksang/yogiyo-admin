@@ -7,6 +7,7 @@ import DashboardMain from "@/components/common/DashboardMain";
 import { shopListState } from "../recoil/state"
 import { useSetRecoilState } from "recoil";
 import { registerShop } from "../services/shopAPI";
+import Footer from "@/components/home/footer";
 
 const Page = () => {
   
@@ -17,9 +18,9 @@ const Page = () => {
       <DashboardNavbar />
       <div className="flex flex-row flex-1">
         <DashboardSidebar />
-        <div className="flex-1 bg-[#F7F7F7]"> {/* 메인 컨텐츠 영역 */}
-
+        <div className="flex flex-col flex-1 bg-[#F7F7F7] relative overflow-auto z-10 overscroll-none"> {/* 메인 컨텐츠 영역 */}
           <DashboardMain/>
+          <Footer/>
         </div>
       </div>
     </div>
