@@ -20,6 +20,7 @@ const Page = () => {
         <div className="flex-1 bg-[#F7F7F7]"> {/* 메인 컨텐츠 영역 */}
 
           <DashboardMain/>
+          
         </div>
       </div>
     </div>
@@ -27,5 +28,5 @@ const Page = () => {
 };
 
 
-export default Page
+export default Page;
 
