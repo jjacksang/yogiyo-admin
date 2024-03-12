@@ -1,4 +1,24 @@
+'use client'
+import { useRecoilState } from "recoil";
+import { LogoutBtn } from "../services/loginAPI";
+import { userStateAtom } from "../recoil/state";
+import { useRouter } from "next/navigation";
+
 export const OwnerInfo = () => {
+    const router = useRouter()
+    const [user, setUser] = useRecoilState(userStateAtom);
+
+    
+    const handleLogout = async() => {
+        if (user) {
+            const res = await LogoutBtn(user.userId);
+            sessionStorage.clear();
+            setUser(null);
+            router.push("/");
+        } else {
+            console.log("user정보가 없다.");
+        }
+    }
   return (
     <div>
       <div className="flex flex-col mt-12 p-10 m-auto">
@@ -32,10 +52,10 @@ export const OwnerInfo = () => {
           <div className="flex items-center">
             <span className="text-sm text-custom-gray">
               가게 직원 정보는 운영정보에서 추가해주세요
-              <a>직원정보 추가하기</a>
+              <a className="ml-1 text-sin-blue underline">직원정보 추가하기</a>
               
             </span>
-            <div className="text-sm text-custom-gray ml-auto mt-0">회원탈퇴 로그아웃</div>
+            <div className="flex text-sm text-custom-gray ml-auto mt-0"><button>회원탈퇴</button><p className="mx-[10px]">|</p><button onClick={handleLogout}>로그아웃</button></div>
           </div>
         </div>
       </div>
