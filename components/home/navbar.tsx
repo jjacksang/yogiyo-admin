@@ -25,8 +25,8 @@ export const Navbar = () => {
         }
     };
 
-    const toOwnerInfo = async() => {
-        await router.push('dashborad')
+    const toOwnerInfo = () => {
+        router.push('dashborad')
     }
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
