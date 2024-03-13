@@ -1,9 +1,11 @@
 import { userStateAtom } from "@/app/recoil/state";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 export const LoginForm = () => {
+    const router = useRouter();
     const [user, setUser] = useRecoilState(userStateAtom);
     useEffect(() => {
         const savedUser = sessionStorage.getItem("user");
@@ -11,7 +13,9 @@ export const LoginForm = () => {
             setUser(JSON.parse(savedUser));
         }
     }, []);
-    const handleLogout = () => {};
+    const handleLogout = () => {
+        router.push("dashboard");
+    };
     return (
         <div className="flex pt-6 px-4 pb-5 border border-solid border-[box-gray] rounded-lg">
             <div className="flex flex-col grow ">
