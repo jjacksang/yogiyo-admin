@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {}
 
-const DashboardMain= (props: Props) => {
+const DashboardMypageMain= (props: Props) => {
   return (
     <div className="relative overflow-auto z-10 bg-[#F7F7F7]" style={{ flex: '1 1 auto', overscrollBehavior: 'none' }}>
       <div className="relative z-10">
@@ -79,4 +79,4 @@ const DashboardMain= (props: Props) => {
   )
 }
 
-export default DashboardMain;
+export default DashboardMypageMain;

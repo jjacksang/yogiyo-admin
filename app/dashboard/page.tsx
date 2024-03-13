@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
 import DashboardMain from "@/components/common/DashboardMain";
-import { shopListState } from "../recoil/state"
+import { shoplistState } from "../recoil/state"
 import { useSetRecoilState } from "recoil";
 import { registerShop } from "../services/shopAPI";
 import Footer from "@/components/home/footer";

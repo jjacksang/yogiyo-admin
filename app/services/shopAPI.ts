@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getAxios } from "./loginAPI";
-import { shopListState } from "../recoil/state";
+import { shoplistState } from "../recoil/state";
 
 // 가게 정보 조회 
 interface ShopInfo {
