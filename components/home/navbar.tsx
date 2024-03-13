@@ -26,7 +26,7 @@ export const Navbar = () => {
     };
 
     const toOwnerInfo = () => {
-        router.push("dashborad");
+        router.push("/dashboard");
     };
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
