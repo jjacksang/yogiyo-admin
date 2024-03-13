@@ -7,6 +7,7 @@ export const getAxios = axios.create({
 });
 
 export const LogoutBtn = async (userId: number) => {
+    const router = useRouter();
     const resLogout = await getAxios
         .post(`/owner/logout/${userId}`, {
             headers: {
@@ -16,6 +17,7 @@ export const LogoutBtn = async (userId: number) => {
         })
         .then((response) => {
             console.log(response);
+            router.push("/");
         })
         .catch((error) => {
             console.log(error);
@@ -50,13 +52,16 @@ export const emailLogin = async (email: string, password: string) => {
 
     const resSubmit = await getAxios.post("/owner/login", userData);
     if (resSubmit.status >= 200 && resSubmit.status < 300) {
-        const { userId, email: userEmail } = resSubmit.data;
         console.log(`${resSubmit.data.userId} 로그인 성공`);
         console.log(resSubmit);
 
+        const userId = resSubmit.data.userId;
+        const userEmail = resSubmit.data.email;
+
         const resMyPage = await getAxios.get("/owner/mypage");
-        const { nickname: userNickname } = resMyPage.data;
-        return { userId, userEmail, userNickname };
+        const nickname = resMyPage.data.nickname;
+
+        return { userId, userEmail, nickname };
     } else {
         console.log("Login api error");
         return null;
