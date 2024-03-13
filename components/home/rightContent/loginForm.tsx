@@ -1,4 +1,5 @@
 import { userStateAtom } from "@/app/recoil/state";
+import { LogoutBtn } from "@/app/services/loginAPI";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -13,9 +14,17 @@ export const LoginForm = () => {
             setUser(JSON.parse(savedUser));
         }
     }, []);
-    const handleLogout = () => {
-        router.push("dashboard");
+    const handleLogout = async () => {
+        if (user) {
+            const res = await LogoutBtn(user.userId);
+            sessionStorage.clear();
+            setUser(null);
+            router.push("/dashboard");
+        } else {
+            console.log("user정보가 없다.");
+        }
     };
+
     return (
         <div className="flex pt-6 px-4 pb-5 border border-solid border-[box-gray] rounded-lg">
             <div className="flex flex-col grow ">
@@ -25,12 +34,17 @@ export const LoginForm = () => {
                             <div className="flex flex-col gap-1">
                                 <p className="flex items-center text-lg font-bold text-font-black">
                                     {user.nickname}님
-                                    <span className="flex-auto border rounded">사장님</span>
+                                    <span className="flex-auto px-2 py-1 ml-2 font-semibold text-sm text-sin-blue bg-[#f0f8ff] border-none rounded">
+                                        사장님
+                                    </span>
                                 </p>
                                 <div className="text-sm text-custom-gray">{user.userId}</div>
                             </div>
                             <div className="flex flex-row gap-1">
-                                <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
+                                <div
+                                    className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray"
+                                    onClick={() => router.push("/dashboard")}
+                                >
                                     <button>내정보</button>
                                 </div>
                                 <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
@@ -56,7 +70,10 @@ export const LoginForm = () => {
                                     <span className="text-xs text-custom-gray">승인알람</span>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-center w-auto max-w-[480px] h-10 border border-sin-blue rounded-lg">
+                            <div
+                                className="flex items-center justify-center w-auto max-w-[480px] h-10 border border-sin-blue rounded-lg cursor-pointer"
+                                onClick={() => router.push("/dashboard")}
+                            >
                                 <span className="text-sm text-sin-blue">셀프서비스 바로가기</span>
                             </div>
                         </div>
