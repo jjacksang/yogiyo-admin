@@ -1,4 +1,5 @@
 import { userStateAtom } from "@/app/recoil/state";
+import { LogoutBtn } from "@/app/services/loginAPI";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -13,9 +14,17 @@ export const LoginForm = () => {
             setUser(JSON.parse(savedUser));
         }
     }, []);
-    const handleLogout = () => {
-        router.push("dashboard");
+    const handleLogout = async () => {
+        if (user) {
+            const res = await LogoutBtn(user.userId);
+            sessionStorage.clear();
+            setUser(null);
+            router.push("/");
+        } else {
+            console.log("user정보가 없다.");
+        }
     };
+
     return (
         <div className="flex pt-6 px-4 pb-5 border border-solid border-[box-gray] rounded-lg">
             <div className="flex flex-col grow ">
