@@ -41,7 +41,10 @@ export const LoginForm = () => {
                                 <div className="text-sm text-custom-gray">{user.userId}</div>
                             </div>
                             <div className="flex flex-row gap-1">
-                                <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
+                                <div
+                                    className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray"
+                                    onClick={() => router.push("/dashboard")}
+                                >
                                     <button>내정보</button>
                                 </div>
                                 <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
@@ -67,7 +70,10 @@ export const LoginForm = () => {
                                     <span className="text-xs text-custom-gray">승인알람</span>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-center w-auto max-w-[480px] h-10 border border-sin-blue rounded-lg">
+                            <div
+                                className="flex items-center justify-center w-auto max-w-[480px] h-10 border border-sin-blue rounded-lg cursor-pointer"
+                                onClick={() => router.push("/dashboard")}
+                            >
                                 <span className="text-sm text-sin-blue">셀프서비스 바로가기</span>
                             </div>
                         </div>
