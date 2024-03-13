@@ -46,8 +46,6 @@ export interface OwnerShopList {
 
 // 점주 가게 입점 
 export const registerShop = async () => {
-  
-
   // // FormData 객체 생성
   // const formData = new FormData();
   // formData.append('icon', icon.data, icon.filename);
@@ -55,14 +53,13 @@ export const registerShop = async () => {
   // formData.append('shopData', JSON.stringify(shopData));
 
 
-
+// 입점 부분 
   try {
       // getAxios 인스턴스를 사용하여 Authorization 헤더와 함께 요청 전송
-      const token = localStorage.getItem('kakao_token')
+      // const token = localStorage.getItem('kakao_token')
       const response = await getAxios.post('/owner/shop/register', {
           headers: {
-            'Authorization': `bearer${token}`,
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
       });
       return response.data; // 성공 응답 데이터 반환
