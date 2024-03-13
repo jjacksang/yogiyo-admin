@@ -1,6 +1,7 @@
-import React from 'react'
+import { OwnerInfo } from "@/app/dashboard/OwnerInfo";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const DashboardMain= (props: Props) => {
   return (

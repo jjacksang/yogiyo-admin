@@ -24,6 +24,10 @@ export const Navbar = () => {
             console.log("user정보가 없다.");
         }
     };
+
+    const toOwnerInfo = () => {
+        router.push("dashborad");
+    };
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
             <div className="flex items-center">
@@ -42,7 +46,7 @@ export const Navbar = () => {
                 <div className="hidden lg:flex items-center gap-2 py-0 px-2">
                     <p className="flex items-center text-sm text-font-gray">{user.nickname}님</p>
                     <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
-                        <button>내정보</button>
+                        <button onClick={toOwnerInfo}>내정보</button>
                     </div>
                     <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
                         <button onClick={handleLogout}>로그아웃</button>
