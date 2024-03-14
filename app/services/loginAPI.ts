@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRouter } from "next/navigation";
+
 
 export const getAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -9,10 +9,6 @@ export const getAxios = axios.create({
 export const LogoutBtn = async (userId: number) => {
     const resLogout = await getAxios
         .post(`/owner/logout/${userId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer" + "token",
-            },
         })
         .then((response) => {
             console.log(response);
@@ -63,15 +59,16 @@ export const emailLogin = async (email: string, password: string) => {
     }
 };
 
-export const SocialKakao = async () => {
+export const SocialKakao = async() => {
     const CLIENT_ID = `${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`;
     const REDIRECT_URI = `${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}`;
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 };
 
-export const SocialNaver = () => {
+export const SocialNaver = async() => {
     const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
     const REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_LOGIN_REDIRECT_URI;
     const STATE = "jjak";
     window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}`;
 };
+

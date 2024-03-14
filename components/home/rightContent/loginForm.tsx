@@ -19,7 +19,7 @@ export const LoginForm = () => {
             const res = await LogoutBtn(user.userId);
             sessionStorage.clear();
             setUser(null);
-            router.push("/dashboard");
+            router.push("/");
         } else {
             console.log("user정보가 없다.");
         }

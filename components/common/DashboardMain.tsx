@@ -1,4 +1,4 @@
-import { OwnerInfo } from "@/app/dashboard/OwnerInfo";
+import { OwnerInfo } from "@/app/dashboard/DashboardMyInfo";
 import React from "react";
 
 type Props = {};
