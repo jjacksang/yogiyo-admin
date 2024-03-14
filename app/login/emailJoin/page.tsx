@@ -13,7 +13,7 @@ const EmailJoin = () => {
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");
     const setUserState = useSetRecoilState(userStateAtom);
-    const router = useRouter()
+    const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id == "email") {
@@ -25,18 +25,22 @@ const EmailJoin = () => {
         }
     };
 
-    const handleEmailJoin = async() => {
+    const handleEmailJoin = async () => {
         console.log(email, password, nickname);
         const data = await emailJoin(email, password, nickname);
-        if(data) {
-        setUserState({
-            email: data.email,
-            nickname: data.nickname,
-            userId: data.userId,
-            isLoggedIn: true,
-        })
-        router.push('/')
-    }
+        if (data) {
+            setUserState({
+                email: email,
+                nickname: nickname,
+                userId: data.userId,
+                isLoggedIn: true,
+            });
+            await router.push("/");
+            console.log(data);
+        } else {
+            console.log(data);
+            console.log("회원가입 실패");
+        }
     };
 
     return (

@@ -19,12 +19,14 @@ export const OwnerInfo = () => {
         }
     };
     const handleDeleteUser = async () => {
-        const res = await getAxios.delete('/owner/delete')
-        if(res.status >= 200 && res.status< 300){
+        const res = await getAxios.delete("/owner/delete");
+        if (res.status >= 200 && res.status < 300) {
             console.log(res);
-            console.log(user)
+            console.log(user);
+            setUser(null);
+            router.push("/");
         }
-    }
+    };
     return (
         <div>
             <div className="flex flex-col mt-12 p-10 m-auto">
