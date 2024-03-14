@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRouter } from "next/navigation";
+
 
 export const getAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,

@@ -4,11 +4,16 @@ import { emailJoin } from "@/app/services/loginAPI";
 import Footer from "@/components/home/footer";
 
 import { HomeLogo } from "@/components/common/HomeLogo";
+import { useRouter } from "next/navigation";
+import { useSetRecoilState } from "recoil";
+import { userStateAtom } from "@/app/recoil/state";
 
 const EmailJoin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");
+    const setUserState = useSetRecoilState(userStateAtom);
+    const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id == "email") {
@@ -20,9 +25,18 @@ const EmailJoin = () => {
         }
     };
 
-    const handleEmailJoin = () => {
+    const handleEmailJoin = async() => {
         console.log(email, password, nickname);
-        emailJoin(email, password, nickname);
+        const data = await emailJoin(email, password, nickname);
+        if(data) {
+        setUserState({
+            email: data.email,
+            nickname: data.nickname,
+            userId: data.userId,
+            isLoggedIn: true,
+        })
+        router.push('/')
+    }
     };
 
     return (
