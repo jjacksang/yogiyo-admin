@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { shoplistState } from '../../app/recoil/state';
 import { useSetRecoilState } from 'recoil'
 import { fetchShopList, registerShop } from '../../app/services/shopAPI'
+import DashboardModal from './DashboardModal';
 
 const DashboardSidebar = () => {
   const setShopList = useSetRecoilState(shoplistState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 가게 목록 조회
   const fetchShopListHandler = async () => {
@@ -46,16 +48,19 @@ const DashboardSidebar = () => {
     fetchShopListHandler(); // 컴포넌트 마운트 시 가게 목록 조회
   }, []);
 
-
+  // 모달 열고 닫는 함수
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
 
     return (
       <div style={{ width: '260px', height: '100%', background: '#ffffff' }}> {/* 여기에 배경색 등 스타일 추가 가능 */}
         <div className='flex justify-center py-4 h-[106px] border-b border-gray-200'>
           <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
-          <button onClick={handleRegisterAndFetchList}>아직 가게가 없습니다</button>
+          <button onClick={toggleModal}>아직 가게가 없습니다</button>
           </div>
         </div>
+        {isModalOpen && <DashboardModal closeModal={toggleModal} />}
+        
         {/* 버튼 3개 부분 */}
         <div style={{ lineHeight: '16px', gap: '4px' }} className="w-full my-4 py-0 px-3 text-xs font-bold flex flex-row justify-between"
         >
