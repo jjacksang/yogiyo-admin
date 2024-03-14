@@ -1,8 +1,8 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { LogoutBtn } from "../services/loginAPI";
 import { userStateAtom } from "../recoil/state";
 import { useRouter } from "next/navigation";
+import { LogoutBtn, getAxios } from "../services/loginAPI";
 
 export const OwnerInfo = () => {
     const router = useRouter();
@@ -18,6 +18,13 @@ export const OwnerInfo = () => {
             console.log("user정보가 없다.");
         }
     };
+    const handleDeleteUser = async () => {
+        const res = await getAxios.delete('/owner/delete')
+        if(res.status >= 200 && res.status< 300){
+            console.log(res);
+            console.log(user)
+        }
+    }
     return (
         <div>
             <div className="flex flex-col mt-12 p-10 m-auto">
@@ -57,7 +64,7 @@ export const OwnerInfo = () => {
                             <a className="ml-1 text-sin-blue underline">직원정보 추가하기</a>
                         </span>
                         <div className="flex text-sm text-custom-gray ml-auto mt-0">
-                            <button>회원탈퇴</button>
+                            <button onClick={handleDeleteUser}>회원탈퇴</button>
                             <p className="mx-[10px]">|</p>
                             <button onClick={handleLogout}>로그아웃</button>
                         </div>
