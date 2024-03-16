@@ -6,7 +6,11 @@ import { userStateAtom } from "../recoil/state";
 import { getAxios } from "../services/loginAPI";
 import { useRouter } from "next/navigation";
 
-export default function NickChange() {
+interface NickChangeProps {
+    toggleComponent: () => void;
+}
+
+const NickChange = ({ toggleComponent }: NickChangeProps) => {
     const router = useRouter();
     const [userNickname, setUserNickname] = useRecoilState(userStateAtom);
     const [newNickname, setNewNickname] = useState("");
@@ -37,9 +41,15 @@ export default function NickChange() {
     };
     console.log(userNickname);
     return (
-        <div className="flex flex-col p-10 m-auto mt-12">
+        <div className="flex flex-col p-10 m-auto mt-12 relative">
             <p className="flex justify-center mb-4 text-xl font-bold">닉네임 변경하기</p>
-            <div className="flex flex-col items-center border rounded-lg gap-4">
+            <button
+                onClick={toggleComponent}
+                className="border rounded-lg bg-white px-4 py-2 absolute right-10"
+            >
+                뒤로 가기
+            </button>
+            <div className="flex flex-col items-center justify-center h-[480px] border rounded-lg gap-4 bg-white">
                 {userNickname && <p className="mt-5">현재 닉네임: {userNickname.nickname}</p>}
                 <div className="flex px-6 py-4">
                     <input
@@ -59,4 +69,6 @@ export default function NickChange() {
             </div>
         </div>
     );
-}
+};
+
+export default NickChange;
