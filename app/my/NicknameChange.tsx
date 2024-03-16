@@ -4,14 +4,12 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userStateAtom } from "../recoil/state";
 import { getAxios } from "../services/loginAPI";
-import { useRouter } from "next/navigation";
 
 interface NickChangeProps {
     toggleComponent: () => void;
 }
 
 const NickChange = ({ toggleComponent }: NickChangeProps) => {
-    const router = useRouter();
     const [userNickname, setUserNickname] = useRecoilState(userStateAtom);
     const [newNickname, setNewNickname] = useState("");
 
@@ -34,7 +32,6 @@ const NickChange = ({ toggleComponent }: NickChangeProps) => {
                     return prev;
                 });
             }
-            router.push("/");
         } catch (error) {
             console.error("닉네임 변경 중 오류가 발생", error);
         }
@@ -43,6 +40,9 @@ const NickChange = ({ toggleComponent }: NickChangeProps) => {
     return (
         <div className="flex flex-col p-10 m-auto mt-12 relative">
             <p className="flex justify-center mb-4 text-xl font-bold">닉네임 변경하기</p>
+            <p className="flex justify-center mb-4 text-base text-font-gray">
+                닉네임 변경 시 5글자 아래로 유지해주세요!
+            </p>
             <button
                 onClick={toggleComponent}
                 className="border rounded-lg bg-white px-4 py-2 absolute right-10"
