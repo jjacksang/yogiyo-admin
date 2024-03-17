@@ -4,6 +4,7 @@ import { shoplistState } from '../../app/recoil/state';
 import { useSetRecoilState } from 'recoil'
 import { fetchShopList, registerShop } from '../../app/services/shopAPI'
 import DashboardModal from './DashboardModal';
+import Link from '@/node_modules/next/link';
 
 const DashboardSidebar = () => {
   const setShopList = useSetRecoilState(shoplistState);
@@ -64,9 +65,11 @@ const DashboardSidebar = () => {
         {/* 버튼 3개 부분 */}
         <div style={{ lineHeight: '16px', gap: '4px' }} className="w-full my-4 py-0 px-3 text-xs font-bold flex flex-row justify-between"
         >
+          <Link href="/OrderHistory" passHref>
           <button className="flex flex-col justify-center items-center flex-1 h-[76px] w-[76px] text-center gap-[9.4px] border border-gray-200 rounded bg-white text-gray-800">
             <p>주문내역</p>
           </button>
+          </Link>
           <button className="flex flex-col justify-center items-center flex-1 h-[76px] w-[76px] text-center gap-[9.4px] border border-gray-200 rounded bg-white text-gray-800">
             <p>통계</p>
           </button>

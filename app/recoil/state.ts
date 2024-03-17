@@ -32,8 +32,14 @@ export const tokenState = atom({
 
 export const shoplistState = atom<OwnerShopList | null>({
     key: "shoplistStateAtom",
-    default: null,
-});
+    default: 
+    {id: 1111,
+      name: '킨나라',
+      icon: 'ㅁㅇㄹㅁㅇㄹㅁㅇㄹ',
+    }
+})
+
+
 export const isLoggedInState = atom({
     key: "isLoggedIn",
     default: false,
