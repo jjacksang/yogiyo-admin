@@ -30,7 +30,7 @@ const DashboardModal = ({ closeModal }) => {
 
   return (
     <div className="fixed left-2 overflow-y-auto flex flex-col h-[calc(100vh-196px)] max-h-[600px] min-h-[230px] w-[360px] rounded-lg border border-[rgba(0,0,0,0.8)] bg-white shadow-md text-[rgba(0,0,0,0.6)] z-10 cursor-default lg:absolute lg:top-[166px] lg:right-0"
-     style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 8px' }}>
+     style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 8px', zIndex: 1000 }}>
        <div className="flex flex-col flex-none bg-white rounded-t-lg z-10 pt-4">
         <div className="flex flex-col flex-auto h-auto rounded-b-lg overflow-y-auto bg-white p-0" style={{padding: '16px 0px'}}>
         <div className="mb-4">
@@ -47,10 +47,10 @@ const DashboardModal = ({ closeModal }) => {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">가게 주소</label>
-            <input type="text" value={selectedAddress} onChange={(e) => setSelectedAddress(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"/>
+            <input type="text" readOnly value={selectedAddress} onChange={(e) => setSelectedAddress(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"/>
             <button onClick={handleOpenAddressSearch} className="py-2 px-4 w-3/1 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors">주소 검색</button>
             <div>
-              <input type="text" className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"/>
+              <input type="text" placeholder="나머지 주소 입력" className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"/>
             </div>
           </div>
           {/* 주소 검색 모달 */}
