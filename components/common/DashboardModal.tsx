@@ -1,41 +1,61 @@
 import { registerShop } from '@/app/services/shopAPI';
 import axios from '@/node_modules/axios/index';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import AddressSearch from './AddressSearch';
 
 const DashboardModal = ({ closeModal }) => {
-  const [icon, setIcon] = useState<File | null>(null); // 아이콘 파일 상태
+  const [icon, setIcon] = useState<File | null>(null);
   const [banner, setBanner] = useState<File | null>(null); // 배너 파일 상태
+  const [iconFileName, setIconFileName] = useState('선택된 파일 없음');
+  const [bannerFileName, setBannerFileName] = useState('선택된 파일 없음');
   const [shopName, setShopName] = useState(''); // 가게 이름
   const [callNumber, setCallNumber] = useState(''); // 전화번호
-  const [areaCode, setAreaCode] = useState(''); // 지역번호
-  const [exchangeNumber, setExchangeNumber] = useState(''); // 국번
-  const [subscriberNumber, setSubscriberNumber] = useState(''); // 번호
-  const [address, setAddress] = useState(''); // 주소
-  const [additionalAddress, setAdditionalAddress] = useState(''); // 나머지 주소 
-  const [fileName, setFileName] = useState('선택된 파일 없음');
-  const [file, setFile] = useState<File | null>(null);
+  const [exchangeNumber, setExchangeNumber] = useState(''); // 가운데 번호 
+  const [areaCode, setAreaCode] = useState(''); // 끝 번호 
+  const [subscriberNumber, setSubscriberNumber] = useState('');
   const [categories, setCategories] = useState('') // 카테고리 입력 
   const [showAddressSearch, setShowAddressSearch] = useState(false); // 주소 검색 모달 표시 상태
   const [selectedAddress, setSelectedAddress] = useState(''); // 선택된 주소
+  const [additionalAddress, setAdditionalAddress] = useState(''); // 나머지 주소 
   const [apiResponse, setApiResponse] = useState('');
+  
+  const shopData = {
+    name: shopName,
+    callNumber: `${areaCode}${exchangeNumber}${subscriberNumber}`,
+    address: selectedAddress,
+    latitude: 0,
+    longitude: 0,
+    categories: ["치킨","한식", "중국집", "버거"]
+  }
 
-  // 파일 선택 핸들러
-  const handleFileSelect = (e:ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      setFileName(selectedFile.name);
-      setFile(selectedFile);
-    } else {
-      setFileName('선택된 파일 없음');
-      setFile(null);
+
+// 파일 선택 핸들러
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'icon' | 'banner') => {
+  const file = e.target.files ? e.target.files[0] : null;
+  if (file) {
+    if (type === 'icon') {
+      setIcon(file);
+      setIconFileName(file.name); // 아이콘 파일 이름 상태 업데이트
+    } else if (type === 'banner') {
+      setBanner(file);
+      setBannerFileName(file.name); // 배너 파일 이름 상태 업데이트
+      console.log(type, file);
     }
-  };
+  }
+};
 
+  // file 상태가 변경될 때마다 실행될 useEffect
+  useEffect(() => {
+    console.log("Icon file:", icon);
+    console.log("Banner file:", banner);
+  }, [icon, banner]);
+  
 
+  
   // 전화번호 합치기
-  const compileCallNumber = () => `${areaCode}-${exchangeNumber}-${subscriberNumber}`;
+  const compileCallNumber = () => `<span class="math-inline">\{areaCode\}\-</span>{exchangeNumber}-${subscriberNumber}`;
   const compiledCallNumber = compileCallNumber();
+
 
   // 입점 신청 완료 버튼 클릭 이벤트 핸들러
   const handleRegisterShop = async () => {
@@ -62,26 +82,20 @@ const DashboardModal = ({ closeModal }) => {
 
   // FormData 객체 생성 및 데이터 추가
   const formData = new FormData();
+  if (icon) formData.append('icon', icon);
   if (banner) formData.append('banner', banner);
-  // 개별 속성으로 추가
-  formData.append('name', shopName);
-  formData.append('callNumber', compileCallNumber());
-  formData.append('address', selectedAddress + " " + additionalAddress);
-  formData.append('latitude', '0'); // 실제 값을 사용해야 함
-  formData.append('longitude', '0'); // 실제 값을 사용해야 함
-  formData.append('categories', JSON.stringify(categories.split(',').map(item => item.trim())));
-
-
+  formData.append('shopdata', JSON.stringify(shopData));
+  
   try {
-    const response = await registerShop(formData); // 수정된 API 호출
+    const response = await registerShop(icon, banner, shopData); // 수정된 API 호출
     setApiResponse(JSON.stringify(response)); // 응답을 상태에 저장
-    console.log(formData);
-    
+    console.log("FormData가 성공적으로 전송되었습니다.");
   } catch (error) {
     console.error(error);
     setApiResponse('입점 신청 중 오류가 발생했습니다.');
   }
 };
+
 
 
   // 주소 검색 모달을 표시하는 함수
@@ -142,15 +156,24 @@ const DashboardModal = ({ closeModal }) => {
             <label className="block text-sm font-medium text-gray-700">업종 카테고리</label>
             <input value={categories}  onChange={(e) => setCategories(e.target.value)}type="text" className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"/>
           </div>
+          {/* icon 부분 파일업로드창 */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Icon Banner</label>
+            <label htmlFor="icon-upload" className="block text-sm font-medium text-gray-700">Icon</label>
             <div className="mt-1 flex justify-between items-center">
-              {/* 파일 선택 인풋창 */}
-              <input type="text" className="p-1 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 mr-2 flex-grow w-1/3" value={fileName} readOnly/>
-              {/* 파일 선택을 위한 숨겨진 인풋 필드 */}
-              <input type="file" id="file-upload" className="hidden" accept="image/*" onChange={handleFileSelect}/>
-              {/* 파일 찾기 버튼 */}
-              <label htmlFor="file-upload" className="cursor-pointer py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors text-sm w-1/3">
+              <input type="text" className="p-1 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 mr-2 flex-grow w-1/3" value={iconFileName} readOnly/>
+              <input type="file" id="icon-upload" className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, 'icon')}/>
+              <label htmlFor="icon-upload" className="cursor-pointer py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors text-sm w-1/3">
+                파일 찾기
+              </label>
+            </div>
+          </div>
+          {/* banner 부분 파일업로드창*/}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Banner</label>
+            <div className="mt-1 flex justify-between items-center">            
+              <input type="text" className="p-1 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 mr-2 flex-grow w-1/3" value={bannerFileName} readOnly/>
+              <input type="file" id="banner-upload" className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, 'banner')}/>
+              <label htmlFor="banner-upload" className="cursor-pointer py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors text-sm w-1/3">
                 파일 찾기
               </label>
             </div>
