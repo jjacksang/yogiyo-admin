@@ -4,9 +4,16 @@ import { shoplistState } from '../../app/recoil/state';
 import { useSetRecoilState } from 'recoil'
 import { registerShop } from '../../app/services/shopAPI'
 import DashboardModal from './DashboardModal';
-import Link from '@/node_modules/next/link';
+import Link from 'next/link';
 
-const DashboardSidebar = () => {
+
+// DashboardSidebar 컴포넌트의 props 타입 정의
+interface DashboardSidebarProps {
+  togglemodal: () => void;
+}
+
+
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ togglemodal }) => {
   const setShopList = useSetRecoilState(shoplistState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -16,13 +23,17 @@ const DashboardSidebar = () => {
 
 
     return (
-      <div style={{ width: '260px', height: '100%', background: '#ffffff' }}> {/* 여기에 배경색 등 스타일 추가 가능 */}
+      <div style={{ width: '260px', height: '100%', background: '#ffffff', position:'relative' }}> {/* 여기에 배경색 등 스타일 추가 가능 */}
         <div className='flex justify-center py-4 h-[106px] border-b border-gray-200'>
           <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
           <button onClick={toggleModal}>아직 가게가 없습니다</button>
           </div>
         </div>
-        {isModalOpen && <DashboardModal closeModal={toggleModal} />}
+        {isModalOpen && (
+          <div style={{ position: 'absolute', left: 0, zIndex: 1050 }}> 
+            <DashboardModal closeModal={toggleModal} />
+          </div>
+        )}
         
         {/* 버튼 3개 부분 */}
         <div style={{ lineHeight: '16px', gap: '4px' }} className="w-full my-4 py-0 px-3 text-xs font-bold flex flex-row justify-between"
