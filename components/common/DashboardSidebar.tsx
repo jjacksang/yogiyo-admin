@@ -9,30 +9,28 @@ import Link from 'next/link';
 
 // DashboardSidebar 컴포넌트의 props 타입 정의
 interface DashboardSidebarProps {
-  togglemodal: () => void;
+  toggleModal: () => void;
 }
 
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ togglemodal }) => {
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ toggleModal }) => {
   const setShopList = useSetRecoilState(shoplistState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   // 모달 열고 닫는 함수
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const settoggleModal = () => setIsModalOpen(!isModalOpen);
 
 
     return (
       <div style={{ width: '260px', height: '100%', background: '#ffffff', position:'relative' }}> {/* 여기에 배경색 등 스타일 추가 가능 */}
         <div className='flex justify-center py-4 h-[106px] border-b border-gray-200'>
           <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
-          <button onClick={toggleModal}>아직 가게가 없습니다</button>
+          <button onClick={settoggleModal}>아직 가게가 없습니다</button>
           </div>
         </div>
         {isModalOpen && (
-          <div style={{ position: 'absolute', left: 0, zIndex: 1050 }}> 
-            <DashboardModal closeModal={toggleModal} />
-          </div>
+         <DashboardModal closeModal={settoggleModal} />  
         )}
         
         {/* 버튼 3개 부분 */}
