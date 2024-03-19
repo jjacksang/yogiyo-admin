@@ -9,6 +9,7 @@ import DashboardModal from "@/components/common/DashboardModal";
 import { shoplistState } from "../recoil/state"
 import { useSetRecoilState } from "recoil";
 import { registerShop } from "../services/shopAPI";
+import DashboardMypageMain from "@/components/common/DashboardMypageMain";
 
 const Page = () => {
 
@@ -23,7 +24,7 @@ const Page = () => {
       <div className="flex flex-row flex-1">
       <DashboardSidebar toggleModal={toggleModal} />
         <div className="flex flex-col flex-1 bg-[#F7F7F7] relative overflow-auto z-10 overscroll-none"> {/* 메인 컨텐츠 영역 */}
-          <DashboardMain/>
+          <DashboardMypageMain/>
           <Footer/>
         </div>
       </div>

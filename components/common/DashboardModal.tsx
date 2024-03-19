@@ -3,7 +3,14 @@ import axios from '@/node_modules/axios/index';
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import AddressSearch from './AddressSearch';
 
-const DashboardModal = ({ closeModal }) => {
+
+// closeModal 함수의 타입을 정의하기 위한 Props 인터페이스
+interface DashboardModalProps {
+  closeModal: () => void;
+}
+
+
+const DashboardModal: React.FC<DashboardModalProps> = ({ closeModal }) => {
   const [icon, setIcon] = useState<File | null>(null);
   const [banner, setBanner] = useState<File | null>(null); // 배너 파일 상태
   const [iconFileName, setIconFileName] = useState('선택된 파일 없음');
@@ -104,7 +111,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'icon' |
   };
 
   // 주소 검색 모달에서 주소를 선택했을 때 실행되는 함수
-  const handleSelectAddress = (data) => {
+  const handleSelectAddress = (data: { address: React.SetStateAction<string>; }) => {
     setSelectedAddress(data.address); // 선택된 주소 저장
     setShowAddressSearch(false); // 주소 검색 모달 숨기기
   };

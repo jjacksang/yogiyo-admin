@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { shoplistState } from '../../app/recoil/state';
 import { useSetRecoilState } from 'recoil'
-import { fetchShopList, registerShop } from '../../app/services/shopAPI'
+import { registerShop } from '../../app/services/shopAPI'
 import DashboardModal from './DashboardModal';
 import Link from '@/node_modules/next/link';
 
@@ -10,44 +10,6 @@ const DashboardSidebar = () => {
   const setShopList = useSetRecoilState(shoplistState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 가게 목록 조회
-  const fetchShopListHandler = async () => {
-    try {
-      // `NEXT_PUBLIC_APP_KEY` 환경 변수를 인증 헤더로 사용
-      const authorization = `Bearer ${process.env.NEXT_PUBLIC_APP_KEY}`;
-      const shops = await fetchShopList(authorization);
-      setShopList(shops); // Recoil 상태 업데이트
-    } catch (error) {
-      console.error("가게 목록을 가져오는 중 오류가 발생했습니다:", error);
-    }
-  };
-
-  // 가게 등록과 목록 조회를 처리하는 함수
-  const handleRegisterAndFetchList = async () => {
-    try {
-      // 데이터 예시 
-      const iconFile = new File(["icon"], "icon.png", { type: "image/png" });
-      const bannerFile = new File(["banner"], "banner.png", { type: "image/png" });
-      const shopData = {
-        name: "새 가게",
-        callNumber: "010-0000-0000",
-        address: "서울특별시",
-        latitude: 37.5665,
-        longitude: 126.9780,
-        categories: ["카테고리1", "카테고리2"]
-      };
-      const authorization = `Bearer ${process.env.NEXT_PUBLIC_APP_KEY}`;
-
-      await registerShop({ iconFile, bannerFile, shopData }); // 수정된 API 호출
-      await fetchShopListHandler(); // 성공 후 가게 목록 조회
-    } catch (error) {
-      console.error("가게 등록 중 오류 발생:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchShopListHandler(); // 컴포넌트 마운트 시 가게 목록 조회
-  }, []);
 
   // 모달 열고 닫는 함수
   const toggleModal = () => setIsModalOpen(!isModalOpen);

@@ -86,18 +86,4 @@ export async function registerShop(icon, banner, shopData) {
 };
 
 
-// 가게 목록 조회 함수
-export const fetchShopList = async () => {
-  try {
-    const response = await getAxios.get('/owner/shop/list', {
-      headers: { 
-      'Content-Type' : 'application/json',
-    },
-  })
-    return response.data; // 성공 응답 데이터 반환
-  } catch (error) {
-    console.error("가게 목록 조회 중 오류:", error);
-    throw error;
-  }
-}
 
