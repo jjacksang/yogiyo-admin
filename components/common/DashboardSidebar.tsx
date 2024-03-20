@@ -10,10 +10,11 @@ import Link from 'next/link';
 // DashboardSidebar 컴포넌트의 props 타입 정의
 interface DashboardSidebarProps {
   toggleModal: () => void;
+  setSelectedMenu: (menu: string) => void;
 }
 
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ toggleModal }) => {
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,toggleModal }) => {
   const setShopList = useSetRecoilState(shoplistState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -37,7 +38,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ toggleModal }) => {
         <div style={{ lineHeight: '16px', gap: '4px' }} className="w-full my-4 py-0 px-3 text-xs font-bold flex flex-row justify-between"
         >
           <Link href="/OrderHistory" passHref>
-          <button className="flex flex-col justify-center items-center flex-1 h-[76px] w-[76px] text-center gap-[9.4px] border border-gray-200 rounded bg-white text-gray-800">
+          <button onClick={() => setSelectedMenu("orderHistory")} className="flex flex-col justify-center items-center flex-1 h-[76px] w-[76px] text-center gap-[9.4px] border border-gray-200 rounded bg-white text-gray-800">
             <p>주문내역</p>
           </button>
           </Link>

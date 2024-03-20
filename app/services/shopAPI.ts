@@ -47,19 +47,18 @@ export interface OwnerShopList {
 
 
 
-
 // 점주 가게 입점 
-export async function registerShop(icon, banner, shopData) {
+export async function registerShop(icon: File | null, banner: File | null, shopData: { name: string; callNumber: string; address: string; latitude: number; longitude: number; categories: string[]; }) {
   const formData = new FormData();
-  
+
   // icon이 null이 아니면 FormData 객체에 추가
   if (icon !== null) {
-    formData.append('icon', icon, icon.name);
+    formData.append('icon', icon);
   }
 
   // banner가 null이 아니면 FormData 객체에 추가
   if (banner !== null) {
-    formData.append('banner', banner, banner.name);
+    formData.append('banner', banner);
   }
   
   // shopData를 JSON 문자열로 변환하여 FormData 객체에 추가
