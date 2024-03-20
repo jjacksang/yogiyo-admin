@@ -3,7 +3,6 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
-import DashboardMain from "@/components/common/DashboardMain";
 import Footer from "@/components/home/footer";
 import DashboardModal from "@/components/common/DashboardModal";
 import { shoplistState } from "../recoil/state"
