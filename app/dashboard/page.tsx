@@ -1,12 +1,10 @@
-import Link from "next/link";
 import React from "react";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
 import DashboardMain from "@/components/common/DashboardMain";
-import { ShopList } from "../services/shopAPI";
 
 const Page = () => {
-    ShopList();
+    // ShopList();
 
     return (
         <div className="flex flex-col min-h-screen">
