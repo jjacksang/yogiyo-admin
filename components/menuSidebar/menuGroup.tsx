@@ -20,7 +20,6 @@ const MenuGroup = ({ children }: MenuGroupProps) => {
     const handleMenuClick = (menuState: "menuSet" | "menuSoldout") => {
         setSelectMenu(menuState);
         const path = menuState === "menuSet" ? "/menu/menuSet" : '/menu/Soldout'
-        // router.push(path);
     };
     console.log(seletMenu);
 
