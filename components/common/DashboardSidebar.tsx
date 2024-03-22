@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { shoplistState } from "../../app/recoil/state";
 import { useSetRecoilState } from "recoil";
 import { ShopList } from "@/app/services/shopAPI";
-import MenuGroup from "../../app/dashboard/menuSidebar/menuGroup";
+import MenuGroup from "../menuSidebar/menuGroup";
 
 const DashboardSidebar = () => {
     const setShopList = useSetRecoilState(shoplistState);

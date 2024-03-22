@@ -1,8 +1,8 @@
+"use client";
 import React, { ReactNode, useState } from "react";
-import MenuSet from "../menu/menuSet";
-import MenuSoldout from "../menu/menuSoldout";
 import { useRecoilState } from "recoil";
 import { menuState } from "@/app/recoil/state";
+import { useRouter } from "next/navigation";
 
 type MenuGroupProps = {
     children?: ReactNode;
@@ -11,15 +11,19 @@ type MenuGroupProps = {
 const MenuGroup = ({ children }: MenuGroupProps) => {
     const [showOption, setShowOption] = useState<boolean>(false);
     const [seletMenu, setSelectMenu] = useRecoilState(menuState);
+    const router = useRouter();
 
     const OpenCloseBtn = (): void => {
         setShowOption(!showOption);
     };
 
-    const handleMenuClick = (menuType: "menuSet" | "menuSoldout") => {
-        setSelectMenu(menuType);
+    const handleMenuClick = (menuState: "menuSet" | "menuSoldout") => {
+        setSelectMenu(menuState);
+        const path = menuState === "menuSet" ? "/menu" : "/anothor/path";
+        router.push(path);
     };
     console.log(seletMenu);
+
     return (
         <div className="flex py-2 ml-2">
             <div className="ml-1">
