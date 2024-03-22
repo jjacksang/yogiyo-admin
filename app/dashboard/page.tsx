@@ -13,22 +13,38 @@ import OrderHistory from "@/components/common/OrderHistory";
 
 const Page = () => {
 
-  //ShopList() 
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState("main"); // 초기 메뉴를 "main"으로 설정
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+
+  // 선택된 메뉴에 따라 렌더링할 컴포넌트 결정
+  const renderContent = () => {
+    switch (selectedMenu) {
+      case "orderHistory":
+        return <OrderHistory />;
+      case "main":
+      default:
+        return <DashboardMypageMain />;
+    }
+  };
+
 
   return (
     <div className="flex flex-col min-h-screen">
       <DashboardNavbar />
       <div className="flex flex-row flex-1">
-        <DashboardSidebar />
-        <div className="flex-1 bg-[#F7F7F7]"> {/* 메인 컨텐츠 영역 */}
-
-          <DashboardMain/>
-          
+      <DashboardSidebar toggleModal={toggleModal} setSelectedMenu={setSelectedMenu}/>
+        <div className="flex flex-col flex-1 bg-[#F7F7F7] relative overflow-auto z-10 overscroll-none"> {/* 메인 컨텐츠 영역 */}
+          <DashboardMypageMain/>
+          <Footer/>
         </div>
       </div>
+      {/* 조건부로 모달 표시 */}
+      {isModalOpen && <DashboardModal closeModal={() => setIsModalOpen(false)} />}
     </div>
   );
 };
 
+
 export default Page;
+
