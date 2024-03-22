@@ -1,4 +1,4 @@
-"use client";
+
 import { MenuNav } from "@/components/menu/menuNavbar";
 import MenuGroup from "../menuSidebar/menuGroup";
 import MenuSet from "@/components/menu/menuSet";
