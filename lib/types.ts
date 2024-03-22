@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface OwnerJoin {
     nickname: string;
     email: string;

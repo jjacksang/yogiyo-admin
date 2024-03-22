@@ -38,3 +38,8 @@ export const isLoggedInState = atom({
     key: "isLoggedIn",
     default: false,
 });
+
+export const menuState = atom({
+    key: "menuState",
+    default: "",
+});

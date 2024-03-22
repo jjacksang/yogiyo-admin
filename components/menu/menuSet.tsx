@@ -1,3 +1,6 @@
+{
+    /* 메뉴 설정 컴포넌트 */
+}
 const MenuSet = () => {
     return (
         <div className="flex flex-col px-8 py-4 ">
