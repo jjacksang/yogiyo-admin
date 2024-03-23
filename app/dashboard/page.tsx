@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
 import DashboardMain from "@/components/common/DashboardMain";
