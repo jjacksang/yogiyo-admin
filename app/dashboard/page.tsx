@@ -4,11 +4,7 @@ import DashboardSidebar from "@/components/common/DashboardSidebar";
 import DashboardMain from "@/components/common/DashboardMain";
 import { OwnerInfo } from "./DashboardMyInfo";
 
-interface DashboardMainProps {
-    children: ReactNode;
-}
-
-const Page = ({ children }: DashboardMainProps) => {
+const Page = () => {
     // ShopList();
 
     return (

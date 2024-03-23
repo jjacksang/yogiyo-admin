@@ -10,7 +10,7 @@ interface DashboardMainProps {
     children: ReactNode;
 }
 
-const DashboardMain = ({ children }: DashboardMainProps) => {
+export default function DashboardMain({ children }: DashboardMainProps) {
     const selectMenu = useRecoilValue(menuState);
 
     let content;
@@ -30,6 +30,4 @@ const DashboardMain = ({ children }: DashboardMainProps) => {
             {content}
         </div>
     );
-};
-
-export default DashboardMain;
+}

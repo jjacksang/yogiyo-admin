@@ -6,11 +6,7 @@ import MenuSoldout from "@/components/menu/menuSoldout";
 import DashboardMain from "@/components/common/DashboardMain";
 import { useRecoilValue } from "recoil";
 import { menuState } from "@/app/recoil/state";
-import React, { ReactNode, useEffect } from "react";
-
-interface DashboardMainProps {
-    children: ReactNode;
-}
+import React, { useEffect } from "react";
 
 export default function MenuPage() {
     console.log("menupage");
@@ -25,7 +21,7 @@ export default function MenuPage() {
             <DashboardMain>
                 <MenuNav />
                 <MenuGroup>
-                    {selectMenu === "menuSet" && <MenuSet key="menuSet" />}
+                    {selectMenu === "menuSet" && <MenuSet />}
                     {selectMenu === "menuSoldout" && <MenuSoldout />}
                 </MenuGroup>
             </DashboardMain>
