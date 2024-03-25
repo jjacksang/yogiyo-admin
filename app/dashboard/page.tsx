@@ -11,6 +11,8 @@ import { registerShop } from "../services/shopAPI";
 import DashboardMypageMain from "@/components/common/DashboardMypageMain";
 import OrderHistory from "@/components/common/OrderHistory";
 
+
+
 const Page = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
