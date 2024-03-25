@@ -32,7 +32,7 @@ export const tokenState = atom({
 
 export const shoplistState = atom<OwnerShopList[] | null>({
     key: "shoplistStateAtom",
-    default: [],
+    default: null,
 });
 export const isLoggedInState = atom({
     key: "isLoggedIn",
