@@ -27,7 +27,7 @@ const EmailLogin = () => {
         if (data) {
             setUserState({
                 userId: data.userId,
-                nickname: data.nickname,
+                nickname: data.userNickname,
                 email: data.userEmail,
                 isLoggedIn: true,
             });

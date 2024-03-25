@@ -18,10 +18,11 @@ export default function LoginForm() {
         localStorage.setItem("provider", provider);
         if (provider === "kakao") {
             SocialKakao();
+            console.log("카카오 로그인 실행");
         } else if (provider === "naver") {
             SocialNaver();
+            console.log("네이버 로그인 실행");
         }
-        return { provider };
     };
 
     return (

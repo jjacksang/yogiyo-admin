@@ -3,9 +3,11 @@ import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userStateAtom } from "../../app/recoil/state";
 import { LogoutBtn } from "@/app/services/loginAPI";
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
     const [user, setUser] = useRecoilState(userStateAtom);
+    const router = useRouter();
     useEffect(() => {
         const savedUser = sessionStorage.getItem("user");
         if (savedUser) {
@@ -16,9 +18,15 @@ export const Navbar = () => {
         if (user) {
             const res = await LogoutBtn(user.userId);
             sessionStorage.clear();
+            setUser(null);
+            router.push("/");
         } else {
             console.log("user정보가 없다.");
         }
+    };
+
+    const toOwnerInfo = () => {
+        router.push("/dashboard");
     };
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
@@ -38,7 +46,7 @@ export const Navbar = () => {
                 <div className="hidden lg:flex items-center gap-2 py-0 px-2">
                     <p className="flex items-center text-sm text-font-gray">{user.nickname}님</p>
                     <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
-                        <button>내정보</button>
+                        <button onClick={toOwnerInfo}>내정보</button>
                     </div>
                     <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
                         <button onClick={handleLogout}>로그아웃</button>

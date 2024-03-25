@@ -7,12 +7,7 @@ export const getAxios = axios.create({
 
 export const LogoutBtn = async (userId: number) => {
     const resLogout = await getAxios
-        .post(`/owner/logout/${userId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer" + "token",
-            },
-        })
+        .post(`/owner/logout/${userId}`, {})
         .then((response) => {
             console.log(response);
         })
@@ -47,18 +42,15 @@ export const emailLogin = async (email: string, password: string) => {
 
     console.log(userData);
 
-    const resSubmit = await getAxios.post("/owner/login", userData);
+    const resSubmit = await getAxios.post("/owner/login", userData, {});
     if (resSubmit.status >= 200 && resSubmit.status < 300) {
+        const { userId, email: userEmail } = resSubmit.data;
         console.log(`${resSubmit.data.userId} 로그인 성공`);
         console.log(resSubmit);
 
-        const userId = resSubmit.data.userId;
-        const userEmail = resSubmit.data.email;
-
         const resMyPage = await getAxios.get("/owner/mypage");
-        const nickname = resMyPage.data.nickname;
-
-        return { userId, userEmail, nickname };
+        const { nickname: userNickname } = resMyPage.data;
+        return { userId, userEmail, userNickname };
     } else {
         console.log("Login api error");
         return null;
@@ -71,7 +63,7 @@ export const SocialKakao = async () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 };
 
-export const SocialNaver = () => {
+export const SocialNaver = async () => {
     const CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
     const REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_LOGIN_REDIRECT_URI;
     const STATE = "jjak";

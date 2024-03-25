@@ -20,25 +20,24 @@ interface Shop {
     minDeliveryPrice: number;
     maxDeliveryPrice: number;
     icon: string;
-  }
-  
-  export interface OwnerShopList {
-      id: number;
-      name: string;
-      icon: string;
-  }
+}
 
-  export const ShopList = async () => {
+export interface OwnerShopList {
+    id: number;
+    name: string;
+    icon: string;
+}
+[];
+
+export const ShopList = async () => {
     try {
-      const resShops = await getAxios.get("/owner/shop/"); 
-  
-      const parsedShops: OwnerShopList = resShops.data as OwnerShopList;
-  
-      console.log(resShops.data);
-      
-      return parsedShops;
+        const resShops = await getAxios.get("/owner/shop/");
+
+        console.log(resShops.data);
+
+        return resShops.data;
     } catch (error) {
-      console.error("Error fetching shop list:", error);
-      throw error; 
+        console.error("Error fetching shop list:", error);
+        throw error;
     }
-  };
+};

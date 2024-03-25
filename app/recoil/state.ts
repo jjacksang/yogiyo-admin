@@ -30,11 +30,16 @@ export const tokenState = atom({
     default: "",
 });
 
-export const shoplistState = atom<OwnerShopList | null>({
+export const shoplistState = atom<OwnerShopList[] | null>({
     key: "shoplistStateAtom",
-    default: null,
+    default: [],
 });
 export const isLoggedInState = atom({
     key: "isLoggedIn",
     default: false,
+});
+
+export const menuState = atom({
+    key: "menuState",
+    default: "",
 });
