@@ -10,20 +10,21 @@ interface DashboardMainProps {
     children: ReactNode;
 }
 
+interface MenuComponentType {
+    menuSet: JSX.Element;
+    menuSoldout: JSX.Element;
+    [key: string]: JSX.Element;
+}
+
 export default function DashboardMain({ children }: DashboardMainProps) {
     const selectMenu = useRecoilValue(menuState);
 
-    let content;
-    switch (selectMenu) {
-        case "menuSet":
-            content = <MenuSet />;
-            break;
-        case "menuSoldout":
-            content = <MenuSoldout />;
-            break;
-        default:
-            content = <OwnerInfo />;
-    }
+    const menuComponent: MenuComponentType = {
+        menuSet: <MenuSet />,
+        menuSoldout: <MenuSoldout />,
+    };
+
+    const content = menuComponent[selectMenu] || <OwnerInfo />;
     return (
         <div className="flex-1 bg-[#F7F7F7]">
             {/* 여기에 컨텐츠가 들어갑니다. */}
