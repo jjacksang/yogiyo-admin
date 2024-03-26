@@ -2,7 +2,6 @@
 import React, { ReactNode, useState } from "react";
 import { useRecoilState } from "recoil";
 import { menuState } from "@/app/recoil/state";
-import { useRouter } from "next/navigation";
 
 type MenuGroupProps = {
     children?: ReactNode;
@@ -11,7 +10,6 @@ type MenuGroupProps = {
 const MenuGroup = ({ children }: MenuGroupProps) => {
     const [showOption, setShowOption] = useState<boolean>(false);
     const [seletMenu, setSelectMenu] = useRecoilState(menuState);
-    const router = useRouter();
 
     const OpenCloseBtn = (): void => {
         setShowOption(!showOption);
