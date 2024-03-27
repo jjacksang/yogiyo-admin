@@ -1,8 +1,33 @@
+import { ownerAddMenu, userStateAtom } from "@/app/recoil/state";
+import { getAxios } from "@/app/services/loginAPI";
+
+import { useState } from "react";
+import { useRecoilState } from "recoil";
+
 interface AddMenuProps {
     onClose: () => void;
 }
 
 export default function AddMenu({ onClose }: AddMenuProps) {
+    const setOwnerState = useRecoilState(ownerAddMenu);
+    const [menuName, setMenuName] = useState("");
+    const [content, setContent] = useState("");
+
+    const handleMenuGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.id === "menuName") {
+            setMenuName(e.target.value);
+        } else {
+            setContent(e.target.value);
+        }
+    };
+    const handleAddMenu = async () => {
+        const data = await getAxios.post("/owner/menu-group/add", {
+            shopId: 131313,
+            name: menuName,
+            content: content,
+        });
+        console.log(data);
+    };
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="flex flex-col bg-white w-1/2 h-auto rounded-2xl my-20">
@@ -20,6 +45,10 @@ export default function AddMenu({ onClose }: AddMenuProps) {
                         <input
                             placeholder="메뉴그룹 입력란"
                             className="border rounded-lg w-[300px] h-[50px] pl-4"
+                            value={menuName}
+                            type="text"
+                            onChange={handleMenuGroup}
+                            id="menuName"
                         ></input>
                         <p>0/70</p> {/* 입력 가능한 글자 수 */}
                     </div>
@@ -30,6 +59,8 @@ export default function AddMenu({ onClose }: AddMenuProps) {
                         <input
                             placeholder="그룹에 대한 설명을 입력해주세요"
                             className="border rounded-lg w-full"
+                            value={content}
+                            onChange={handleMenuGroup}
                         ></input>
                         <p>0/250</p> {/* 입력 가능한 글자 수 */}
                     </div>
@@ -43,6 +74,12 @@ export default function AddMenu({ onClose }: AddMenuProps) {
                         </div>
                     </div>
                 </div>
+                <button
+                    className="border bg-yogiyo-blue rounded-xl py-4 px-8 mx-8 my-4 text-xl text-white font-bold"
+                    onClick={handleAddMenu}
+                >
+                    저장
+                </button>
             </div>
         </div>
     );

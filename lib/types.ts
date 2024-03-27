@@ -48,3 +48,9 @@ export interface DynamicRoute {
         provider: string;
     };
 }
+
+export interface AddMenu {
+    shopId: number;
+    name: string;
+    content: string;
+}

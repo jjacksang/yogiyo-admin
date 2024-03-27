@@ -41,3 +41,7 @@ export const ShopList = async () => {
         throw error;
     }
 };
+
+{
+    /* 메뉴 그룹 추가 */
+}
