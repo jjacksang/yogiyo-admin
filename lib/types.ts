@@ -41,6 +41,7 @@ export interface userState {
     nickname: string;
     email: string;
     isLoggedIn: boolean;
+    shopId?: number;
 }
 
 export interface DynamicRoute {

@@ -1,6 +1,6 @@
 "use client";
 import { OwnerInfo } from "@/app/dashboard/DashboardMyInfo";
-import { menuState } from "@/app/recoil/state";
+import { content } from "@/app/recoil/state";
 import React, { ReactNode } from "react";
 import { useRecoilValue } from "recoil";
 import MenuSet from "../menu/menuSet";
@@ -17,18 +17,18 @@ interface MenuComponentType {
 }
 
 export default function DashboardMain({ children }: DashboardMainProps) {
-    const selectMenu = useRecoilValue(menuState);
+    const selectMenu = useRecoilValue(content);
 
     const menuComponent: MenuComponentType = {
         menuSet: <MenuSet />,
         menuSoldout: <MenuSoldout />,
     };
 
-    const content = menuComponent[selectMenu] || <OwnerInfo />;
+    const showContent = menuComponent[selectMenu] || <OwnerInfo />;
     return (
         <div className="flex-1 bg-[#F7F7F7]">
             {/* 여기에 컨텐츠가 들어갑니다. */}
-            {content}
+            {showContent}
         </div>
     );
 }

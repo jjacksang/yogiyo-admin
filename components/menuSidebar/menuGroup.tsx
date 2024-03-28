@@ -1,7 +1,7 @@
 "use client";
 import React, { ReactNode, useState } from "react";
 import { useRecoilState } from "recoil";
-import { menuState } from "@/app/recoil/state";
+import { content } from "@/app/recoil/state";
 
 type MenuGroupProps = {
     children?: ReactNode;
@@ -9,7 +9,7 @@ type MenuGroupProps = {
 
 const MenuGroup = ({ children }: MenuGroupProps) => {
     const [showOption, setShowOption] = useState<boolean>(false);
-    const [seletMenu, setSelectMenu] = useRecoilState(menuState);
+    const [seletMenu, setSelectMenu] = useRecoilState(content);
 
     const OpenCloseBtn = (): void => {
         setShowOption(!showOption);

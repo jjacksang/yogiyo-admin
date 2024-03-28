@@ -2,17 +2,19 @@ import { ownerAddMenu, userStateAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 interface AddMenuProps {
     onClose: () => void;
 }
 
 export default function AddMenu({ onClose }: AddMenuProps) {
-    const setOwnerState = useRecoilState(ownerAddMenu);
+    // const setOwnerState = useRecoilValue(ownerAddMenu);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");
 
+    const menuData = useRecoilValue(ownerAddMenu);
+    console.log(menuData);
     const handleMenuGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id === "menuName") {
             setMenuName(e.target.value);
@@ -21,12 +23,20 @@ export default function AddMenu({ onClose }: AddMenuProps) {
         }
     };
     const handleAddMenu = async () => {
-        const data = await getAxios.post("/owner/menu-group/add", {
-            shopId: 131313,
-            name: menuName,
-            content: content,
-        });
-        console.log(data);
+        // const data = await getAxios.post("/owner/menu-group/add", {
+        //     shopId: 131313,
+        //     name: menuName,
+        //     content: content,
+        // });
+        // console.log(data);
+        getAxios
+            .post("/owner/menu-group/add", menuData)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">

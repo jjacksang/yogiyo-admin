@@ -21,6 +21,7 @@ export const userStateAtom = atom<userState | null>({
         nickname: "",
         email: "",
         isLoggedIn: false,
+        shopId: 111111,
     },
     effects: [sessionStorageEffect("user")],
 });
@@ -39,16 +40,21 @@ export const isLoggedInState = atom({
     default: false,
 });
 
-export const menuState = atom({
-    key: "menuState",
-    default: "",
-});
+// export const menuState = atom({
+//     key: "menuState",
+//     default: "",
+// });
 
 export const ownerAddMenu = atom<AddMenu>({
     key: "addMenuGroup",
     default: {
         shopId: 111111,
-        name: "",
-        content: "",
+        name: "hahaha",
+        content: "gogogo",
     },
+});
+
+export const content = atom({
+    key: "dashboardState",
+    default: "ownerInfo",
 });
