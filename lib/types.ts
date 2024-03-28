@@ -41,10 +41,17 @@ export interface userState {
     nickname: string;
     email: string;
     isLoggedIn: boolean;
+    shopId?: number;
 }
 
 export interface DynamicRoute {
     params: {
         provider: string;
     };
+}
+
+export interface AddMenu {
+    shopId: number;
+    name: string;
+    content: string;
 }
