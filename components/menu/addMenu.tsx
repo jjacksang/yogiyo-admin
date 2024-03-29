@@ -13,8 +13,8 @@ export default function AddMenu({ onClose }: AddMenuProps) {
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");
 
-    const menuData = useRecoilValue(ownerAddMenu);
-    console.log(menuData);
+    const [menuData, setMenuData] = useRecoilState(ownerAddMenu);
+    // console.log(menuData);
     const handleMenuGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id === "menuName") {
             setMenuName(e.target.value);
@@ -23,20 +23,23 @@ export default function AddMenu({ onClose }: AddMenuProps) {
         }
     };
     const handleAddMenu = async () => {
-        // const data = await getAxios.post("/owner/menu-group/add", {
-        //     shopId: 131313,
-        //     name: menuName,
-        //     content: content,
-        // });
-        // console.log(data);
-        getAxios
-            .post("/owner/menu-group/add", menuData)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        const res = await getAxios.post("/owner/menu-group/add", {
+            shopId: 1062565,
+            name: menuName,
+            content: content,
+        });
+        const newData = { id: res.data.id, name: menuName, content: content };
+        console.log(res.data);
+        setMenuData(newData);
+        console.log(newData);
+        // getAxios
+        //     .post("/owner/menu-group/add", menuData)
+        //     .then((res) => {
+        //         console.log(res);
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //     });
     };
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">

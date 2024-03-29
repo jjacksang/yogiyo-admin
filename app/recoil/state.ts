@@ -45,13 +45,9 @@ export const isLoggedInState = atom({
 //     default: "",
 // });
 
-export const ownerAddMenu = atom<AddMenu>({
+export const ownerAddMenu = atom<AddMenu[]>({
     key: "addMenuGroup",
-    default: {
-        shopId: 111111,
-        name: "hahaha",
-        content: "gogogo",
-    },
+    default: [],
 });
 
 export const content = atom({
