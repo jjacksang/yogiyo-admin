@@ -1,8 +1,8 @@
-import { menuListState, ownerAddMenu, userStateAtom } from "@/app/recoil/state";
+import { menuListState } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 interface AddMenuProps {
     onClose: () => void;

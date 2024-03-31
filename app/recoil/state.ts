@@ -64,8 +64,8 @@ export const menuListState = atom<MenuList[]>({
     default: [
         {
             id: 123213,
-            content: "dsa",
-            name: "dsa",
+            content: "",
+            name: "",
         },
     ],
 });
