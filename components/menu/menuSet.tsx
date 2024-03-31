@@ -2,11 +2,11 @@ import { useState } from "react";
 import { MenuNav } from "./menuNavbar";
 import AddMenu from "./addMenu";
 import { useRecoilValue } from "recoil";
-import { ownerAddMenu } from "@/app/recoil/state";
+import { menuListState, ownerAddMenu } from "@/app/recoil/state";
 
 const MenuSet = () => {
     const [openModal, setOpenModal] = useState(false);
-    const showMenuGroup = useRecoilValue(ownerAddMenu);
+    const showMenuGroup = useRecoilValue(menuListState);
 
     console.log(ownerAddMenu);
     console.log(showMenuGroup);
@@ -39,29 +39,35 @@ const MenuSet = () => {
                         {/* 메뉴 그룹 추가 버튼 */}
                     </div>
                 </div>
-                {showMenuGroup.map((item) => (
-                    <div className="flex px-8 py-4 mt-8 border rounded-lg bg-white">
-                        <div className="flex justify-between w-full">
-                            <div className="gap-2">
-                                <p className="text-base font-bold text-font-black">{item.name}</p>
-                                <p className="text-xs text-custom-gray">{item.content}</p>
+                {showMenuGroup &&
+                    showMenuGroup.map((item) => (
+                        <div
+                            className="flex px-8 py-4 mt-8 border rounded-lg bg-white"
+                            key={item.id}
+                        >
+                            <div className="flex justify-between w-full">
+                                <div className="gap-2">
+                                    <p className="text-base font-bold text-font-black">
+                                        {item.name}
+                                    </p>
+                                    <p className="text-xs text-custom-gray">{item.content}</p>
+                                </div>
+                                <div className="flex flex-none items-center pl-2 border rounded-lg">
+                                    <select>
+                                        <option>판매중</option>
+                                        <option>하루 품절</option>
+                                        <option>숨김</option>
+                                    </select>
+                                    <select>
+                                        <option>메뉴그룹 수정</option>
+                                        <option>메뉴그룹 순서변경</option>
+                                        <option>메뉴그룹 삭제</option>
+                                    </select>
+                                </div>
+                                {/* 판매, 품절 등 드롭다운 메뉴 */}
                             </div>
-                            <div className="flex flex-none items-center pl-2 border rounded-lg">
-                                <select>
-                                    <option>판매중</option>
-                                    <option>하루 품절</option>
-                                    <option>숨김</option>
-                                </select>
-                                <select>
-                                    <option>메뉴그룹 수정</option>
-                                    <option>메뉴그룹 순서변경</option>
-                                    <option>메뉴그룹 삭제</option>
-                                </select>
-                            </div>
-                            {/* 판매, 품절 등 드롭다운 메뉴 */}
                         </div>
-                    </div>
-                ))}
+                    ))}
             </div>
             {openModal && <AddMenu onClose={handleModalClose} />}
         </div>

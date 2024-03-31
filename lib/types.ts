@@ -55,3 +55,9 @@ export interface AddMenu {
     name: string;
     content: string;
 }
+
+export interface MenuList {
+    id: number;
+    name: string;
+    content: string;
+}

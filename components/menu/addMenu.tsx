@@ -1,7 +1,7 @@
-import { ownerAddMenu, userStateAtom } from "@/app/recoil/state";
+import { menuListState, ownerAddMenu, userStateAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 interface AddMenuProps {
@@ -9,11 +9,10 @@ interface AddMenuProps {
 }
 
 export default function AddMenu({ onClose }: AddMenuProps) {
-    // const setOwnerState = useRecoilValue(ownerAddMenu);
+    const [menuList, setMenuList] = useRecoilState(menuListState);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");
 
-    const [menuData, setMenuData] = useRecoilState(ownerAddMenu);
     // console.log(menuData);
     const handleMenuGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id === "menuName") {
@@ -22,25 +21,36 @@ export default function AddMenu({ onClose }: AddMenuProps) {
             setContent(e.target.value);
         }
     };
+
     const handleAddMenu = async () => {
-        const res = await getAxios.post("/owner/menu-group/add", {
-            shopId: 1062565,
-            name: menuName,
-            content: content,
-        });
-        const newData = { id: res.data.id, name: menuName, content: content };
-        console.log(res.data);
-        setMenuData(newData);
-        console.log(newData);
-        // getAxios
-        //     .post("/owner/menu-group/add", menuData)
-        //     .then((res) => {
-        //         console.log(res);
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
+        if (!menuName.trim() || !content.trim()) {
+            console.log("아무것도 없음 입력하셈");
+            return;
+        }
+        try {
+            const req = await getAxios.post("/owner/menu-group/add", {
+                shopId: 1062565,
+                name: menuName,
+                content: content,
+            });
+            const newMenuId = req.data.id;
+            const newMenuData = {
+                ...menuList,
+                id: newMenuId,
+                name: menuName,
+                content: content,
+            };
+            console.log(req.data);
+            console.log(newMenuData);
+            setMenuList((prevMenuList) => [...menuList, newMenuData]);
+        } catch (error) {
+            console.error("메뉴 추가 안되고 있음", error);
+        }
     };
+
+    useEffect(() => {
+        handleAddMenu();
+    }, []);
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="flex flex-col bg-white w-1/2 h-auto rounded-2xl my-20">
@@ -90,6 +100,7 @@ export default function AddMenu({ onClose }: AddMenuProps) {
                 <button
                     className="border bg-yogiyo-blue rounded-xl py-4 px-8 mx-8 my-4 text-xl text-white font-bold"
                     onClick={handleAddMenu}
+                    disabled={!menuName.trim() || !content.trim()}
                 >
                     저장
                 </button>
