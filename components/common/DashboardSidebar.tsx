@@ -37,7 +37,7 @@ const DashboardSidebar = () => {
     return (
         <div style={{ width: "260px", height: "100%", background: "#ffffff" }}>
             {/* 여기에 배경색 등 스타일 추가 가능 */}
-            <div className="flex justify-center py-4 h-[106px] border border-black rounded-lg my-4 mx-2">
+            <div className="flex justify-center py-4 h-auto border-none rounded-lg my-4 mx-2">
                 {store?.length != null ? (
                     <div className="flex">{ownerStore}</div>
                 ) : (
