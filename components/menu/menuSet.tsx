@@ -4,9 +4,12 @@ import AddMenu from "./addMenu";
 import { useRecoilValue } from "recoil";
 import { menuListState, ownerAddMenu } from "@/app/recoil/state";
 
+interface ViewOption {
+    [key: number]: boolean;
+}
 const MenuSet = () => {
     const [openModal, setOpenModal] = useState(false);
-    const [viewOption, setViewOption] = useState(false);
+    const [viewOption, setViewOption] = useState<ViewOption>({});
     const showMenuGroup = useRecoilValue(menuListState);
 
     console.log(ownerAddMenu);
@@ -19,12 +22,11 @@ const MenuSet = () => {
         setOpenModal(false);
     };
 
-    const handleOptionOpen = () => {
-        setViewOption(true);
-    };
-
-    const handleOptionClose = () => {
-        setViewOption(false);
+    const toggleViewOption = (id: number) => {
+        setViewOption((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
     };
     return (
         <div>
@@ -72,11 +74,11 @@ const MenuSet = () => {
                                     <div>
                                         <button
                                             className="mx-2"
-                                            onClick={() => setViewOption(!viewOption)}
+                                            onClick={() => toggleViewOption(item.id)}
                                         >
                                             보기
-                                            {viewOption && (
-                                                <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1">
+                                            {viewOption[item.id] && (
+                                                <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
                                                     <li className="flex justify-start py-2">
                                                         메뉴 수정
                                                     </li>
