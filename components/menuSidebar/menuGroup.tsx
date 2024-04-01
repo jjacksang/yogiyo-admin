@@ -1,8 +1,7 @@
 "use client";
 import React, { ReactNode, useState } from "react";
 import { useRecoilState } from "recoil";
-import { menuState } from "@/app/recoil/state";
-import { useRouter } from "next/navigation";
+import { content } from "@/app/recoil/state";
 
 type MenuGroupProps = {
     children?: ReactNode;
@@ -10,8 +9,7 @@ type MenuGroupProps = {
 
 const MenuGroup = ({ children }: MenuGroupProps) => {
     const [showOption, setShowOption] = useState<boolean>(false);
-    const [seletMenu, setSelectMenu] = useRecoilState(menuState);
-    const router = useRouter();
+    const [seletMenu, setSelectMenu] = useRecoilState(content);
 
     const OpenCloseBtn = (): void => {
         setShowOption(!showOption);
@@ -19,7 +17,7 @@ const MenuGroup = ({ children }: MenuGroupProps) => {
 
     const handleMenuClick = (menuState: "menuSet" | "menuSoldout") => {
         setSelectMenu(menuState);
-        const path = menuState === "menuSet" ? "/menu/menuSet" : '/menu/Soldout'
+        const path = menuState === "menuSet" ? "/menu/menuSet" : "/menu/Soldout";
     };
     console.log(seletMenu);
 

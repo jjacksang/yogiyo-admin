@@ -45,48 +45,17 @@ export interface OwnerShopList {
   icon: string;
 }
 
-// 가게 일시정지 
-export interface TempCloseShopRequest {
-  closeUntil: string; 
-  today: null | string; 
-}
-
-// 점주 가게 입점 
-export async function registerShop(icon: File | null, banner: File | null, shopData: { name: string; callNumber: string; address: string; latitude: number; longitude: number; categories: string[]; }) {
-  const formData = new FormData();
-
-  // icon이 null이 아니면 FormData 객체에 추가
-  if (icon !== null) {
-    formData.append('icon', icon);
-  }
-
-  // banner가 null이 아니면 FormData 객체에 추가
-  if (banner !== null) {
-    formData.append('banner', banner);
-  }
+  export const ShopList = async () => {
+    try {
+      const resShops = await getAxios.get("/owner/shop/"); 
   
-  // shopData를 JSON 문자열로 변환하여 FormData 객체에 추가
-  formData.append('shopData', new Blob([JSON.stringify(shopData)], { type: 'application/json' }));
-
+      const parsedShops: OwnerShopList = resShops.data as OwnerShopList;
   
-
-// 입점 부분 
-  try {
-      // getAxios 인스턴스를 사용하여 Authorization 헤더와 함께 요청 전송
-      const response = await getAxios.post('/owner/shop/register', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          
-      });
-      console.log(response.data);
-      return response.data; // 성공 응답 데이터 반환
+      console.log(resShops.data);
       
-  } catch (error) {
-      console.error(error);
-      throw error;
-  }
-};
-
-
-
+      return parsedShops;
+    } catch (error) {
+      console.error("Error fetching shop list:", error);
+      throw error; 
+    }
+  };

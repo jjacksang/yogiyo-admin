@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export interface OwnerJoin {
     nickname: string;
     email: string;
@@ -43,10 +41,23 @@ export interface userState {
     nickname: string;
     email: string;
     isLoggedIn: boolean;
+    shopId?: number;
 }
 
 export interface DynamicRoute {
     params: {
         provider: string;
     };
+}
+
+export interface AddMenu {
+    shopId: number;
+    name: string;
+    content: string;
+}
+
+export interface MenuList {
+    id: number;
+    name: string;
+    content: string;
 }
