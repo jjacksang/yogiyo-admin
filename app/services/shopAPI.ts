@@ -45,7 +45,11 @@ export interface OwnerShopList {
   icon: string;
 }
 
-
+// 가게 일시정지 
+export interface TempCloseShopRequest {
+  closeUntil: string; 
+  today: null | string; 
+}
 
 // 점주 가게 입점 
 export async function registerShop(icon: File | null, banner: File | null, shopData: { name: string; callNumber: string; address: string; latitude: number; longitude: number; categories: string[]; }) {
