@@ -27,8 +27,6 @@ export interface OwnerShopList {
     name: string;
     icon: string;
 }
-[];
-
 export const ShopList = async () => {
     try {
         const resShops = await getAxios.get("/owner/shop/");

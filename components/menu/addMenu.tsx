@@ -2,7 +2,7 @@ import { menuListState } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 interface AddMenuProps {
     onClose: () => void;
@@ -12,6 +12,7 @@ export default function AddMenu({ onClose }: AddMenuProps) {
     const [menuList, setMenuList] = useRecoilState(menuListState);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");
+    // const shopId = useRecoilValue(shopIdState);
 
     // console.log(menuData);
     const handleMenuGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
