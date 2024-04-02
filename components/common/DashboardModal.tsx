@@ -11,21 +11,6 @@ interface DashboardModalProps {
 }
 
 
-export const ShopList = async () => {
-  try {
-    const resShops = await getAxios.get("/owner/shop/"); 
-
-    const parsedShops: OwnerShopList = resShops.data as OwnerShopList;
-
-    console.log(resShops.data);
-    
-    return parsedShops;
-  } catch (error) {
-    console.error("Error fetching shop list:", error);
-    throw error; 
-  }
-};
-
 // 점주 가게 입점 
 export async function registerShop(icon: File | null, banner: File | null, shopData: { name: string; callNumber: string; address: string; latitude: number; longitude: number; categories: string[]; }) {
   const formData = new FormData();

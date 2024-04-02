@@ -50,3 +50,31 @@ export interface TempCloseShopRequest {
   today: null | string; 
 }
 
+
+export const ShopList = async () => {
+  try {
+      const resShops = await getAxios.get("/owner/shop/");
+      console.log(resShops.data);
+      return resShops.data;
+  } catch (error) {
+      console.error("Error fetching shop list:", error);
+      throw error;
+  }
+};
+
+
+{
+  /* 메뉴 그룹 추가 */
+}
+
+export const GroupList = async () => {
+  const shopId = 1062565;
+  try {
+      const res = await getAxios.get(`/owner/menu-group/shop/${shopId}`);
+      console.log(res.data);
+      return res.data;
+  } catch (error) {
+      console.log(error);
+  }
+};
+

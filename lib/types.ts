@@ -61,3 +61,7 @@ export interface MenuList {
     name: string;
     content: string;
 }
+
+// export interface ShopId {
+//     id: number;
+// }

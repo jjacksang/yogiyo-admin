@@ -33,13 +33,13 @@ export const tokenState = atom({
 
 export const shoplistState = atom<OwnerShopList[] | null>({
     key: "shoplistStateAtom",
-    default: 
-    {id: 1111,
-      name: '킨나라',
-      icon: 'ㅁㅇㄹㅁㅇㄹㅁㅇㄹ',
-    }
-})
+    default: null,
+});
 
+// export const shopIdState = atom<ShopId | null>({
+//     key: "shopId",
+//     default: null,
+// });
 
 export const isLoggedInState = atom({
     key: "isLoggedIn",
@@ -70,8 +70,8 @@ export const menuListState = atom<MenuList[]>({
     default: [
         {
             id: 123213,
-            content: "",
-            name: "",
+            content: "메뉴 설명을 추가해주세요!",
+            name: "메뉴 그룹명을 추가해주세요!",
         },
     ],
 });

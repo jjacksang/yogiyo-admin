@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
 import AddMenu from "./addMenu";
 import { useRecoilValue } from "recoil";
 import { menuListState, ownerAddMenu } from "@/app/recoil/state";
+import { GroupList } from "@/app/services/shopAPI";
 
+interface ViewOption {
+    [key: number]: boolean;
+}
 const MenuSet = () => {
     const [openModal, setOpenModal] = useState(false);
+    const [viewOption, setViewOption] = useState<ViewOption>({});
     const showMenuGroup = useRecoilValue(menuListState);
 
     console.log(ownerAddMenu);
@@ -17,6 +22,17 @@ const MenuSet = () => {
     const handleModalClose = () => {
         setOpenModal(false);
     };
+
+    const toggleViewOption = (id: number) => {
+        setViewOption((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+    };
+
+    useEffect(() => {
+        GroupList();
+    });
     return (
         <div>
             <MenuNav />
@@ -45,24 +61,42 @@ const MenuSet = () => {
                             className="flex px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
                         >
-                            <div className="flex justify-between w-full">
+                            <div className="flex justify-between w-full ">
                                 <div className="gap-2">
                                     <p className="text-base font-bold text-font-black">
                                         {item.name}
                                     </p>
                                     <p className="text-xs text-custom-gray">{item.content}</p>
                                 </div>
-                                <div className="flex flex-none items-center pl-2 border rounded-lg">
-                                    <select>
-                                        <option>판매중</option>
-                                        <option>하루 품절</option>
-                                        <option>숨김</option>
-                                    </select>
-                                    <select>
-                                        <option>메뉴그룹 수정</option>
-                                        <option>메뉴그룹 순서변경</option>
-                                        <option>메뉴그룹 삭제</option>
-                                    </select>
+                                <div className="flex flex-none items-center pl-2 border rounded-lg relative">
+                                    <>
+                                        <select>
+                                            <option>판매중</option>
+                                            <option>하루 품절</option>
+                                            <option>숨김</option>
+                                        </select>
+                                    </>
+                                    <div>
+                                        <button
+                                            className="mx-2"
+                                            onClick={() => toggleViewOption(item.id)}
+                                        >
+                                            보기
+                                            {viewOption[item.id] && (
+                                                <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                                    <li className="flex justify-start py-2">
+                                                        메뉴 수정
+                                                    </li>
+                                                    <li className="flex justify-start py-2">
+                                                        메뉴 순서변경
+                                                    </li>
+                                                    <li className="flex justify-start py-2">
+                                                        메뉴 삭제
+                                                    </li>
+                                                </ul>
+                                            )}
+                                        </button>
+                                    </div>
                                 </div>
                                 {/* 판매, 품절 등 드롭다운 메뉴 */}
                             </div>

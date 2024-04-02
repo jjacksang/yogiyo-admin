@@ -5,7 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { OwnerShopList } from '../../app/services/shopAPI'
 import DashboardModal from './DashboardModal';
 import Link from 'next/link';
-import {ManageBusinessHoursLink} from '../businessHoursSidebar/ManageBusinessHoursLink';
+import { ManageBusinessHoursLink } from '../businessHoursSidebar/ManageBusinessHoursLink';
 import MenuGroup from '../menuSidebar/menuGroup';
 
 
@@ -19,10 +19,27 @@ interface DashboardSidebarProps {
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,toggleModal }) => {
   const setShopList = useSetRecoilState(shoplistState);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [store, setStore] = useRecoilState(shoplistState);
 
   // 모달 열고 닫는 함수
   const settoggleModal = () => setIsModalOpen(!isModalOpen);
+
+
+
+  const ownerStore = (store ?? []).map((shop: OwnerShopList) => {
+    return (
+      <div className="flex items-center gap-2" key={shop.id}>
+        <img src={shop.icon} alt={shop.name} className="w-[28px] h-[28px]" />
+      {/* icon의 사이즈는 28 28 */}
+        <div className="flex flex-col">
+          <span className="text-lg font-bold">{shop.name}</span>
+          <p className="text-xs">ID. {shop.id}</p>{" "}
+          {/* 추후 영업 여부에 대한 값 넣어야 함 */}
+        </div>
+      </div>
+    );
+  });
+  
 
 
   return (
@@ -51,8 +68,10 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,tog
           <p>사장님장부</p>
         </button>
       </div>
+
       {/* 실선 부분 */}
       <div style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.05)' }} className="my-3 mx-4"></div>
+        
         <a style={{ lineHeight: '16px', color: 'rgba(0, 0, 0, 0.4)' }}
           className="pl-3 text-xs font-bold flex flex-row items-center h-10 decoration-none"
         >
@@ -68,9 +87,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,tog
           </svg>
           가게 관리
         </a>
+
         <ManageBusinessHoursLink setSelectedMenu={setSelectedMenu}/>
+        
         {/* 실선 부분 */}
         <div style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.05)' }} className="my-3 mx-4"></div>
+        
         {/* 승인 알림 부터 시작 */}
         <a style={{ lineHeight: '19px', color: 'rgba(0, 0, 0, 0.8)', fontSize: '14px' }}
           className="flex flex-row items-center h-10 pl-6 font-normal no-underline"
