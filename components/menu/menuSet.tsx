@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
-import AddMenu from "./addMenuGroup";
-import { useRecoilValue } from "recoil";
-import { menuListState, ownerAddMenu } from "@/app/recoil/state";
+import AddMenu from "./menuModal/addMenuGroup";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { menuListState } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 
 interface ViewOption {
@@ -11,10 +11,9 @@ interface ViewOption {
 const MenuSet = () => {
     const [openModal, setOpenModal] = useState(false);
     const [viewOption, setViewOption] = useState<ViewOption>({});
-    const showMenuGroup = useRecoilValue(menuListState);
+    const [menuGroup, setMenuGroup] = useRecoilState(menuListState)
 
-    console.log(ownerAddMenu);
-    console.log(showMenuGroup);
+
     const handleModalOpen = () => {
         setOpenModal(true);
     };
@@ -31,8 +30,17 @@ const MenuSet = () => {
     };
 
     useEffect(() => {
-        GroupList();
-    });
+        const updateGroupList = async () => {
+            try {
+                const res = await GroupList()
+                setMenuGroup(Array.isArray(res) ? res : [])
+                console.log(res)
+            } catch(error) {
+                console.error('리스트 업데이트 실패', error)
+            }
+        }
+        updateGroupList();
+    }, [setMenuGroup]);
     return (
         <div>
             <MenuNav />
@@ -55,10 +63,8 @@ const MenuSet = () => {
                         {/* 메뉴 그룹 추가 버튼 */}
                     </div>
                 </div>
-                {showMenuGroup &&
-                    showMenuGroup.map((item) => (
-                        
-                        
+                {Array.isArray(menuGroup) &&
+                    menuGroup.map((item) => (
                         <div
                             className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
@@ -105,6 +111,7 @@ const MenuSet = () => {
                                 <p className="text-yogiyo-blue">메뉴 추가</p>
                                 <span>메뉴 순서 변경</span>
                             </div>
+                            {/* 메뉴 리스트 영역 */}
                         </div>
                         
                     ))}

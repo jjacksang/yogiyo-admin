@@ -36,22 +36,17 @@ export default function AddMenuGroup({ onClose }: AddMenuProps) {
             });
             const newMenuId = req.data.id;
             const newMenuData = {
-                ...menuList,
                 id: newMenuId,
                 name: menuName,
                 content: content,
             };
             console.log(req.data);
             console.log(newMenuData);
-            setMenuList((prevMenuList) => [...menuList, newMenuData]);
+            setMenuList((prevMenuList) => [...prevMenuList, newMenuData]);
         } catch (error) {
             console.error("메뉴 추가 안되고 있음", error);
         }
     };
-
-    useEffect(() => {
-        handleAddMenu();
-    }, []);
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="flex flex-col bg-white w-1/2 h-auto rounded-2xl my-20">

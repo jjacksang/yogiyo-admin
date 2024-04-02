@@ -1,4 +1,4 @@
-import { AddMenu, MenuList, userState } from "@/lib/types";
+import { AddMenu, AddMenuGroup, MenuList, userState } from "@/lib/types";
 import { OwnerShopList } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
 
@@ -51,7 +51,7 @@ export const isLoggedInState = atom({
 //     default: "",
 // });
 
-export const ownerAddMenu = atom<AddMenu>({
+export const ownerAddMenu = atom<AddMenuGroup>({
     key: "addMenuGroup",
     default: {
         shopId: 123121,
@@ -67,11 +67,17 @@ export const content = atom({
 
 export const menuListState = atom<MenuList[]>({
     key: "menuList",
-    default: [
-        {
-            id: 123213,
-            content: "메뉴 설명을 추가해주세요!",
-            name: "메뉴 그룹명을 추가해주세요!",
-        },
-    ],
+    default: [],
 });
+
+export const addMenuGroup = atom<AddMenu>({
+    key: 'addMenu',
+    default: {
+        picture: '',
+        menuData: {
+            name: '',
+            content: '',
+            price: 10000,
+        }
+    }
+})
