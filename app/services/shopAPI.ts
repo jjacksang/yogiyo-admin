@@ -12,19 +12,19 @@ interface ShopInfo {
   categories: null;
 }
 
-// 가게 입점 부분 
-interface ShopRegistration {
-  icon: {
-    filename: string;
-    contentType: string;
-    data: Blob;
-  };
-  banner: {
-    filename: string; 
-    contentType: string; 
-    data: Blob; 
-  };
+interface Shop {
+  shopId: number;
+  shopName: string;
+  orderNum: number;
+  reviewNum: number;
+  totalScore: number;
+  distance: number;
+  deliveryTime: number;
+  minDeliveryPrice: number;
+  maxDeliveryPrice: number;
+  icon: string;
 }
+
 
 // 가게 입점 부분 정보
 interface ShopData {
@@ -37,7 +37,6 @@ interface ShopData {
 };
 
 
-  
 // 점주 가게 목록 조회 
 export interface OwnerShopList {
   id: number;
@@ -45,17 +44,9 @@ export interface OwnerShopList {
   icon: string;
 }
 
-  export const ShopList = async () => {
-    try {
-      const resShops = await getAxios.get("/owner/shop/"); 
-  
-      const parsedShops: OwnerShopList = resShops.data as OwnerShopList;
-  
-      console.log(resShops.data);
-      
-      return parsedShops;
-    } catch (error) {
-      console.error("Error fetching shop list:", error);
-      throw error; 
-    }
-  };
+// 가게 일시정지 
+export interface TempCloseShopRequest {
+  closeUntil: string; 
+  today: null | string; 
+}
+

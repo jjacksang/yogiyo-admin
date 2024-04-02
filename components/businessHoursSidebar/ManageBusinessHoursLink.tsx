@@ -63,5 +63,3 @@ export const ManageBusinessHoursLink: React.FC<ManageBusinessHoursLinkProps> = (
     </div>
   );
 };
-
-
