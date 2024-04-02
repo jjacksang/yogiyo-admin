@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
 import AddMenu from "./menuModal/addMenuGroup";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { menuListState } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 
@@ -11,8 +11,7 @@ interface ViewOption {
 const MenuSet = () => {
     const [openModal, setOpenModal] = useState(false);
     const [viewOption, setViewOption] = useState<ViewOption>({});
-    const [menuGroup, setMenuGroup] = useRecoilState(menuListState)
-
+    const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
 
     const handleModalOpen = () => {
         setOpenModal(true);
@@ -32,13 +31,13 @@ const MenuSet = () => {
     useEffect(() => {
         const updateGroupList = async () => {
             try {
-                const res = await GroupList()
-                setMenuGroup(Array.isArray(res) ? res : [])
-                console.log(res)
-            } catch(error) {
-                console.error('리스트 업데이트 실패', error)
+                const res = await GroupList();
+                setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
+                console.log(res);
+            } catch (error) {
+                console.error("리스트 업데이트 실패", error);
             }
-        }
+        };
         updateGroupList();
     }, [setMenuGroup]);
     return (
@@ -69,7 +68,6 @@ const MenuSet = () => {
                             className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
                         >
-                            
                             <div className="flex justify-between w-full mb-4">
                                 <div className="gap-2">
                                     <p className="text-base font-bold text-font-black">
@@ -105,7 +103,6 @@ const MenuSet = () => {
                                     </div>
                                 </div>
                                 {/* 판매, 품절 등 드롭다운 메뉴 */}
-                                
                             </div>
                             <div className="flex border-t py-4 text-sm gap-2.5">
                                 <p className="text-yogiyo-blue">메뉴 추가</p>
@@ -113,7 +110,6 @@ const MenuSet = () => {
                             </div>
                             {/* 메뉴 리스트 영역 */}
                         </div>
-                        
                     ))}
             </div>
             {openModal && <AddMenu onClose={handleModalClose} />}

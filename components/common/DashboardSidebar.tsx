@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { shoplistState } from "../../app/recoil/state";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { OwnerShopList, ShopList } from "@/app/services/shopAPI";
 import MenuGroup from "../menuSidebar/menuGroup";
 
