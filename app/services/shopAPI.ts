@@ -43,3 +43,14 @@ export const ShopList = async () => {
 {
     /* 메뉴 그룹 추가 */
 }
+
+export const GroupList = async () => {
+    const shopId = 1062565;
+    try {
+        const res = await getAxios.get(`/owner/menu-group/shop/${shopId}`);
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

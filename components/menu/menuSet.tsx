@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
 import AddMenu from "./addMenu";
 import { useRecoilValue } from "recoil";
 import { menuListState, ownerAddMenu } from "@/app/recoil/state";
+import { GroupList } from "@/app/services/shopAPI";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -28,6 +29,10 @@ const MenuSet = () => {
             [id]: !prev[id],
         }));
     };
+
+    useEffect(() => {
+        GroupList();
+    });
     return (
         <div>
             <MenuNav />
