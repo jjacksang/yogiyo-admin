@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
-import AddMenu from "./addMenu";
+import AddMenu from "./addMenuGroup";
 import { useRecoilValue } from "recoil";
 import { menuListState, ownerAddMenu } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
@@ -57,11 +57,14 @@ const MenuSet = () => {
                 </div>
                 {showMenuGroup &&
                     showMenuGroup.map((item) => (
+                        
+                        
                         <div
-                            className="flex px-8 py-4 mt-8 border rounded-lg bg-white"
+                            className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
                         >
-                            <div className="flex justify-between w-full ">
+                            
+                            <div className="flex justify-between w-full mb-4">
                                 <div className="gap-2">
                                     <p className="text-base font-bold text-font-black">
                                         {item.name}
@@ -88,9 +91,6 @@ const MenuSet = () => {
                                                         메뉴 수정
                                                     </li>
                                                     <li className="flex justify-start py-2">
-                                                        메뉴 순서변경
-                                                    </li>
-                                                    <li className="flex justify-start py-2">
                                                         메뉴 삭제
                                                     </li>
                                                 </ul>
@@ -99,8 +99,14 @@ const MenuSet = () => {
                                     </div>
                                 </div>
                                 {/* 판매, 품절 등 드롭다운 메뉴 */}
+                                
+                            </div>
+                            <div className="flex border-t py-4 text-sm gap-2.5">
+                                <p className="text-yogiyo-blue">메뉴 추가</p>
+                                <span>메뉴 순서 변경</span>
                             </div>
                         </div>
+                        
                     ))}
             </div>
             {openModal && <AddMenu onClose={handleModalClose} />}

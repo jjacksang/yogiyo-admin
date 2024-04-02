@@ -8,7 +8,7 @@ interface AddMenuProps {
     onClose: () => void;
 }
 
-export default function AddMenu({ onClose }: AddMenuProps) {
+export default function AddMenuGroup({ onClose }: AddMenuProps) {
     const [menuList, setMenuList] = useRecoilState(menuListState);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");
