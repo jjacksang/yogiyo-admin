@@ -7,11 +7,15 @@ import MenuGroup from "../menuSidebar/menuGroup";
 
 const DashboardSidebar = () => {
     const [store, setStore] = useRecoilState(shoplistState);
+    // const setShopId = useSetRecoilState(shopIdState);
 
     const fetchShopList = async () => {
         try {
             const fetchedShopList = await ShopList();
             setStore(fetchedShopList); // 상태 업데이트
+            // setShopId(fetchedShopList.data);
+            // console.log(fetchedShopList);
+            // console.log(fetchedShopList.data);
         } catch (error) {
             console.error("가게 목록을 가져오는 중 오류가 발생했습니다:", error);
         }
@@ -19,8 +23,9 @@ const DashboardSidebar = () => {
 
     const ownerStore = (store ?? []).map((shop: OwnerShopList) => {
         return (
-            <div className="flex items-center gap-2">
-                <img src={shop.icon} alt={shop.name} /> {/* icon의 사이즈는 28 28 */}
+            <div className="flex items-center gap-2" key={shop.id}>
+                <img src={shop.icon} alt={shop.name} className="w-[28px] h-[28px]" />
+                {/* icon의 사이즈는 28 28 */}
                 <div className="flex flex-col">
                     <span className="text-lg font-bold">{shop.name}</span>
                     <p className="text-xs">ID. {shop.id}</p>{" "}

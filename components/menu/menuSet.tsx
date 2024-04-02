@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
-import AddMenu from "./addMenu";
-import { useRecoilValue } from "recoil";
-import { menuListState, ownerAddMenu } from "@/app/recoil/state";
+import AddMenu from "./menuModal/addMenuGroup";
+import { useRecoilState } from "recoil";
+import { menuListState } from "@/app/recoil/state";
+import { GroupList } from "@/app/services/shopAPI";
 
+interface ViewOption {
+    [key: number]: boolean;
+}
 const MenuSet = () => {
     const [openModal, setOpenModal] = useState(false);
-    const showMenuGroup = useRecoilValue(menuListState);
+    const [viewOption, setViewOption] = useState<ViewOption>({});
+    const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
 
-    console.log(ownerAddMenu);
-    console.log(showMenuGroup);
     const handleModalOpen = () => {
         setOpenModal(true);
     };
@@ -17,6 +20,26 @@ const MenuSet = () => {
     const handleModalClose = () => {
         setOpenModal(false);
     };
+
+    const toggleViewOption = (id: number) => {
+        setViewOption((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+    };
+
+    useEffect(() => {
+        const updateGroupList = async () => {
+            try {
+                const res = await GroupList();
+                setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
+                console.log(res);
+            } catch (error) {
+                console.error("리스트 업데이트 실패", error);
+            }
+        };
+        updateGroupList();
+    }, [setMenuGroup]);
     return (
         <div>
             <MenuNav />
@@ -39,33 +62,53 @@ const MenuSet = () => {
                         {/* 메뉴 그룹 추가 버튼 */}
                     </div>
                 </div>
-                {showMenuGroup &&
-                    showMenuGroup.map((item) => (
+                {Array.isArray(menuGroup) &&
+                    menuGroup.map((item) => (
                         <div
-                            className="flex px-8 py-4 mt-8 border rounded-lg bg-white"
+                            className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
                         >
-                            <div className="flex justify-between w-full">
+                            <div className="flex justify-between w-full mb-4">
                                 <div className="gap-2">
                                     <p className="text-base font-bold text-font-black">
                                         {item.name}
                                     </p>
                                     <p className="text-xs text-custom-gray">{item.content}</p>
                                 </div>
-                                <div className="flex flex-none items-center pl-2 border rounded-lg">
-                                    <select>
-                                        <option>판매중</option>
-                                        <option>하루 품절</option>
-                                        <option>숨김</option>
-                                    </select>
-                                    <select>
-                                        <option>메뉴그룹 수정</option>
-                                        <option>메뉴그룹 순서변경</option>
-                                        <option>메뉴그룹 삭제</option>
-                                    </select>
+                                <div className="flex flex-none items-center pl-2 border rounded-lg relative">
+                                    <>
+                                        <select>
+                                            <option>판매중</option>
+                                            <option>하루 품절</option>
+                                            <option>숨김</option>
+                                        </select>
+                                    </>
+                                    <div>
+                                        <button
+                                            className="mx-2"
+                                            onClick={() => toggleViewOption(item.id)}
+                                        >
+                                            보기
+                                            {viewOption[item.id] && (
+                                                <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                                    <li className="flex justify-start py-2">
+                                                        메뉴 수정
+                                                    </li>
+                                                    <li className="flex justify-start py-2">
+                                                        메뉴 삭제
+                                                    </li>
+                                                </ul>
+                                            )}
+                                        </button>
+                                    </div>
                                 </div>
                                 {/* 판매, 품절 등 드롭다운 메뉴 */}
                             </div>
+                            <div className="flex border-t py-4 text-sm gap-2.5">
+                                <p className="text-yogiyo-blue">메뉴 추가</p>
+                                <span>메뉴 순서 변경</span>
+                            </div>
+                            {/* 메뉴 리스트 영역 */}
                         </div>
                     ))}
             </div>

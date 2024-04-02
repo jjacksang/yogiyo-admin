@@ -1,4 +1,3 @@
-import axios from "axios";
 import { getAxios } from "./loginAPI";
 
 interface ShopInfo {
@@ -27,8 +26,6 @@ export interface OwnerShopList {
     name: string;
     icon: string;
 }
-[];
-
 export const ShopList = async () => {
     try {
         const resShops = await getAxios.get("/owner/shop/");
@@ -45,3 +42,14 @@ export const ShopList = async () => {
 {
     /* 메뉴 그룹 추가 */
 }
+
+export const GroupList = async () => {
+    const shopId = 1062565;
+    try {
+        const res = await getAxios.get(`/owner/menu-group/shop/${shopId}`);
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
