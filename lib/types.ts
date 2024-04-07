@@ -57,12 +57,12 @@ export interface AddMenuGroup {
 }
 
 export interface AddMenu {
-    picture: string,
-    menuData : {
-        name: string,
-        content: string,
-        price: number,
-    }
+    picture: string;
+    menuData: {
+        name: string;
+        content: string;
+        price: number;
+    };
 }
 
 export interface MenuList {
@@ -71,6 +71,8 @@ export interface MenuList {
     content: string;
 }
 
-// export interface ShopId {
-//     id: number;
-// }
+export interface NewGroupMenu {
+    name: string;
+    content: string;
+    price: number;
+}

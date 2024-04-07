@@ -38,7 +38,6 @@ const MenuSet = () => {
 
     const deleteMenuGroup = async (ids: Group) => {
         const menuGroupId = selectGroupId;
-        console.log(menuGroupId);
         if (menuGroupId != null) {
             try {
                 const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
@@ -59,7 +58,6 @@ const MenuSet = () => {
                 setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
                 console.log(res.menuGroups);
                 const ids = res.menuGroups.map((group: Group) => group.id);
-                console.log(ids);
 
                 return ids;
             } catch (error) {
