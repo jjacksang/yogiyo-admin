@@ -4,14 +4,22 @@ import AddMenu from "./menuModal/addMenuGroup";
 import { useRecoilState } from "recoil";
 import { menuListState } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
+import { getAxios } from "@/app/services/loginAPI";
 
 interface ViewOption {
     [key: number]: boolean;
+}
+
+interface Group {
+    id: number;
+    content: string;
+    name: string;
 }
 const MenuSet = () => {
     const [openModal, setOpenModal] = useState(false);
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
+    const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
 
     const handleModalOpen = () => {
         setOpenModal(true);
@@ -28,12 +36,32 @@ const MenuSet = () => {
         }));
     };
 
+    const deleteMenuGroup = async (ids: Group) => {
+        const menuGroupId = selectGroupId;
+        console.log(menuGroupId);
+        if (menuGroupId != null) {
+            try {
+                const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
+                if (req.status === 204) {
+                    console.log("삭제 성공", req);
+                    setMenuGroup((before) => before.filter((group) => group.id !== menuGroupId));
+                }
+            } catch (error) {
+                console.log("삭제 실패", error);
+            }
+        }
+    };
+
     useEffect(() => {
         const updateGroupList = async () => {
             try {
                 const res = await GroupList();
                 setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
-                console.log(res);
+                console.log(res.menuGroups);
+                const ids = res.menuGroups.map((group: Group) => group.id);
+                console.log(ids);
+
+                return ids;
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);
             }
@@ -68,7 +96,13 @@ const MenuSet = () => {
                             className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
                         >
-                            <div className="flex justify-between w-full mb-4">
+                            <div
+                                className="flex justify-between w-full mb-4"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setSelectGroupId(item.id);
+                                }}
+                            >
                                 <div className="gap-2">
                                     <p className="text-base font-bold text-font-black">
                                         {item.name}
@@ -94,7 +128,10 @@ const MenuSet = () => {
                                                     <li className="flex justify-start py-2">
                                                         메뉴 수정
                                                     </li>
-                                                    <li className="flex justify-start py-2">
+                                                    <li
+                                                        className="flex justify-start py-2"
+                                                        onClick={() => deleteMenuGroup(item)}
+                                                    >
                                                         메뉴 삭제
                                                     </li>
                                                 </ul>
