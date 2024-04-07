@@ -53,3 +53,15 @@ export const GroupList = async () => {
         console.log(error);
     }
 };
+
+// 메뉴 그룹 삭제
+
+export const DeleteMenuGroup = async () => {
+    try {
+        const res = await getAxios.delete(`owner/menu-group/`);
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.error("삭제오류", error);
+    }
+};
