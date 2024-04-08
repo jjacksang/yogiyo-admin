@@ -1,14 +1,11 @@
 import { menuListState } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
+import { ModalProps } from "@/lib/types";
 
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 
-interface AddMenuProps {
-    onClose: () => void;
-}
-
-export default function AddMenuGroup({ onClose }: AddMenuProps) {
+export default function AddMenuGroup({ onClose }: ModalProps) {
     const [menuList, setMenuList] = useRecoilState(menuListState);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");

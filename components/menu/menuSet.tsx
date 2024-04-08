@@ -5,6 +5,8 @@ import { useRecoilState } from "recoil";
 import { menuListState } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
+import { AddMenuItem } from "./menuModal/addMenuItem";
+import { ModalProps } from "@/lib/types";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -15,18 +17,27 @@ interface Group {
     content: string;
     name: string;
 }
-const MenuSet = () => {
-    const [openModal, setOpenModal] = useState(false);
+const MenuSet = ({ onClose }: ModalProps) => {
+    const [openModal, setOpenModal] = useState({
+        addMenuGroup: false,
+        addMenuItem: false,
+    });
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
 
-    const handleModalOpen = () => {
-        setOpenModal(true);
+    const handleModalOpen = (modalName: string) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: true,
+        }));
     };
 
-    const handleModalClose = () => {
-        setOpenModal(false);
+    const handleModalClose = (modalName: string) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: false,
+        }));
     };
 
     const toggleViewOption = (id: number) => {
@@ -81,7 +92,7 @@ const MenuSet = () => {
                         {/* 메뉴 그룹 드레그 영역 */}
                         <button
                             className="border rounded-lg bg-yogiyo-blue text-white px-3 py-2"
-                            onClick={handleModalOpen}
+                            onClick={() => handleModalOpen("addMenuGroup")}
                         >
                             메뉴 그룹 추가
                         </button>
@@ -140,14 +151,22 @@ const MenuSet = () => {
                                 {/* 판매, 품절 등 드롭다운 메뉴 */}
                             </div>
                             <div className="flex border-t py-4 text-sm gap-2.5">
-                                <p className="text-yogiyo-blue">메뉴 추가</p>
+                                <p
+                                    className="text-yogiyo-blue"
+                                    onClick={() => handleModalOpen("addMenuItem")}
+                                >
+                                    메뉴 추가
+                                </p>
                                 <span>메뉴 순서 변경</span>
                             </div>
                             {/* 메뉴 리스트 영역 */}
                         </div>
                     ))}
             </div>
-            {openModal && <AddMenu onClose={handleModalClose} />}
+            {openModal.addMenuGroup && <AddMenu onClose={() => handleModalClose("addMenuGroup")} />}
+            {openModal.addMenuItem && (
+                <AddMenuItem onClose={() => handleModalClose("addMenuItem")} />
+            )}
         </div>
     );
 };

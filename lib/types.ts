@@ -76,3 +76,8 @@ export interface NewGroupMenu {
     content: string;
     price: number;
 }
+
+// 모달 오픈 클로즈 타입
+export interface ModalProps {
+    onClose: () => void;
+}
