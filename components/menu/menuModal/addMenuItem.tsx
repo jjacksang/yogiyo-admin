@@ -1,3 +1,4 @@
+import { ImageUploadBtn } from "@/components/common/ImageUploadBtn";
 import { ModalProps } from "@/lib/types";
 import { useState } from "react";
 
@@ -14,7 +15,7 @@ export const AddMenuItem = ({ onClose }: ModalProps) => {
     const [menuName, setMenuName] = useState("");
     const [menuManual, setMenuManual] = useState("");
     const [price, setPrice] = useState("");
-    const [menuFile, setMenuFile] = useState<File[]>([]);
+    const [prevImage, setPrevImage] = useState(null);
 
     const formData = new FormData();
     formData.append("name", menuName);
@@ -49,7 +50,7 @@ export const AddMenuItem = ({ onClose }: ModalProps) => {
                     </div>
                 </span>
                 <div className="flex py-4 px-2">
-                    <text className="text-xl font-bold">메뉴명</text>
+                    <span className="text-xl font-bold">메뉴명</span>
                     <input
                         value={menuName}
                         onChange={handleAddMenu}
@@ -59,7 +60,7 @@ export const AddMenuItem = ({ onClose }: ModalProps) => {
                     ></input>
                 </div>
                 <div className="flex py-4 px-2">
-                    <text className="col-start-1 text-xl font-bold">메뉴설명(선택)</text>
+                    <span className="col-start-1 text-xl font-bold">메뉴설명(선택)</span>
                     <div className="py-4 px-2">
                         <input
                             value={menuManual}
@@ -79,7 +80,7 @@ export const AddMenuItem = ({ onClose }: ModalProps) => {
                     </div>
                 </div>
                 <div className="flex py-4 px-2">
-                    <text className="text-xl font-bold">가격</text>
+                    <span className="text-xl font-bold">가격</span>
                     <input
                         value={price}
                         onChange={handleAddMenu}
@@ -89,7 +90,7 @@ export const AddMenuItem = ({ onClose }: ModalProps) => {
                     ></input>
                 </div>
                 <div className="flex items-center py-4 px-2">
-                    <text className="text-xl font-bold">노출상태</text>
+                    <span className="text-xl font-bold">노출상태</span>
                     <div className="border divide-x rounded-lg text-lg px-2 py-2">
                         <button className="text-md font-bold text-custom-gray  px-2">판매중</button>
                         <button className="text-md font-bold text-custom-gray  px-2">
@@ -99,8 +100,17 @@ export const AddMenuItem = ({ onClose }: ModalProps) => {
                     </div>
                 </div>
                 <div className="flex py-4 px-2">
-                    <text className="text-xl font-bold">메뉴사진(선택)</text>
-                    <input type="flie" className="border rounded-lg"></input>
+                    <span className="text-xl font-bold">메뉴사진(선택)</span>
+                    <form>
+                        {prevImage && (
+                            <img
+                                src={prevImage}
+                                alt="preview"
+                                style={{ width: "70px", height: "70px" }}
+                            />
+                        )}
+                        <ImageUploadBtn />
+                    </form>
                 </div>
             </div>
             <div>{/* 미리보기 영역 */}</div>
