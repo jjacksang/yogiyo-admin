@@ -1,16 +1,19 @@
 import React, { useRef, useState } from "react";
 
-export const ImageUploadBtn = () => {
+interface ImgaeUploadProps {
+    onImageSelect: (image: File | null) => void;
+}
+
+export const ImageUploadBtn = ({ onImageSelect }: ImgaeUploadProps) => {
     const imageRef = useRef<HTMLInputElement>(null);
-    const [selectImage, setSelectImage] = useState<File | null>();
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files !== null) {
             const file = e.target.files[0];
-            setSelectImage(file);
+            onImageSelect(file);
             console.log("이미지 업로드", file);
         } else {
-            setSelectImage(null);
+            onImageSelect(null);
         }
     };
 

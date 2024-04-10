@@ -26,11 +26,15 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
 
-    const handleModalOpen = (modalName: string) => {
+    const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
             ...prevModal,
             [modalName]: true,
         }));
+        if (id !== undefined) {
+            setSelectGroupId(id);
+            console.log(id);
+        }
     };
 
     const handleModalClose = (modalName: string) => {
@@ -153,7 +157,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                             <div className="flex border-t py-4 text-sm gap-2.5">
                                 <p
                                     className="text-yogiyo-blue"
-                                    onClick={() => handleModalOpen("addMenuItem")}
+                                    onClick={() => handleModalOpen("addMenuItem", item.id)}
                                 >
                                     메뉴 추가
                                 </p>
@@ -165,7 +169,10 @@ const MenuSet = ({ onClose }: ModalProps) => {
             </div>
             {openModal.addMenuGroup && <AddMenu onClose={() => handleModalClose("addMenuGroup")} />}
             {openModal.addMenuItem && (
-                <AddMenuItem onClose={() => handleModalClose("addMenuItem")} />
+                <AddMenuItem
+                    onClose={() => handleModalClose("addMenuItem")}
+                    menuGroupId={selectGroupId}
+                />
             )}
         </div>
     );
