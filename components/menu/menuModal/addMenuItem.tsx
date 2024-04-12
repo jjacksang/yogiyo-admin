@@ -51,7 +51,7 @@ export const AddMenuItem = ({
             menuItem.append("menuData", jsonBlob);
 
             try {
-                const res = await getAxios.post(`/owner/menu-group/${menuGroupId}/add-menu/`, {
+                const res = await getAxios.post(`/owner/menu-group/${menuGroupId}/add-menu`, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
