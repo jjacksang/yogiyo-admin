@@ -39,9 +39,7 @@ export const ShopList = async () => {
     }
 };
 
-{
-    /* 메뉴 그룹 추가 */
-}
+// 메뉴 그룹 추가
 
 export const GroupList = async () => {
     const shopId = 1062565;
@@ -65,3 +63,5 @@ export const DeleteMenuGroup = async () => {
         console.error("삭제오류", error);
     }
 };
+
+// 메뉴 그룹 메뉴 추가

@@ -27,7 +27,9 @@ const Page = () => {
                     {/* 메인 컨텐츠 영역 */}
                     <DashboardMain>
                         {setContent === "ownerInfo" && <OwnerInfo />}
-                        {setContent === "menuSet" && <MenuSet />}
+                        {setContent === "menuSet" && (
+                            <MenuSet onClose={() => console.log("메인클릭")} />
+                        )}
                         {setContent === "menuSoldout" && <MenuSoldout />}
                     </DashboardMain>
                 </div>
