@@ -20,7 +20,6 @@ export const AddMenuItem = ({
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const menuGroupList = useRecoilValue(menuListState);
     let itemData = {};
-    console.log(menuGroupId);
 
     const handleImageSelect = (image: File | null) => {
         setItemImage(image);
@@ -31,40 +30,34 @@ export const AddMenuItem = ({
             };
             reader.readAsDataURL(image);
         } else {
-            setImagePreview(image);
+            setImagePreview(null);
         }
     };
 
     const handleAddItem = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
+        const menuItem = new FormData();
+
         if (prevData) {
             itemData = {
                 name: prevData.menuName,
                 content: prevData.content,
                 price: prevData.price,
             };
-        }
-        if (imagePreview) {
-            const menuItem = new FormData();
-            menuItem.append("picture", imagePreview);
             const jsonBlob = new Blob([JSON.stringify(itemData)], { type: "application/json" });
             menuItem.append("menuData", jsonBlob);
-
-            try {
-                const res = await getAxios.post(`/owner/menu-group/${menuGroupId}/add-menu`, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
-                if (res.status === 204) {
-                    console.log("요청 성공");
-                } else {
-                    console.log("실패");
-                }
-                console.log(res);
-            } catch (error) {
-                console.log(error);
-            }
+        }
+        if (itemImage && itemImage instanceof File) {
+            menuItem.append("picture", itemImage);
+        }
+        try {
+            const res = await getAxios.post(`/owner/menu-group/${menuGroupId}/add-menu`, menuItem, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+        } catch (error) {
+            console.log(error);
         }
     };
 
