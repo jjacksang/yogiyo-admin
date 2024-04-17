@@ -71,7 +71,7 @@ export const menuListState = atom<MenuList[]>({
 });
 
 export const addMenuGroup = atom<AddMenu>({
-    key: "addMenu",
+    key: "menuItems",
     default: {
         picture: "",
         menuData: {
