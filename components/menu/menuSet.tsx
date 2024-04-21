@@ -165,7 +165,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                 </p>
                                 <span>메뉴 순서 변경</span>
                             </div>
-                            <MenuItemList menuGroupId={selectGroupId} />
+                            <MenuItemList menuGroupId={item.id} />
                         </div>
                     ))}
             </div>

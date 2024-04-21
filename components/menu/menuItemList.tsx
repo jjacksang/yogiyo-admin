@@ -12,16 +12,14 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
         setViewOption(!viewOption);
     };
 
-    useEffect(() => {
-        const getItemList = async () => {
-            const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
-            if (res.status === 200) {
-                console.log("메뉴리스트조회 성공", res);
-                console.log(res.data);
-            }
-        };
-        getItemList();
-    }, []);
+    const getItemList = async () => {
+        const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
+        if (res.status === 200) {
+            console.log("메뉴리스트조회 성공", res);
+            console.log(res.data);
+        }
+    };
+    getItemList();
 
     return (
         <div>
