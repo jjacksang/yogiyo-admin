@@ -7,6 +7,7 @@ import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/addMenuItem";
 import { ModalProps } from "@/lib/types";
+import { MenuItemList } from "./menuItemList";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -25,6 +26,8 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+
+    const menuGroupId = selectGroupId;
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -52,7 +55,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
     };
 
     const deleteMenuGroup = async (ids: Group) => {
-        const menuGroupId = selectGroupId;
         if (menuGroupId != null) {
             try {
                 const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
@@ -163,7 +165,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                 </p>
                                 <span>메뉴 순서 변경</span>
                             </div>
-                            {/* 메뉴 리스트 영역 */}
+                            <MenuItemList menuGroupId={item.id} />
                         </div>
                     ))}
             </div>
