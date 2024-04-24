@@ -1,26 +1,47 @@
 import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
-import AddMenu from "./addMenu";
-import { useRecoilValue } from "recoil";
-import { menuListState, ownerAddMenu } from "@/app/recoil/state";
+import AddMenu from "./menuModal/addMenuGroup";
+import { useRecoilState } from "recoil";
+import { menuListState } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
+import { getAxios } from "@/app/services/loginAPI";
+import { AddMenuItem } from "./menuModal/addMenuItem";
+import { ModalProps } from "@/lib/types";
 
 interface ViewOption {
     [key: number]: boolean;
 }
-const MenuSet = () => {
-    const [openModal, setOpenModal] = useState(false);
-    const [viewOption, setViewOption] = useState<ViewOption>({});
-    const showMenuGroup = useRecoilValue(menuListState);
 
-    console.log(ownerAddMenu);
-    console.log(showMenuGroup);
-    const handleModalOpen = () => {
-        setOpenModal(true);
+interface Group {
+    id: number;
+    content: string;
+    name: string;
+}
+const MenuSet = ({ onClose }: ModalProps) => {
+    const [openModal, setOpenModal] = useState({
+        addMenuGroup: false,
+        addMenuItem: false,
+    });
+    const [viewOption, setViewOption] = useState<ViewOption>({});
+    const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
+    const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+
+    const handleModalOpen = (modalName: string, id?: number) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: true,
+        }));
+        if (id !== undefined) {
+            setSelectGroupId(id);
+            console.log(id);
+        }
     };
 
-    const handleModalClose = () => {
-        setOpenModal(false);
+    const handleModalClose = (modalName: string) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: false,
+        }));
     };
 
     const toggleViewOption = (id: number) => {
@@ -30,9 +51,36 @@ const MenuSet = () => {
         }));
     };
 
+    const deleteMenuGroup = async (ids: Group) => {
+        const menuGroupId = selectGroupId;
+        if (menuGroupId != null) {
+            try {
+                const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
+                if (req.status === 204) {
+                    console.log("삭제 성공", req);
+                    setMenuGroup((before) => before.filter((group) => group.id !== menuGroupId));
+                }
+            } catch (error) {
+                console.log("삭제 실패", error);
+            }
+        }
+    };
+
     useEffect(() => {
-        GroupList();
-    });
+        const updateGroupList = async () => {
+            try {
+                const res = await GroupList();
+                setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
+                console.log(res.menuGroups);
+                const ids = res.menuGroups.map((group: Group) => group.id);
+
+                return ids;
+            } catch (error) {
+                console.error("리스트 업데이트 실패", error);
+            }
+        };
+        updateGroupList();
+    }, [setMenuGroup]);
     return (
         <div>
             <MenuNav />
@@ -48,20 +96,26 @@ const MenuSet = () => {
                         {/* 메뉴 그룹 드레그 영역 */}
                         <button
                             className="border rounded-lg bg-yogiyo-blue text-white px-3 py-2"
-                            onClick={handleModalOpen}
+                            onClick={() => handleModalOpen("addMenuGroup")}
                         >
                             메뉴 그룹 추가
                         </button>
                         {/* 메뉴 그룹 추가 버튼 */}
                     </div>
                 </div>
-                {showMenuGroup &&
-                    showMenuGroup.map((item) => (
+                {Array.isArray(menuGroup) &&
+                    menuGroup.map((item) => (
                         <div
-                            className="flex px-8 py-4 mt-8 border rounded-lg bg-white"
+                            className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
                         >
-                            <div className="flex justify-between w-full ">
+                            <div
+                                className="flex justify-between w-full mb-4"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setSelectGroupId(item.id);
+                                }}
+                            >
                                 <div className="gap-2">
                                     <p className="text-base font-bold text-font-black">
                                         {item.name}
@@ -87,10 +141,10 @@ const MenuSet = () => {
                                                     <li className="flex justify-start py-2">
                                                         메뉴 수정
                                                     </li>
-                                                    <li className="flex justify-start py-2">
-                                                        메뉴 순서변경
-                                                    </li>
-                                                    <li className="flex justify-start py-2">
+                                                    <li
+                                                        className="flex justify-start py-2"
+                                                        onClick={() => deleteMenuGroup(item)}
+                                                    >
                                                         메뉴 삭제
                                                     </li>
                                                 </ul>
@@ -100,10 +154,26 @@ const MenuSet = () => {
                                 </div>
                                 {/* 판매, 품절 등 드롭다운 메뉴 */}
                             </div>
+                            <div className="flex border-t py-4 text-sm gap-2.5">
+                                <p
+                                    className="text-yogiyo-blue"
+                                    onClick={() => handleModalOpen("addMenuItem", item.id)}
+                                >
+                                    메뉴 추가
+                                </p>
+                                <span>메뉴 순서 변경</span>
+                            </div>
+                            {/* 메뉴 리스트 영역 */}
                         </div>
                     ))}
             </div>
-            {openModal && <AddMenu onClose={handleModalClose} />}
+            {openModal.addMenuGroup && <AddMenu onClose={() => handleModalClose("addMenuGroup")} />}
+            {openModal.addMenuItem && (
+                <AddMenuItem
+                    onClose={() => handleModalClose("addMenuItem")}
+                    menuGroupId={selectGroupId}
+                />
+            )}
         </div>
     );
 };

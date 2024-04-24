@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getAxios } from "./loginAPI";
-import { shoplistState } from "../recoil/state";
-import DaumPostcode from "react-daum-postcode";
+
 
 // 가게 정보 조회 
 interface ShopInfo {
@@ -75,6 +74,18 @@ export const GroupList = async () => {
       return res.data;
   } catch (error) {
       console.log(error);
+  }
+};
+
+// 메뉴 그룹 삭제
+
+export const DeleteMenuGroup = async () => {
+  try {
+      const res = await getAxios.delete(`owner/menu-group/`);
+      console.log(res.data);
+      return res.data;
+  } catch (error) {
+      console.error("삭제오류", error);
   }
 };
 

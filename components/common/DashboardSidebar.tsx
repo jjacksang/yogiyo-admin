@@ -89,7 +89,8 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,tog
         </a>
 
         <ManageBusinessHoursLink setSelectedMenu={setSelectedMenu}/>
-        
+        <MenuGroup/>
+
         {/* 실선 부분 */}
         <div style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.05)' }} className="my-3 mx-4"></div>
         

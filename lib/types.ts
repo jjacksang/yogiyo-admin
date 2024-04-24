@@ -50,10 +50,19 @@ export interface DynamicRoute {
     };
 }
 
-export interface AddMenu {
+export interface AddMenuGroup {
     shopId: number;
     name: string;
     content: string;
+}
+
+export interface AddMenu {
+    picture: string;
+    menuData: {
+        name: string;
+        content: string;
+        price: number;
+    };
 }
 
 export interface MenuList {
@@ -62,6 +71,13 @@ export interface MenuList {
     content: string;
 }
 
-// export interface ShopId {
-//     id: number;
-// }
+export interface NewGroupMenu {
+    name: string;
+    content: string;
+    price: number;
+}
+
+// 모달 오픈 클로즈 타입
+export interface ModalProps {
+    onClose: () => void;
+}
