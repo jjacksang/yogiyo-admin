@@ -7,6 +7,7 @@ import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/addMenuItem";
 import { ModalProps } from "@/lib/types";
+import { MenuItemList } from "./menuItemList";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -25,6 +26,8 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+
+    const menuGroupId = selectGroupId;
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -52,7 +55,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
     };
 
     const deleteMenuGroup = async (ids: Group) => {
-        const menuGroupId = selectGroupId;
         if (menuGroupId != null) {
             try {
                 const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
@@ -97,6 +99,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                         <button
                             className="border rounded-lg bg-yogiyo-blue text-white px-3 py-2"
                             onClick={() => handleModalOpen("addMenuGroup")}
+                            onClick={() => handleModalOpen("addMenuGroup")}
                         >
                             메뉴 그룹 추가
                         </button>
@@ -105,7 +108,10 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 </div>
                 {Array.isArray(menuGroup) &&
                     menuGroup.map((item) => (
+                {Array.isArray(menuGroup) &&
+                    menuGroup.map((item) => (
                         <div
+                            className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                             key={item.id}
                         >
@@ -145,6 +151,10 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                                         className="flex justify-start py-2"
                                                         onClick={() => deleteMenuGroup(item)}
                                                     >
+                                                    <li
+                                                        className="flex justify-start py-2"
+                                                        onClick={() => deleteMenuGroup(item)}
+                                                    >
                                                         메뉴 삭제
                                                     </li>
                                                 </ul>
@@ -163,11 +173,17 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                 </p>
                                 <span>메뉴 순서 변경</span>
                             </div>
-                            {/* 메뉴 리스트 영역 */}
+                            <MenuItemList menuGroupId={item.id} />
                         </div>
                     ))}
             </div>
-            {openModal.addMenuGroup && <AddMenu onClose={() => handleModalClose("addMenuGroup")} />}
+            {openModal.addMenuGroup.addMenuGroup && <AddMenu onClose={() => () => handleModalClose("addMenuGroup")("addMenuGroup")} />}
+            {openModal.addMenuItem && (
+                <AddMenuItem
+                    onClose={() => handleModalClose("addMenuItem")}
+                    menuGroupId={selectGroupId}
+                />
+            )}
             {openModal.addMenuItem && (
                 <AddMenuItem
                     onClose={() => handleModalClose("addMenuItem")}

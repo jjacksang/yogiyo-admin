@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { shoplistState } from '../../app/recoil/state';
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { OwnerShopList } from '../../app/services/shopAPI'
 import DashboardModal from './DashboardModal';
 import Link from 'next/link';

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { getAxios } from "./loginAPI";
 
 
@@ -62,9 +61,7 @@ export const ShopList = async () => {
 };
 
 
-{
-  /* 메뉴 그룹 추가 */
-}
+// 메뉴 그룹 추가
 
 export const GroupList = async () => {
   const shopId = 1062565;
@@ -80,12 +77,15 @@ export const GroupList = async () => {
 // 메뉴 그룹 삭제
 
 export const DeleteMenuGroup = async () => {
-  try {
-      const res = await getAxios.delete(`owner/menu-group/`);
-      console.log(res.data);
-      return res.data;
-  } catch (error) {
-      console.error("삭제오류", error);
-  }
+    try {
+        const res = await getAxios.delete(`owner/menu-group/`);
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.error("삭제오류", error);
+    }
 };
 
+// 메뉴 그룹 메뉴 추가
+
+// 메뉴 그룹 메뉴 조회

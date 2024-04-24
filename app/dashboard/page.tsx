@@ -42,7 +42,9 @@ const Page = () => {
               {/* 컨텐츠 영역 */}
               {selectedMenu === "main" && <DashboardMypageMain />}
               {selectedMenu === "manageBusinessHours" && <ManageBusinessHours/>}
-              {selectedMenu === "pauseService" && <PauseService />}
+              {selectedMenu === "pauseService" && (
+                            <PauseService onClose={() => console.log("메인클릭")} />
+                        )}
               {selectedMenu === "holidaySchedule" && <HolidaySchedule />}
               <Footer/>
             </div>

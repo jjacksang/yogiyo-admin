@@ -20,7 +20,7 @@ export default function DashboardMain({ children }: DashboardMainProps) {
     const selectMenu = useRecoilValue(content);
 
     const menuComponent: MenuComponentType = {
-        menuSet: <MenuSet />,
+        menuSet: <MenuSet onClose={() => console.log("메뉴 닫힘")} />,
         menuSoldout: <MenuSoldout />,
     };
 
