@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
 import AddMenu from "./menuModal/addMenuGroup";
 import { useRecoilState } from "recoil";
-import { menuListState } from "@/app/recoil/state";
+import { menuItemsAtom, menuListState } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/addMenuItem";
-import { ModalProps } from "@/lib/types";
+import { ModalProps, menusItems } from "@/lib/types";
 import { MenuItemList } from "./menuItemList";
 
 interface ViewOption {
@@ -18,6 +18,7 @@ interface Group {
     content: string;
     name: string;
 }
+
 const MenuSet = ({ onClose }: ModalProps) => {
     const [openModal, setOpenModal] = useState({
         addMenuGroup: false,
@@ -26,6 +27,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+    const [menus, setMenus] = useRecoilState(menuItemsAtom);
 
     const menuGroupId = selectGroupId;
 
@@ -75,7 +77,9 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
                 console.log(res.menuGroups);
                 const ids = res.menuGroups.map((group: Group) => group.id);
-
+                const itemsList = res.menuGroups.map((group: menusItems) => group.menus);
+                setMenus(itemsList);
+                console.log(itemsList);
                 return ids;
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);

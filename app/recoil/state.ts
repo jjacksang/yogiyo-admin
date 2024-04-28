@@ -1,4 +1,4 @@
-import { AddMenu, AddMenuGroup, MenuList, userState } from "@/lib/types";
+import { AddMenu, AddMenuGroup, MenuList, menusItems, userState } from "@/lib/types";
 import { OwnerShopList } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
 
@@ -80,4 +80,9 @@ export const addMenuGroup = atom<AddMenu>({
             price: 10000,
         },
     },
+});
+
+export const menuItemsAtom = atom<menusItems[]>({
+    key: "menuListItems",
+    default: [],
 });
