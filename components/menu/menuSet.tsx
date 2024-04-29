@@ -77,9 +77,12 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
                 console.log(res.menuGroups);
                 const ids = res.menuGroups.map((group: Group) => group.id);
-                const itemsList = res.menuGroups.map((group: menusItems) => group.menus);
-                setMenus(itemsList);
-                console.log(itemsList);
+                const FlatitemsList = res.menuGroups.flatMap((group: menusItems) =>
+                    group.menus.map((menu) => ({ ...menu, groupId: group.id }))
+                );
+                setMenus(FlatitemsList);
+                console.log(FlatitemsList);
+                console.log({ menus: res.menuGroups });
                 return ids;
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);

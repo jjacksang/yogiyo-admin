@@ -82,15 +82,17 @@ export interface ModalProps {
     onClose: () => void;
 }
 
+export interface MenuItem {
+    id: number;
+    name: string;
+    content: string;
+    price: number;
+    picture: string;
+    visible: string;
+    groupId?: number;
+}
+
 export interface menusItems {
-    menus: [
-        {
-            id: number;
-            name: string;
-            content: string;
-            price: number;
-            picture: string;
-            visible: string;
-        }
-    ];
+    id: number;
+    menus: MenuItem[];
 }
