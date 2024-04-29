@@ -83,13 +83,14 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 setMenus(FlatitemsList);
                 console.log(FlatitemsList);
                 console.log({ menus: res.menuGroups });
+                console.log(menus);
                 return ids;
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);
             }
         };
         updateGroupList();
-    }, [setMenuGroup]);
+    }, [setMenuGroup, setMenus]);
     return (
         <div>
             <MenuNav />
