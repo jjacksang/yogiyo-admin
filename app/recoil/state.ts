@@ -81,8 +81,3 @@ export const addMenuGroup = atom<AddMenu>({
         },
     },
 });
-
-export const menuItemsAtom = atom<MenuItem[]>({
-    key: "menuItems",
-    default: [],
-});

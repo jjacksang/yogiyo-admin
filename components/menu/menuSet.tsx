@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { MenuNav } from "./menuNavbar";
 import AddMenu from "./menuModal/addMenuGroup";
 import { useRecoilState } from "recoil";
-import { menuItemsAtom, menuListState } from "@/app/recoil/state";
+import { menuListState } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/addMenuItem";
-import { ModalProps, menusItems } from "@/lib/types";
+import { ModalProps } from "@/lib/types";
 import { MenuItemList } from "./menuItemList";
 
 interface ViewOption {
@@ -27,7 +27,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
-    const [menus, setMenus] = useRecoilState(menuItemsAtom);
 
     const menuGroupId = selectGroupId;
 
@@ -54,6 +53,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
             ...prev,
             [id]: !prev[id],
         }));
+        console.log(id);
     };
 
     const deleteMenuGroup = async (ids: Group) => {
@@ -74,23 +74,16 @@ const MenuSet = ({ onClose }: ModalProps) => {
         const updateGroupList = async () => {
             try {
                 const res = await GroupList();
+                const ids = res.menuGroups.map((group: Group) => group.id); //메뉴 그룹 리스트 조회 및 id추출
+
                 setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
-                console.log(res.menuGroups);
-                const ids = res.menuGroups.map((group: Group) => group.id);
-                const FlatitemsList = res.menuGroups.flatMap((group: menusItems) =>
-                    group.menus.map((menu) => ({ ...menu, groupId: group.id }))
-                );
-                setMenus(FlatitemsList);
-                console.log(FlatitemsList);
-                console.log({ menus: res.menuGroups });
-                console.log(menus);
                 return ids;
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);
             }
         };
         updateGroupList();
-    }, [setMenuGroup, setMenus]);
+    }, [setMenuGroup]);
     return (
         <div>
             <MenuNav />
@@ -173,7 +166,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                 </p>
                                 <span>메뉴 순서 변경</span>
                             </div>
-                            <MenuItemList menuGroupId={item.id} />
+                            <MenuItemList menuGroupId={item.id} key={item.id} />
                         </div>
                     ))}
             </div>
