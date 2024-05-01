@@ -1,8 +1,10 @@
 import { OwnerShopList } from '@/app/services/shopAPI';
 import axios from 'axios';
 import React, { ChangeEvent, useState, useEffect } from 'react';
+import { shoplistState } from '@/app/recoil/state';
 import AddressSearch from './AddressSearch';
 import { getAxios } from '@/app/services/loginAPI';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 
 // closeModal 함수의 타입을 정의하기 위한 Props 인터페이스
@@ -59,6 +61,8 @@ const DashboardModal: React.FC<DashboardModalProps> = ({ closeModal }) => {
   const [selectedAddress, setSelectedAddress] = useState(''); // 선택된 주소
   const [additionalAddress, setAdditionalAddress] = useState(''); // 나머지 주소 
   const [apiResponse, setApiResponse] = useState('');
+
+  const addShop = useSetRecoilState(shoplistState);
   
   const shopData = {
     name: shopName,
@@ -131,6 +135,17 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'icon' |
     const response = await registerShop(icon, banner, shopData); // 수정된 API 호출
     setApiResponse(JSON.stringify(response)); // 응답을 상태에 저장
     console.log("FormData가 성공적으로 전송되었습니다.");
+    
+    {/* 가게 입점 성공했을 경우 리스트 나타내기 */}
+    if (response) {
+      const newShop = {
+        id: response.id, 
+        name: shopData.name,
+        icon: response.icon 
+      };
+      addShop(oldShops => [...(oldShops ?? []), newShop]);
+      setApiResponse(JSON.stringify(response));
+    }
   } catch (error) {
     console.error(error);
     setApiResponse('입점 신청 중 오류가 발생했습니다.');

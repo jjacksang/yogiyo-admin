@@ -43,8 +43,8 @@ const Page = () => {
               {selectedMenu === "main" && <DashboardMypageMain />}
               {selectedMenu === "manageBusinessHours" && <ManageBusinessHours/>}
               {selectedMenu === "pauseService" && (
-                            <PauseService onClose={() => console.log("메인클릭")} />
-                        )}
+                <PauseService onClose={() => console.log("메인클릭")} />
+                )}
               {selectedMenu === "holidaySchedule" && <HolidaySchedule />}
               <Footer/>
             </div>
