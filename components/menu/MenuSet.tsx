@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { MenuNav } from "./menuNavbar";
-import AddMenu from "./menuModal/addMenuGroup";
+import { MenuNav } from "./MenuNavbar";
+import AddMenu from "./menuModal/AddMenuGroup";
 import { useRecoilState } from "recoil";
-import { menuListState } from "@/app/recoil/state";
+import { menuItemAtom } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
-import { AddMenuItem } from "./menuModal/addMenuItem";
+import { AddMenuItem } from "./menuModal/AddMenuItem";
 import { ModalProps } from "@/lib/types";
-import { MenuItemList } from "./menuItemList";
+import { MenuItemList } from "./MenuItemList";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -18,13 +18,14 @@ interface Group {
     content: string;
     name: string;
 }
+
 const MenuSet = ({ onClose }: ModalProps) => {
     const [openModal, setOpenModal] = useState({
         addMenuGroup: false,
         addMenuItem: false,
     });
     const [viewOption, setViewOption] = useState<ViewOption>({});
-    const [menuGroup, setMenuGroup] = useRecoilState(menuListState);
+    const [menuGroup, setMenuGroup] = useRecoilState(menuItemAtom);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
 
     const menuGroupId = selectGroupId;
@@ -52,8 +53,10 @@ const MenuSet = ({ onClose }: ModalProps) => {
             ...prev,
             [id]: !prev[id],
         }));
+        console.log(id);
     };
 
+    // 메뉴 그룹 제거 api요청부분
     const deleteMenuGroup = async (ids: Group) => {
         if (menuGroupId != null) {
             try {
@@ -68,14 +71,15 @@ const MenuSet = ({ onClose }: ModalProps) => {
         }
     };
 
+    // 메뉴 그룹 전체 조회 부분
     useEffect(() => {
         const updateGroupList = async () => {
             try {
                 const res = await GroupList();
-                setMenuGroup(Array.isArray(res.menuGroups) ? res.menuGroups : []);
-                console.log(res.menuGroups);
-                const ids = res.menuGroups.map((group: Group) => group.id);
-
+                const ids = res.menuGroups.map((group: Group) => group.id); //메뉴 그룹 리스트 조회 및 id추출
+                setMenuGroup(res.menuGroups);
+                console.log(res);
+                console.log(menuGroup);
                 return ids;
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);
@@ -106,23 +110,23 @@ const MenuSet = ({ onClose }: ModalProps) => {
                     </div>
                 </div>
                 {Array.isArray(menuGroup) &&
-                    menuGroup.map((item) => (
+                    menuGroup.map((menuItem) => (
                         <div
                             className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
-                            key={item.id}
+                            key={menuItem.id}
                         >
                             <div
                                 className="flex justify-between w-full mb-4"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    setSelectGroupId(item.id);
+                                    setSelectGroupId(menuItem.id);
                                 }}
                             >
                                 <div className="gap-2">
                                     <p className="text-base font-bold text-font-black">
-                                        {item.name}
+                                        {menuItem.name}
                                     </p>
-                                    <p className="text-xs text-custom-gray">{item.content}</p>
+                                    <p className="text-xs text-custom-gray">{menuItem.content}</p>
                                 </div>
                                 <div className="flex flex-none items-center pl-2 border rounded-lg relative">
                                     <>
@@ -135,17 +139,17 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                     <div>
                                         <button
                                             className="mx-2"
-                                            onClick={() => toggleViewOption(item.id)}
+                                            onClick={() => toggleViewOption(menuItem.id)}
                                         >
                                             보기
-                                            {viewOption[item.id] && (
+                                            {viewOption[menuItem.id] && (
                                                 <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
                                                     <li className="flex justify-start py-2">
                                                         메뉴 수정
                                                     </li>
                                                     <li
                                                         className="flex justify-start py-2"
-                                                        onClick={() => deleteMenuGroup(item)}
+                                                        onClick={() => deleteMenuGroup(menuItem)}
                                                     >
                                                         메뉴 삭제
                                                     </li>
@@ -159,13 +163,13 @@ const MenuSet = ({ onClose }: ModalProps) => {
                             <div className="flex border-t py-4 text-sm gap-2.5">
                                 <p
                                     className="text-yogiyo-blue"
-                                    onClick={() => handleModalOpen("addMenuItem", item.id)}
+                                    onClick={() => handleModalOpen("addMenuItem", menuItem.id)}
                                 >
                                     메뉴 추가
                                 </p>
                                 <span>메뉴 순서 변경</span>
                             </div>
-                            <MenuItemList menuGroupId={item.id} />
+                            <MenuItemList menuGroupId={menuItem.id} />
                         </div>
                     ))}
             </div>

@@ -56,6 +56,7 @@ export const AddMenuItem = ({
                     "Content-Type": "multipart/form-data",
                 },
             });
+            console.log(res.data);
         } catch (error) {
             console.log(error);
         }
@@ -134,7 +135,7 @@ export const AddMenuItem = ({
                 </div>
                 <div className="flex py-4 px-2">
                     <span className="text-xl font-bold">메뉴사진(선택)</span>
-                    <form>
+                    <div>
                         {imagePreview && (
                             <img
                                 src={imagePreview}
@@ -143,7 +144,7 @@ export const AddMenuItem = ({
                             />
                         )}
                         <ImageUploadBtn onImageSelect={handleImageSelect} />
-                    </form>
+                    </div>
                 </div>
             </div>
             <div>{/* 미리보기 영역 */}</div>
