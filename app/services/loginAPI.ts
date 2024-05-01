@@ -72,3 +72,4 @@ export const SocialNaver = async () => {
     const STATE = "jjak";
     window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&state=${STATE}`;
 };
+

@@ -31,6 +31,7 @@ export const tokenState = atom({
     default: "",
 });
 
+
 export const shoplistState = atom<OwnerShopList[] | null>({
     key: "shoplistStateAtom",
     default: null,
@@ -62,7 +63,7 @@ export const ownerAddMenu = atom<AddMenuGroup>({
 
 export const content = atom({
     key: "dashboardState",
-    default: "ownerInfo",
+    default: "main",
 });
 
 export const menuListState = atom<MenuList[]>({

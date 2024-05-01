@@ -9,7 +9,7 @@ type MenuGroupProps = {
 
 const MenuGroup = ({ children }: MenuGroupProps) => {
     const [showOption, setShowOption] = useState<boolean>(false);
-    const [seletMenu, setSelectMenu] = useRecoilState(content);
+    const [selectMenu, setSelectMenu] = useRecoilState(content);
 
     const OpenCloseBtn = (): void => {
         setShowOption(!showOption);
@@ -17,37 +17,29 @@ const MenuGroup = ({ children }: MenuGroupProps) => {
 
     const handleMenuClick = (menuState: "menuSet" | "menuSoldout") => {
         setSelectMenu(menuState);
-        const path = menuState === "menuSet" ? "/menu/menuSet" : "/menu/Soldout";
     };
-    console.log(seletMenu);
+    console.log(selectMenu);
 
     return (
-        <div className="flex py-2 ml-2">
-            <div className="ml-1">
-                <p className="text-xs font-bold text-custom-gray">
-                    메뉴관리<button onClick={OpenCloseBtn}>ㅇ</button>
-                </p>
-
-                {showOption ? (
-                    <ul>
-                        <li
-                            className="text-base pt-2 pl-6"
-                            onClick={() => handleMenuClick("menuSet")}
-                        >
-                            메뉴 관리
-                        </li>
-                        <li
-                            className="text-base pt-2 pl-6"
-                            onClick={() => handleMenuClick("menuSoldout")}
-                        >
-                            메뉴 품절
-                        </li>
-                    </ul>
-                ) : (
-                    <div></div>
-                )}
-            </div>
-        </div>
+        <>
+            <a style={{ lineHeight: '16px', color: 'rgba(0, 0, 0, 0.4)' }} className="pl-3 text-xs font-bold flex flex-row items-center h-10 decoration-none">
+                <svg width="20" height="20" fill="none" style={{ fill: 'none' }} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"></svg>
+                메뉴관리
+                <button onClick={OpenCloseBtn}>ㅇ</button>
+            </a>
+            {showOption ? (
+                <ul>
+                    <li className="text-base pt-2 pl-6" onClick={() => handleMenuClick("menuSet")}>
+                        메뉴 관리
+                    </li>
+                    <li className="text-base pt-2 pl-6" onClick={() => handleMenuClick("menuSoldout")}>
+                        메뉴 품절
+                    </li>
+                </ul>
+            ) : (
+                <div></div>
+            )}
+        </>
     );
 };
 
