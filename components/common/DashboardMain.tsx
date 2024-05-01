@@ -3,8 +3,8 @@ import { content } from "@/app/recoil/state";
 import DashboardMypageMain from "./DashboardMypageMain";
 import React, { ReactNode } from "react";
 import { useRecoilValue } from "recoil";
-import MenuSet from "../menu/menuSet";
-import MenuSoldout from "../menu/menuSoldout";
+import MenuSet from "../menu/MenuSet";
+import MenuSoldout from "../menu/MenuSoldout";
 
 interface DashboardMainProps {
     children: ReactNode;

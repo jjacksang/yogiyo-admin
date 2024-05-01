@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 interface ImgaeUploadProps {
     onImageSelect: (image: File | null) => void;

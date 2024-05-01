@@ -2,7 +2,7 @@ import React from "react";
 
 import { QuickMenu } from "./rightContent/quickMenu";
 import { OwnerIcon } from "./leftContent/restaurantIcon";
-import { SwiperMenu } from "../swipers/swipermenu";
+import { SwiperMenu } from "../swipers/SwiperMenu";
 import { EventBanner } from "./leftContent/imageBanner/eventBanner";
 import { LoginForm } from "./rightContent/loginForm";
 import { Guide } from "./rightContent/guide";

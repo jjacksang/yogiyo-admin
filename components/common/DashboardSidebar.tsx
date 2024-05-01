@@ -6,7 +6,7 @@ import { OwnerShopList } from '../../app/services/shopAPI'
 import DashboardModal from './DashboardModal';
 import Link from 'next/link';
 import { ManageBusinessHoursLink } from '../businessHoursSidebar/ManageBusinessHoursLink';
-import MenuGroup from '../menuSidebar/menuGroup';
+import MenuGroup from '../menuSidebar/MenuGroup';
 
 
 // DashboardSidebar 컴포넌트의 props 타입 정의

@@ -12,8 +12,8 @@ import { ManageBusinessHoursLink } from "@/components/businessHoursSidebar/Manag
 import PauseService from "@/components/businessHoursSidebar/PauseService";
 import HolidaySchedule from "@/components/businessHoursSidebar/HolidaySchedule";
 import { ManageBusinessHours } from "@/components/businessHoursSidebar/ManageBusinessHours";
-import MenuSet from "@/components/menu/menuSet";
-import MenuSoldout from "@/components/menu/menuSoldout";
+import MenuSet from "@/components/menu/MenuSet";
+import MenuSoldout from "@/components/menu/MenuSoldout";
 import { content } from "../recoil/state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 

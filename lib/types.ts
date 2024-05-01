@@ -82,3 +82,19 @@ export interface NewGroupMenu {
 export interface ModalProps {
     onClose: () => void;
 }
+
+export interface MenuItem {
+    id: number;
+    name: string;
+    content: string;
+    price: number;
+    picture: string;
+    visible: string;
+    groupId: number;
+    menus?: MenuItem[];
+}
+
+export interface MenuItems {
+    id: number;
+    menus: MenuItem[];
+}
