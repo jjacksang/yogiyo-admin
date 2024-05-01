@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { shoplistState } from '../../app/recoil/state';
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { OwnerShopList } from '../../app/services/shopAPI'
+import { OwnerShopList, ShopList } from '../../app/services/shopAPI'
 import DashboardModal from './DashboardModal';
 import Link from 'next/link';
 import { ManageBusinessHoursLink } from '../businessHoursSidebar/ManageBusinessHoursLink';
@@ -24,6 +24,15 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,tog
   // 모달 열고 닫는 함수
   const settoggleModal = () => setIsModalOpen(!isModalOpen);
 
+  const fetchShopList = async () => {
+    try {
+        const fetchedShopList = await ShopList();
+        setStore(fetchedShopList); // 상태 업데이트
+    } catch (error) {
+        console.error("가게 목록을 가져오는 중 오류가 발생했습니다:", error);
+    }
+};
+
 
 
   const ownerStore = (store ?? []).map((shop: OwnerShopList) => {
@@ -40,6 +49,9 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,tog
     );
   });
   
+  useEffect(() => {
+    fetchShopList();
+}, []);
 
 
   return (

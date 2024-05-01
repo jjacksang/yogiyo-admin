@@ -64,6 +64,7 @@ const DashboardModal: React.FC<DashboardModalProps> = ({ closeModal }) => {
 
   const addShop = useSetRecoilState(shoplistState);
   
+  
   const shopData = {
     name: shopName,
     callNumber: `${areaCode}${exchangeNumber}${subscriberNumber}`,

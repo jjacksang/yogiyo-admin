@@ -62,7 +62,6 @@ export const ShopList = async () => {
 
 
 // 메뉴 그룹 추가
-
 export const GroupList = async () => {
   const shopId = 1062565;
   try {
