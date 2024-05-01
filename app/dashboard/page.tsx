@@ -25,12 +25,10 @@ const Page = () => {
     
     const setContent = useRecoilValue(content);
     const setRecoilContent = useSetRecoilState(content);
-    console.log("대시보드영역");
-    // ShopList();
 
     useEffect(() => {
-        setRecoilContent("ownerInfo");
-    }, []);
+      setRecoilContent(selectedMenu);
+    }, [selectedMenu, setRecoilContent]);
 
 
     return (
@@ -40,12 +38,12 @@ const Page = () => {
           <DashboardSidebar toggleModal={toggleModal} setSelectedMenu={setSelectedMenu}/>
             <div className="flex flex-col flex-1 bg-[#F7F7F7] relative overflow-auto z-10 overscroll-none"> {/* 메인 컨텐츠 영역 */}
               {/* 컨텐츠 영역 */}
-              {selectedMenu === "main" && <DashboardMypageMain />}
-              {selectedMenu === "manageBusinessHours" && <ManageBusinessHours/>}
-              {selectedMenu === "pauseService" && (
-                <PauseService onClose={() => console.log("메인클릭")} />
-                )}
-              {selectedMenu === "holidaySchedule" && <HolidaySchedule />}
+              {setContent === "main" && <DashboardMypageMain />}
+              {setContent === "manageBusinessHours" && <ManageBusinessHours/>}
+              {setContent === "pauseService" && <PauseService onClose={() => console.log("메인클릭")} />}
+              {setContent === "holidaySchedule" && <HolidaySchedule />}
+              {setContent === "menuSet" && (<MenuSet onClose={() => console.log("메인클릭")} />)}
+              {setContent === "menuSoldout" && <MenuSoldout />}
               <Footer/>
             </div>
           </div>

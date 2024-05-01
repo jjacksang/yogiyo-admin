@@ -62,7 +62,7 @@ export const ownerAddMenu = atom<AddMenuGroup>({
 
 export const content = atom({
     key: "dashboardState",
-    default: "ownerInfo",
+    default: "main",
 });
 
 export const menuListState = atom<MenuList[]>({

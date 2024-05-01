@@ -171,7 +171,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'icon' |
   };
 
   return (
-    <div className="fixed left-2 overflow-y-auto flex flex-col h-[calc(100vh-196px)] max-h-[600px] min-h-[230px] w-[360px] rounded-lg border border-[rgba(0,0,0,0.8)] bg-white shadow-md text-[rgba(0,0,0,0.6)] z-10 cursor-default lg:absolute lg:top-[166px] lg:right-0"
+    <div className="fixed left-2 overflow-y-auto flex flex-col h-[calc(100vh-196px)] max-h-[600px] min-h-[230px] w-[360px] rounded-lg border border-[rgba(0,0,0,0.8)] bg-white shadow-md text-[rgba(0,0,0,0.6)] z-20 cursor-default lg:absolute lg:top-[166px] lg:right-0"
      style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 8px', zIndex: 1000 }}>
        <div className="flex flex-col flex-none bg-white rounded-t-lg z-10 pt-4">
         <div className="flex flex-col flex-auto h-auto rounded-b-lg overflow-y-auto bg-white p-0" style={{padding: '16px 0px'}}>
