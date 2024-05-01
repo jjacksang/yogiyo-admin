@@ -1,6 +1,4 @@
 import { menuItemAtom } from "@/app/recoil/state";
-import { getAxios } from "@/app/services/loginAPI";
-import { MenuItem, MenuItems } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -10,20 +8,15 @@ interface MenuItemListProps {
 
 export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
     const [viewOption, setViewOption] = useState<Boolean>(false);
-    // const [menuItems, setMenuItems] = useRecoilState(menuItemAtom);
     const menuGroup = useRecoilValue(menuItemAtom).find((group) => group.id === menuGroupId);
+    console.log(menuGroup);
     if (!menuGroup || !menuGroup.menus) {
         return null;
     }
-    // console.log(data);
-    // console.log(menuItems);
-    // if (!menuItems) return null;
     const toggleViewOption = () => {
         setViewOption(!viewOption);
         console.log(menuGroupId);
-        // console.log(menuItems);
     };
-    // console.log(menuGroupId);
 
     // useEffect(() => {
     //     const getItemList = async () => {
@@ -38,7 +31,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
     //         }
     //     };
     //     getItemList();
-    // }, []);
+    // }, [menuGroup]);
 
     return (
         <div>

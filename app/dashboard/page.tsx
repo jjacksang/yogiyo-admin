@@ -6,8 +6,8 @@ import DashboardMain from "@/components/common/DashboardMain";
 import { OwnerInfo } from "@/app/dashboard/DashboardMyInfo";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { content } from "../recoil/state";
-import MenuSet from "@/components/menu/menuSet";
-import MenuSoldout from "@/components/menu/menuSoldout";
+import MenuSet from "@/components/menu/MenuSet";
+import MenuSoldout from "@/components/menu/MenuSoldout";
 
 const Page = () => {
     const setContent = useRecoilValue(content);

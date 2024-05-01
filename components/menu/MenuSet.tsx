@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { MenuNav } from "./menuNavbar";
-import AddMenu from "./menuModal/addMenuGroup";
+import { MenuNav } from "./MenuNavbar";
+import AddMenu from "./menuModal/AddMenuGroup";
 import { useRecoilState } from "recoil";
-import { menuItemAtom, menuListState } from "@/app/recoil/state";
+import { menuItemAtom } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
-import { AddMenuItem } from "./menuModal/addMenuItem";
+import { AddMenuItem } from "./menuModal/AddMenuItem";
 import { ModalProps } from "@/lib/types";
-import { MenuItemList } from "./menuItemList";
+import { MenuItemList } from "./MenuItemList";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -56,6 +56,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
         console.log(id);
     };
 
+    // 메뉴 그룹 제거 api요청부분
     const deleteMenuGroup = async (ids: Group) => {
         if (menuGroupId != null) {
             try {
@@ -70,6 +71,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
         }
     };
 
+    // 메뉴 그룹 전체 조회 부분
     useEffect(() => {
         const updateGroupList = async () => {
             try {
