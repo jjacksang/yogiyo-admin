@@ -89,10 +89,11 @@ export interface MenuItem {
     price: number;
     picture: string;
     visible: string;
-    groupId?: number;
+    groupId: number;
+    menus?: MenuItem[];
 }
 
-export interface menusItems {
+export interface MenuItems {
     id: number;
     menus: MenuItem[];
 }
