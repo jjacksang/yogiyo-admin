@@ -5,7 +5,6 @@ import DashboardModal from "@/components/common/DashboardModal";
 import Footer from "@/components/home/footer";
 import DashboardNavbar from "@/components/common/DashboardNavbar";
 import DashboardSidebar from "@/components/common/DashboardSidebar";
-import DashboardMain from "@/components/common/DashboardMain";
 import OrderHistory from "@/components/common/OrderHistory";
 import DashboardMypageMain from "@/components/common/DashboardMypageMain";
 import { ManageBusinessHoursLink } from "@/components/businessHoursSidebar/ManageBusinessHoursLink";

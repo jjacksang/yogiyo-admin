@@ -1,8 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import DashboardModal from '../common/DashboardModal';
-import ShopList from '@/app/my/shopList';
-
+import ShopList from '@/app/my/ShopList';
 
 
 interface Props {
