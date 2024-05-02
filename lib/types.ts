@@ -50,7 +50,6 @@ export interface DynamicRoute {
     };
 }
 
-
 export interface AddMenuGroup {
     shopId: number;
     name: string;
@@ -97,4 +96,8 @@ export interface MenuItem {
 export interface MenuItems {
     id: number;
     menus: MenuItem[];
+}
+
+export interface ShopId {
+    id: number;
 }
