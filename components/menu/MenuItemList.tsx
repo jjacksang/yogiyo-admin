@@ -9,7 +9,6 @@ interface MenuItemListProps {
 export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
     const [viewOption, setViewOption] = useState<Boolean>(false);
     const menuGroup = useRecoilValue(menuItemAtom).find((group) => group.id === menuGroupId);
-    console.log(menuGroup);
     if (!menuGroup || !menuGroup.menus) {
         return null;
     }
