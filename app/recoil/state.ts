@@ -96,9 +96,7 @@ export const menuItemAtom = atom<Array<MenuItem>>({
 });
 
 // shopId저장 아톰
-export const shopIdAtom = atom<ShopId>({
+export const shopIdAtom = atom<number>({
     key: "shopId",
-    default: {
-        id: 111111,
-    },
+    default: 11111,
 });

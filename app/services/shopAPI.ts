@@ -1,6 +1,4 @@
-import { useRecoilValue } from "recoil";
 import { getAxios } from "./loginAPI";
-import { shopIdAtom } from "../recoil/state";
 // 가게 정보 조회
 interface ShopInfo {
     id: number;
@@ -58,8 +56,7 @@ export const ShopList = async () => {
 };
 
 // 메뉴 그룹 추가
-export const GroupList = async () => {
-    const shopId = useRecoilValue(shopIdAtom);
+export const GroupList = async (shopId: number) => {
     try {
         const res = await getAxios.get(`/owner/menu-group/shop/${shopId}`);
         console.log(res.data);
