@@ -1,4 +1,12 @@
-import { AddMenu, AddMenuGroup, MenuItem, MenuList, MenuItems, userState } from "@/lib/types";
+import {
+    AddMenu,
+    AddMenuGroup,
+    MenuItem,
+    MenuList,
+    MenuItems,
+    userState,
+    ShopId,
+} from "@/lib/types";
 import { OwnerShopList } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
 
@@ -30,7 +38,6 @@ export const tokenState = atom({
     key: "tokenState",
     default: "",
 });
-
 
 export const shoplistState = atom<OwnerShopList[] | null>({
     key: "shoplistStateAtom",
@@ -86,4 +93,10 @@ export const addMenuGroup = atom<AddMenu>({
 export const menuItemAtom = atom<Array<MenuItem>>({
     key: "menuGroups",
     default: [],
+});
+
+// shopId저장 아톰
+export const shopIdAtom = atom<number>({
+    key: "shopId",
+    default: 11111,
 });

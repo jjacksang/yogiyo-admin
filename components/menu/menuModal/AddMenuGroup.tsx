@@ -1,16 +1,16 @@
-import { menuListState } from "@/app/recoil/state";
+import { menuListState, shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { ModalProps } from "@/lib/types";
 
-import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function AddMenuGroup({ onClose }: ModalProps) {
     const [menuList, setMenuList] = useRecoilState(menuListState);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");
-    // const shopId = useRecoilValue(shopIdState);
-
+    const shopId = useRecoilValue(shopIdAtom);
+    // console.log(shopId);
     // console.log(menuData);
     const handleMenuGroup = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id === "menuName") {
@@ -27,7 +27,7 @@ export default function AddMenuGroup({ onClose }: ModalProps) {
         }
         try {
             const req = await getAxios.post("/owner/menu-group/add", {
-                shopId: 1062565,
+                shopId: shopId,
                 name: menuName,
                 content: content,
             });

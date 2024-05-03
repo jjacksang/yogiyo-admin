@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { MenuNav } from "./MenuNavbar";
 import AddMenu from "./menuModal/AddMenuGroup";
-import { useRecoilState } from "recoil";
-import { menuItemAtom } from "@/app/recoil/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/AddMenuItem";
@@ -27,7 +27,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuItemAtom);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
-
+    const shopId = useRecoilValue(shopIdAtom);
     const menuGroupId = selectGroupId;
 
     const handleModalOpen = (modalName: string, id?: number) => {
@@ -75,7 +75,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
     useEffect(() => {
         const updateGroupList = async () => {
             try {
-                const res = await GroupList();
+                const res = await GroupList(shopId);
                 const ids = res.menuGroups.map((group: Group) => group.id); //메뉴 그룹 리스트 조회 및 id추출
                 setMenuGroup(res.menuGroups);
                 console.log(res);
@@ -86,7 +86,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
             }
         };
         updateGroupList();
-    }, [setMenuGroup]);
+    }, [shopIdAtom, setMenuGroup]);
     return (
         <div>
             <MenuNav />
