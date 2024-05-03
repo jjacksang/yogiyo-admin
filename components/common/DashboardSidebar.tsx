@@ -20,19 +20,33 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,tog
   const setShopList = useSetRecoilState(shoplistState);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [store, setStore] = useRecoilState(shoplistState);
+  const [selectedShopId, setSelectedShopId] = useState<number | null>(null);
 
   // 모달 열고 닫는 함수
   const settoggleModal = () => setIsModalOpen(!isModalOpen);
 
   const fetchShopList = async () => {
     try {
-        const fetchedShopList = await ShopList();
-        setStore(fetchedShopList); // 상태 업데이트
+      const fetchedShopList = await ShopList();
+      setStore(fetchedShopList);
+      if (fetchedShopList && fetchedShopList.length > 0) {
+        setSelectedShopId(fetchedShopList[fetchedShopList.length - 1].id);
+      }
     } catch (error) {
-        console.error("가게 목록을 가져오는 중 오류가 발생했습니다:", error);
+      console.error("Failed to fetch shop list:", error);
     }
-};
+  };
 
+useEffect(() => {
+  fetchShopList();
+}, []);
+
+  // Handle changing the selected shop
+  const handleSelectShop = (shopId: number) => {
+    setSelectedShopId(shopId);
+  };
+
+  const selectedShop = store?.find(shop => shop.id === selectedShopId);
 
 
   const ownerStore = (store ?? []).map((shop: OwnerShopList) => {
@@ -50,16 +64,42 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu,tog
   });
   
   useEffect(() => {
-    fetchShopList();
-}, []);
+    // 마지막으로 추가된 가게를 기본 선택
+    if (store && store.length > 0) {
+      setSelectedShopId(store[store.length - 1].id);
+    }
+  }, [store]);
 
 
   return (
     <div style={{ width: '260px', background: '#ffffff' }} className="relative z-10 flex flex-col"> {/* 여기에 배경색 등 스타일 추가 가능 */}
       <div className='flex justify-center py-4 h-[106px] border-b border-gray-200'>
-        <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
-        <button onClick={settoggleModal}>아직 가게가 없습니다</button>
-        </div>
+      {store && store.length > 0 ? (
+          <div>
+            <div className="flex items-center gap-2">
+              <img src={store[store.length - 1].icon} alt={store[store.length - 1].name} className="w-[28px] h-[28px]" />
+              <div className="flex flex-col">
+                <span className="text-lg font-bold">{store[store.length - 1].name}</span>
+                <p className="text-xs">ID: {store[store.length - 1].id}</p>
+              </div>
+            </div>
+            {store.length > 1 && (
+              <select
+                value={selectedShopId ?? ''}
+                onChange={e => handleSelectShop(Number(e.target.value))}
+                className="mt-2"
+              >
+                {store.map(shop => (
+                  <option key={shop.id} value={shop.id}>{shop.name}</option>
+                ))}
+              </select>
+            )}
+          </div>
+        ) : (
+          <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
+            <button onClick={toggleModal}>아직 가게가 없습니다</button>
+          </div>
+        )}
       </div>
       {isModalOpen && (
        <DashboardModal closeModal={settoggleModal} />  
