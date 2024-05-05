@@ -1,12 +1,28 @@
 "use client";
 
+import { navContent } from "@/app/recoil/state";
+import MainMenu from "@/app/test/page";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+
 export const MenuNav = () => {
+    const [selectedNav, setSelectedNav] = useState("menuSet");
+    const [content, setContent] = useRecoilState(navContent);
+
+    const handleSetContent = (showContent: string) => {
+        setSelectedNav(showContent);
+        console.log("핸들러 작동");
+    };
+
+    useEffect(() => {
+        setContent(selectedNav);
+    }, [selectedNav]);
     return (
         <div className="flex bg-white border-none divide-y-0">
             <div className="flex text-xl text-font-black gap-6 px-8 py-4 ">
-                <button>메뉴설정</button>
+                <button onClick={() => handleSetContent("menuSet")}>메뉴설정</button>
                 <button>옵션설정</button>
-                <button>대표메뉴</button>
+                <button onClick={() => handleSetContent("mainMenu")}>대표메뉴</button>
             </div>
         </div>
     );

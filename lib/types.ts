@@ -80,6 +80,7 @@ export interface NewGroupMenu {
 // 모달 오픈 클로즈 타입
 export interface ModalProps {
     onClose: () => void;
+    content?: string;
 }
 
 export interface MenuItem {
@@ -90,12 +91,16 @@ export interface MenuItem {
     picture: string;
     visible: string;
     groupId: number;
-    menus?: MenuItem[];
+    menus?: MenusItem[];
 }
 
-export interface MenuItems {
+export interface MenusItem {
     id: number;
-    menus: MenuItem[];
+    content: string;
+    price: number;
+    name: string;
+    visible: string;
+    picture: string;
 }
 
 export interface ShopId {

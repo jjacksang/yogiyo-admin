@@ -1,12 +1,4 @@
-import {
-    AddMenu,
-    AddMenuGroup,
-    MenuItem,
-    MenuList,
-    MenuItems,
-    userState,
-    ShopId,
-} from "@/lib/types";
+import { AddMenu, AddMenuGroup, MenuItem, MenuList, userState, ShopId } from "@/lib/types";
 import { OwnerShopList } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
 
@@ -73,6 +65,11 @@ export const content = atom({
     default: "main",
 });
 
+export const navContent = atom({
+    key: "dashboardNavContent",
+    default: "menuSet",
+});
+
 export const menuListState = atom<MenuList[]>({
     key: "menuList",
     default: [],
@@ -90,9 +87,27 @@ export const addMenuGroup = atom<AddMenu>({
     },
 });
 
-export const menuItemAtom = atom<Array<MenuItem>>({
+export const menuItemAtom = atom<MenuItem>({
     key: "menuGroups",
-    default: [],
+    default: {
+        id: 1111,
+        name: "name",
+        content: "content",
+        price: 190000,
+        picture: "picture",
+        visible: "show",
+        groupId: 12321,
+        menus: [
+            {
+                id: 111,
+                content: "fdsf",
+                price: 100000,
+                name: "name",
+                visible: "show",
+                picture: "d",
+            },
+        ],
+    },
 });
 
 // shopId저장 아톰
