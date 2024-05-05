@@ -43,7 +43,7 @@ const Page = () => {
                     )}
                     {setContent === "holidaySchedule" && <HolidaySchedule />}
                     {setContent === "menuSet" && (
-                        <MenuSet content={setContent} onClose={() => console.log("메인클릭")} />
+                        <MenuSet onClose={() => console.log("메인클릭")} />
                     )}
                     {setContent === "menuSoldout" && <MenuSoldout />}
                     <Footer />
