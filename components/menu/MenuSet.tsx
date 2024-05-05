@@ -20,7 +20,7 @@ interface Group {
     name: string;
 }
 
-const MenuSet = ({ onClose, content }: ModalProps) => {
+const MenuSet = ({ onClose }: ModalProps) => {
     const [openModal, setOpenModal] = useState({
         addMenuGroup: false,
         addMenuItem: false,

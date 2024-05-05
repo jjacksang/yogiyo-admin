@@ -80,7 +80,6 @@ export interface NewGroupMenu {
 // 모달 오픈 클로즈 타입
 export interface ModalProps {
     onClose: () => void;
-    content?: string;
 }
 
 export interface MenuItem {
