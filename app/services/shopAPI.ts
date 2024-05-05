@@ -55,7 +55,7 @@ export const ShopList = async () => {
     }
 };
 
-// 메뉴 그룹 추가
+// 메뉴 그룹 전체 조회
 export const GroupList = async (shopId: number) => {
     try {
         const res = await getAxios.get(`/owner/menu-group/shop/${shopId}`);
@@ -78,6 +78,6 @@ export const DeleteMenuGroup = async () => {
     }
 };
 
-// 메뉴 그룹 메뉴 추가
+// 메뉴 그룹 추가
 
 // 메뉴 그룹 메뉴 조회
