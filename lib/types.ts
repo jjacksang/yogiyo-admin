@@ -86,10 +86,7 @@ export interface MenuItem {
     id: number;
     name: string;
     content: string;
-    price: number;
-    picture: string;
     visible: string;
-    groupId: number;
     menus?: MenusItem[];
 }
 

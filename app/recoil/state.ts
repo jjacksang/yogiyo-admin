@@ -87,27 +87,26 @@ export const addMenuGroup = atom<AddMenu>({
     },
 });
 
-export const menuItemAtom = atom<MenuItem>({
+export const menuItemAtom = atom<MenuItem[]>({
     key: "menuGroups",
-    default: {
-        id: 1111,
-        name: "name",
-        content: "content",
-        price: 190000,
-        picture: "picture",
-        visible: "show",
-        groupId: 12321,
-        menus: [
-            {
-                id: 111,
-                content: "fdsf",
-                price: 100000,
-                name: "name",
-                visible: "show",
-                picture: "d",
-            },
-        ],
-    },
+    default: [
+        {
+            id: 1111,
+            name: "name",
+            content: "content",
+            visible: "show",
+            menus: [
+                {
+                    id: 111,
+                    content: "fdsf",
+                    price: 100000,
+                    name: "name",
+                    visible: "show",
+                    picture: "d",
+                },
+            ],
+        },
+    ],
 });
 
 // shopId저장 아톰

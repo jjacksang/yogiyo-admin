@@ -8,7 +8,7 @@ import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/AddMenuItem";
 import { ModalProps } from "@/lib/types";
 import { MenuItemList } from "./MenuItemList";
-import MainMenu from "@/app/test/page";
+import MainMenu from "./mainMenu/MainMenu";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -79,13 +79,13 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 const res = await GroupList(shopId);
                 setMenuGroup(res.menuGroups);
                 console.log(res);
-                console.log(menuGroup);
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);
             }
         };
         updateGroupList();
     }, [shopIdAtom, setMenuGroup]);
+    console.log(menuGroup);
     return (
         <div>
             <MenuNav />
@@ -110,75 +110,72 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                 {/* 메뉴 그룹 추가 버튼 */}
                             </div>
                         </div>
-                        {Array.isArray(menuGroup) &&
-                            menuGroup.map((menuItem) => (
+                        {menuGroup.map((menuItem) => (
+                            <div
+                                className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
+                                key={menuItem.id}
+                            >
                                 <div
-                                    className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
-                                    key={menuItem.id}
+                                    className="flex justify-between w-full mb-4"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setSelectGroupId(menuItem.id);
+                                    }}
                                 >
-                                    <div
-                                        className="flex justify-between w-full mb-4"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setSelectGroupId(menuItem.id);
-                                        }}
-                                    >
-                                        <div className="gap-2">
-                                            <p className="text-base font-bold text-font-black">
-                                                {menuItem.name}
-                                            </p>
-                                            <p className="text-xs text-custom-gray">
-                                                {menuItem.content}
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-none items-center pl-2 border rounded-lg relative">
-                                            <>
-                                                <select>
-                                                    <option>판매중</option>
-                                                    <option>하루 품절</option>
-                                                    <option>숨김</option>
-                                                </select>
-                                            </>
-                                            <div>
-                                                <button
-                                                    className="mx-2"
-                                                    onClick={() => toggleViewOption(menuItem.id)}
-                                                >
-                                                    보기
-                                                    {viewOption[menuItem.id] && (
-                                                        <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
-                                                            <li className="flex justify-start py-2">
-                                                                메뉴 수정
-                                                            </li>
-                                                            <li
-                                                                className="flex justify-start py-2"
-                                                                onClick={() =>
-                                                                    deleteMenuGroup(menuItem)
-                                                                }
-                                                            >
-                                                                메뉴 삭제
-                                                            </li>
-                                                        </ul>
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        {/* 판매, 품절 등 드롭다운 메뉴 */}
-                                    </div>
-                                    <div className="flex border-t py-4 text-sm gap-2.5">
-                                        <p
-                                            className="text-yogiyo-blue"
-                                            onClick={() =>
-                                                handleModalOpen("addMenuItem", menuItem.id)
-                                            }
-                                        >
-                                            메뉴 추가
+                                    <div className="gap-2">
+                                        <p className="text-base font-bold text-font-black">
+                                            {menuItem.name}
                                         </p>
-                                        <span>메뉴 순서 변경</span>
+                                        <p className="text-xs text-custom-gray">
+                                            {menuItem.content}
+                                        </p>
                                     </div>
-                                    <MenuItemList menuGroupId={menuItem.id} />
+                                    <div className="flex flex-none items-center pl-2 border rounded-lg relative">
+                                        <>
+                                            <select>
+                                                <option>판매중</option>
+                                                <option>하루 품절</option>
+                                                <option>숨김</option>
+                                            </select>
+                                        </>
+                                        <div>
+                                            <button
+                                                className="mx-2"
+                                                onClick={() => toggleViewOption(menuItem.id)}
+                                            >
+                                                보기
+                                                {viewOption[menuItem.id] && (
+                                                    <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                                        <li className="flex justify-start py-2">
+                                                            메뉴 수정
+                                                        </li>
+                                                        <li
+                                                            className="flex justify-start py-2"
+                                                            onClick={() =>
+                                                                deleteMenuGroup(menuItem)
+                                                            }
+                                                        >
+                                                            메뉴 삭제
+                                                        </li>
+                                                    </ul>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {/* 판매, 품절 등 드롭다운 메뉴 */}
                                 </div>
-                            ))}
+                                <div className="flex border-t py-4 text-sm gap-2.5">
+                                    <p
+                                        className="text-yogiyo-blue"
+                                        onClick={() => handleModalOpen("addMenuItem", menuItem.id)}
+                                    >
+                                        메뉴 추가
+                                    </p>
+                                    <span>메뉴 순서 변경</span>
+                                </div>
+                                <MenuItemList menuGroupId={menuItem.id} />
+                            </div>
+                        ))}
                     </div>
                     {openModal.addMenuGroup && (
                         <AddMenu onClose={() => handleModalClose("addMenuGroup")} />
@@ -191,7 +188,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                     )}
                 </>
             )}
-            {selectedNav === "mainMenu" && <MainMenu />}
+            {selectedNav === "mainMenu" && <MainMenu onClose={onClose} />}
         </div>
     );
 };

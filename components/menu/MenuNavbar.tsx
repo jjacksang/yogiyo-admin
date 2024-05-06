@@ -1,7 +1,6 @@
 "use client";
 
 import { navContent } from "@/app/recoil/state";
-import MainMenu from "@/app/test/page";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
