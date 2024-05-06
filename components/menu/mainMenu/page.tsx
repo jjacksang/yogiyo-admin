@@ -9,24 +9,26 @@ import { useRecoilValue } from "recoil";
 const MainMenu = () => {
     const shopId = useRecoilValue(shopIdAtom);
     const menuGroups = useRecoilValue(menuItemAtom);
+    console.log(shopId);
     console.log(menuGroups);
     const groupId = menuGroups.map((item) => item.id);
     console.log(groupId);
-    // const setMainMenu = async () => {
-    //     try {
-    //         const res = await getAxios.put("/owner/signature-menu/set");
-    //         console.log(menuGroupsData);
-
-    //         if (res.status === 204) {
-    //             console.log(res);
-    //             console.log(res.data);
-    //         } else {
-    //             console.error("대표메뉴조회실패");
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
+    const setMainMenu = async () => {
+        try {
+            const res = await getAxios.put("/owner/signature-menu/set", {
+                shopId: shopId,
+                menuIds: groupId,
+            });
+            if (res.status === 204) {
+                console.log(res);
+                console.log(res.data);
+            } else {
+                console.error("대표메뉴조회실패");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div>
@@ -35,7 +37,10 @@ const MainMenu = () => {
                     <span className="font-bold text-lg">대표메뉴</span>
                     <div className="flex text-sm text-custom-gray">
                         <button className="px-2 py-2">순서 변경</button>
-                        <button className="border rounded-lg bg-yogiyo-blue px-2 py-2 text-white">
+                        <button
+                            className="border rounded-lg bg-yogiyo-blue px-2 py-2 text-white"
+                            onClick={setMainMenu}
+                        >
                             대표 메뉴 설정
                         </button>
                     </div>
