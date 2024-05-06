@@ -35,7 +35,7 @@ const MainMenu = ({ onClose }: ModalProps) => {
         MainMenuModal: false,
     });
 
-    const handleModalOpen = (modalName: string, id?: number) => {
+    const handleModalOpen = (modalName: string) => {
         setOpenModal((prevModal) => ({
             ...prevModal,
             [modalName]: true,
@@ -66,7 +66,7 @@ const MainMenu = ({ onClose }: ModalProps) => {
             </div>
             <div>{/* 대표 메뉴 영역 */}</div>
             {openModal.MainMenuModal && (
-                <MainMenuModal onClose={() => handleModalOpen("MainMenuModal")} />
+                <MainMenuModal onClose={() => handleModalClose("MainMenuModal")} />
             )}
         </div>
     );
