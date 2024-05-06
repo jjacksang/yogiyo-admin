@@ -2,11 +2,12 @@
 
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
-import { MenuItem } from "@/lib/types";
-import { useEffect } from "react";
+import MainMenuModal from "@/app/test/page";
+import { MenuItem, ModalProps } from "@/lib/types";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
-const MainMenu = () => {
+const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
     const menuGroups = useRecoilValue(menuItemAtom);
     console.log(shopId);
@@ -30,6 +31,23 @@ const MainMenu = () => {
         }
     };
 
+    const [openModal, setOpenModal] = useState({
+        MainMenuModal: false,
+    });
+
+    const handleModalOpen = (modalName: string, id?: number) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: true,
+        }));
+    };
+    const handleModalClose = (modalName: string) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: false,
+        }));
+    };
+
     return (
         <div>
             <div className="border rounded-lg w-full h-auto">
@@ -39,7 +57,7 @@ const MainMenu = () => {
                         <button className="px-2 py-2">순서 변경</button>
                         <button
                             className="border rounded-lg bg-yogiyo-blue px-2 py-2 text-white"
-                            onClick={setMainMenu}
+                            onClick={() => handleModalOpen("MainMenuModal")}
                         >
                             대표 메뉴 설정
                         </button>
@@ -47,6 +65,9 @@ const MainMenu = () => {
                 </div>
             </div>
             <div>{/* 대표 메뉴 영역 */}</div>
+            {openModal.MainMenuModal && (
+                <MainMenuModal onClose={() => handleModalOpen("MainMenuModal")} />
+            )}
         </div>
     );
 };
