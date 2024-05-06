@@ -4,7 +4,7 @@ import { menuItemAtom } from "../recoil/state";
 import React from "react";
 import { ModalProps } from "@/lib/types";
 
-const MainMenuModal = ({ onClose }: ModalProps) => {
+export default function MainMenuModal({ onClose }: ModalProps) {
     const menuGroup = useRecoilValue(menuItemAtom);
 
     console.log(menuGroup);
@@ -81,6 +81,4 @@ const MainMenuModal = ({ onClose }: ModalProps) => {
             </div>
         </div>
     );
-};
-
-export default MainMenuModal;
+}
