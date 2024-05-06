@@ -6,15 +6,18 @@ import { ModalProps } from "@/lib/types";
 
 const MainMenuModal = ({ onClose }: ModalProps) => {
     const menuGroup = useRecoilValue(menuItemAtom);
+
     console.log(menuGroup);
 
-    const handleModalOpen = () => {};
+    const handleModalClose = () => {};
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="flex flex-col bg-white w-1/2 h-auto rounded-2xl my-20">
                 <div className="flex py-4">
                     <p className="flex justify-center text-xl font-bold w-full">대표메뉴 설정</p>
-                    <button className="px-4">X</button>
+                    <button className="px-4" onClick={onClose}>
+                        X
+                    </button>
                 </div>
                 <div className="mx-4">
                     <div className="mx-4">
