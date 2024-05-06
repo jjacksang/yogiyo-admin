@@ -86,16 +86,17 @@ export interface MenuItem {
     id: number;
     name: string;
     content: string;
-    price: number;
-    picture: string;
     visible: string;
-    groupId: number;
-    menus?: MenuItem[];
+    menus?: MenusItem[];
 }
 
-export interface MenuItems {
+export interface MenusItem {
     id: number;
-    menus: MenuItem[];
+    content: string;
+    price: number;
+    name: string;
+    visible: string;
+    picture: string;
 }
 
 export interface ShopId {
