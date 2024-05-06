@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import DashboardModal from '../common/DashboardModal';
-import ShopList from '@/app/my/ShopList';
+import { useRecoilValue } from 'recoil';
+import { shoplistState, shopIdAtom } from "../../app/recoil/state";
 
 
 interface Props {
@@ -10,17 +10,34 @@ interface Props {
 
 const PauseService = ({ onClose }: Props) => {
 
-  {/* 반응형 대응 */}
-  const screenWidth = window.innerWidth;
+  const store = useRecoilValue(shoplistState);
+  const selectedShopId = useRecoilValue(shopIdAtom);
+  const selectedShop = store?.find(shop => shop.id === selectedShopId);
 
-  let maxWidthStyle;
-  if (screenWidth >= 1024) {
-    maxWidthStyle = 'calc(100% - 80px)';
-  } else if (screenWidth >= 768) {
-    maxWidthStyle = 'calc(100% - 64px)';
-  } else {
-    maxWidthStyle = '936px';
-  }
+  // 시간 초기상태 관리 
+  const [activeTime, setActiveTime] = useState('');
+
+  const timeOptions = ['30분', '1시간', '2시간', '오늘 하루', '직접 설정'];
+
+  const handleTimeSelect = (time: React.SetStateAction<string>) => {
+    setActiveTime(time);
+  };
+
+
+
+   // 반응형 대응 
+   const [maxWidthStyle, setMaxWidthStyle] = useState('936px');
+  
+   useEffect(() => {
+     const screenWidth = window.innerWidth;
+     if (screenWidth >= 1024) {
+       setMaxWidthStyle('calc(100% - 80px)');
+     } else if (screenWidth >= 768) {
+       setMaxWidthStyle('calc(100% - 64px)');
+     } else {
+       setMaxWidthStyle('936px');
+     }
+   }, []);
 
 
   return (
@@ -56,11 +73,32 @@ const PauseService = ({ onClose }: Props) => {
               <div className="mt-6 mx-6 mb-8">
                 <div className="mb-6">
                   <div className="flex items-center gap-4 mb-4">
-                  <ShopList/>
-
-
+                    <div style={{ flex: 1 }}>
+                      <h1 className="text-lg font-bold">{selectedShop ? selectedShop.name : 'No Shop Selected'}</h1>
+                      <div style={{ height: '1px', background: 'rgba(0, 0, 0, 0.1)', margin: '8px 0' }}></div>
+                        <p style={{ color: 'rgba(0, 0, 0, 0.4)', fontSize: '1rem', marginBottom: '12px' }}>
+                          중지 시간
+                        </p>
+                        <div className="flex gap-2 flex-wrap">
+                          {timeOptions.map(time => (
+                            <button
+                            key={time}
+                            onClick={() => handleTimeSelect(time)}
+                            style={{
+                              border: '1px solid rgb(229, 231, 235)', // Updated border color
+                              borderRadius: '6px',
+                              padding: '6px 12px',
+                              background: '#ffffff',
+                              color: activeTime === time ? '#3B82F6' : 'rgba(0, 0, 0, 0.6)',
+                              fontWeight: activeTime === time ? 'bold' : 'normal',
+                            }}
+                            >
+                              {time}
+                            </button>
+                          ))}
+                        </div>
+                    </div>
                   </div>
-
                 </div>
               </div>
 

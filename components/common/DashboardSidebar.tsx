@@ -19,22 +19,29 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu, to
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [store, setStore] = useRecoilState(shoplistState);
     const [shopId, setShopId] = useRecoilState(shopIdAtom); // shopId를 담은 atom
+    const [selectedShopId, setSelectedShopId] = useRecoilState(shopIdAtom);
+
+    const [shopListDropdownOpen, setShopListDropdownOpen] = useState(false);
+
+    const toggleShopListDropdown = () => setShopListDropdownOpen(!shopListDropdownOpen);
+
 
     // 모달 열고 닫는 함수
     const settoggleModal = () => setIsModalOpen(!isModalOpen);
 
     const fetchShopList = async () => {
         try {
-            const fetchedShopList = await ShopList();
-            const ownerShopId = fetchedShopList[0].id; // shopId중 첫 번째 id값
-            setShopId(ownerShopId); // shopId를 recoil에 저장
-            console.log(ownerShopId);
-            console.log(fetchedShopList);
-            setStore(fetchedShopList); // 상태 업데이트
+          const fetchedShopList = await ShopList();
+          setShopList(fetchedShopList);
+          if (fetchedShopList.length > 0) {
+            const firstShopId = fetchedShopList[0].id; 
+            setShopId(firstShopId);
+            setSelectedShopId(firstShopId);
+          }
         } catch (error) {
-            console.error("가게 목록을 가져오는 중 오류가 발생했습니다:", error);
+          console.error("Error fetching shop list:", error);
         }
-    };
+      };
 
     const ownerStore = (store ?? []).map((shop: OwnerShopList) => {
         return (
@@ -50,23 +57,58 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu, to
         );
     });
 
+
     useEffect(() => {
-        fetchShopList();
-    }, []);
+    const fetchShopList = async () => {
+      try {
+        const fetchedShopList = await ShopList();
+        if (fetchedShopList.length > 0) {
+          setStore(fetchedShopList);
+          setSelectedShopId(fetchedShopList[0].id); 
+        }
+      } catch (error) {
+        console.error("Error fetching shop list:", error);
+      }
+    };
+    fetchShopList();
+  }, [setStore, setSelectedShopId]);
+
+    
+      const handleSelectShop = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedShopId(parseInt(event.target.value, 10));
+      };
+
+      const selectedShop = store?.find(shop => shop.id === selectedShopId);
+
+
 
     return (
-        <div
-            style={{ width: "260px", background: "#ffffff" }}
-            className="relative z-10 flex flex-col"
-        >
-            {" "}
-            {/* 여기에 배경색 등 스타일 추가 가능 */}
+        <div style={{ width: "260px", background: "#ffffff" }} className="relative z-10 flex flex-col">
+            {/* 대시보드 버튼 및 누르면 모달창 나오는 부분 */}
             <div className="flex justify-center py-4 h-[106px] border-b border-gray-200">
-                <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
-                    <button onClick={settoggleModal}>아직 가게가 없습니다</button>
-                </div>
+            {store && store.length > 0 ? (
+            <>
+              <div className="flex items-center gap-2">
+                <img src={selectedShop?.icon} alt={selectedShop?.name} className="w-[28px] h-[28px]" />
+              <div className="flex flex-col">
+                <span className="text-lg font-bold">{selectedShop?.name}</span>
+                <p className="text-xs">ID: {selectedShop?.id}</p>
+              </div>
+                <select value={selectedShopId.toString()} onChange={handleSelectShop} className="mt-2">
+                  {store.map(shop => (
+                    <option key={shop.id} value={shop.id.toString()}>{shop.name}</option>
+                  ))}
+                </select>
+              </div>
+            </>
+            ) : (
+            <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
+              <button onClick={() => setIsModalOpen(true)}>아직 가게가 없습니다</button>
+            </div>
+            )}
             </div>
             {isModalOpen && <DashboardModal closeModal={settoggleModal} />}
+            
             {/* 버튼 3개 부분 */}
             <div
                 style={{ lineHeight: "16px", gap: "4px" }}
