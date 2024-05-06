@@ -14,7 +14,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
         console.error("array아님");
         return null;
     }
-    const menuGroup = menuItemGroups.filter((group) => group.id === menuGroupId)[0];
+    const menuGroup = menuItemGroups.find((group) => group.id === menuGroupId);
     if (!menuGroup) return null;
     const toggleViewOption = () => {
         setViewOption(!viewOption);
@@ -38,7 +38,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
 
     return (
         <div>
-            {menuGroup.menus.map((menuItem: MenusItem) => (
+            {menuGroup.menus?.map((menuItem: MenusItem) => (
                 <div className="flex justify-between w-full mb-4" key={menuItem.id}>
                     <div className="flex flex-col">
                         <span className="text-base font-bold">{menuItem.name}</span>

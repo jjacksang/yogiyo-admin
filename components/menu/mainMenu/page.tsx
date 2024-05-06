@@ -10,7 +10,8 @@ const MainMenu = () => {
     const shopId = useRecoilValue(shopIdAtom);
     const menuGroups = useRecoilValue(menuItemAtom);
     console.log(menuGroups);
-
+    const groupId = menuGroups.map((item) => item.id);
+    console.log(groupId);
     // const setMainMenu = async () => {
     //     try {
     //         const res = await getAxios.put("/owner/signature-menu/set");
