@@ -2,10 +2,10 @@
 
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
-import MainMenuModal from "@/app/test/page";
 import { MenuItem, ModalProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+import MainMenuModal from "./page";
 
 const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);

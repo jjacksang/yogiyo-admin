@@ -1,6 +1,6 @@
 "use client";
 import { useRecoilValue } from "recoil";
-import { menuItemAtom } from "../recoil/state";
+import { menuItemAtom } from "../../../app/recoil/state";
 import React from "react";
 import { ModalProps } from "@/lib/types";
 
