@@ -93,10 +93,7 @@ export const menuItemAtom = atom<MenuItem>({
         id: 1111,
         name: "name",
         content: "content",
-        price: 190000,
-        picture: "picture",
         visible: "show",
-        groupId: 12321,
         menus: [
             {
                 id: 111,

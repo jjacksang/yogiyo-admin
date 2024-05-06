@@ -2,18 +2,18 @@
 
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
+import { MenuItem } from "@/lib/types";
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 
 const MainMenu = () => {
-    // const shopId = useRecoilValue(shopIdAtom);
-    // const menuGroupData = useRecoilValue(menuItemAtom);
-    // console.log(menuGroupData);
+    const shopId = useRecoilValue(shopIdAtom);
+    const menuGroups = useRecoilValue(menuItemAtom);
+    console.log(menuGroups);
 
     // const setMainMenu = async () => {
     //     try {
     //         const res = await getAxios.put("/owner/signature-menu/set");
-    //         const menuGroupsData = menuGroupData.map((ids) => ids.id);
     //         console.log(menuGroupsData);
 
     //         if (res.status === 204) {

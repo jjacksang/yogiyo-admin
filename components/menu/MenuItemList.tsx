@@ -1,5 +1,5 @@
 import { menuItemAtom } from "@/app/recoil/state";
-import { MenuItem } from "@/lib/types";
+import { MenuItem, MenusItem } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -38,7 +38,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
 
     return (
         <div>
-            {menuGroup.menus.map((menuItem: MenuItem) => (
+            {menuGroup.menus.map((menuItem: MenusItem) => (
                 <div className="flex justify-between w-full mb-4" key={menuItem.id}>
                     <div className="flex flex-col">
                         <span className="text-base font-bold">{menuItem.name}</span>

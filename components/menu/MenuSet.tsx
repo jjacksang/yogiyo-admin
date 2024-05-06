@@ -8,7 +8,7 @@ import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/AddMenuItem";
 import { ModalProps } from "@/lib/types";
 import { MenuItemList } from "./MenuItemList";
-import MainMenu from "@/app/test/page";
+import MainMenu from "@/components/menu/mainMenu/page";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -79,13 +79,13 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 const res = await GroupList(shopId);
                 setMenuGroup(res.menuGroups);
                 console.log(res);
-                console.log(menuGroup);
             } catch (error) {
                 console.error("리스트 업데이트 실패", error);
             }
         };
         updateGroupList();
     }, [shopIdAtom, setMenuGroup]);
+    console.log(menuGroup);
     return (
         <div>
             <MenuNav />
