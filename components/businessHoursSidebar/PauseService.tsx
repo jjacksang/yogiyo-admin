@@ -75,16 +75,19 @@ const PauseService = ({ onClose }: Props) => {
                   <div className="flex items-center gap-4 mb-4">
                     <div style={{ flex: 1 }}>
                       <h1 className="text-lg font-bold">{selectedShop ? selectedShop.name : 'No Shop Selected'}</h1>
-                      <div style={{ height: '1px', background: 'rgba(0, 0, 0, 0.1)', margin: '8px 0' }}></div>
-                        <p style={{ color: 'rgba(0, 0, 0, 0.4)', fontSize: '1rem', marginBottom: '12px' }}>
+                      <div style={{ height: '1px', background: 'rgba(0, 0, 0, 0.1)', margin: '20px 0' }}></div>
+                        <p style={{ color: 'rgba(0, 0, 0, 0.4)', fontSize: '1rem', marginTop:'20px', marginBottom: '12px' }}>
                           중지 시간
                         </p>
-                        <div className="flex gap-2 flex-wrap">
+
+                        {/* 버튼 속성 */}
+                        <div className="flex gap-2 flex-wrap ">
                           {timeOptions.map(time => (
                             <button
                             key={time}
                             onClick={() => handleTimeSelect(time)}
                             style={{
+                              width: '100px',
                               border: '1px solid rgb(229, 231, 235)', // Updated border color
                               borderRadius: '6px',
                               padding: '6px 12px',
@@ -97,6 +100,53 @@ const PauseService = ({ onClose }: Props) => {
                             </button>
                           ))}
                         </div>
+
+                        {/* 추가된 네모난 박스 */}
+                        <div style={{
+                          width: '530px',
+                          height: '120px', // 높이 설정
+                          backgroundColor: '#efefef', 
+                          borderRadius: '6px', 
+                          marginTop: '20px',
+                        }}>
+                          <div className="ml-6 pt-5 space-y-1 text-gray-600">
+                          <span className=" text-gray-500">설정 범위</span>
+                              <div className="flex items-center space-x-2 pt-5">
+                                <span className="text-sm text-gray-400">시작</span>
+                                <span className="text-gray-500">지금부터</span>
+                                <span>~</span>
+                                <span className="text-sm text-gray-400">종료</span>
+                                
+                                {/* 드롭박스 2개  */}
+                                <div className="flex items-center space-x-2">
+                                  <div className="relative">
+                                    <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
+                                      <option>오후 10시</option>
+                                      <option>오후 11시</option>
+                                      <option>다음날 밤 12시</option>
+                                      <option>다음날 오전 1시</option>
+                                      <option>다음날 오전 2시</option>
+                                      <option>다음날 오전 3시</option>
+                                      <option>다음날 오전 4시</option>
+                                      <option>다음날 오전 5시</option>
+                                      <option>다음날 오전 6시</option>
+                                    </select>
+                                  </div>
+                                </div>
+
+                                <div className="relative">
+                                  <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
+                                    <option>00분</option>
+                                    <option>10분</option>
+                                    <option>20분</option>
+                                    <option>30분</option>
+                                    <option>40분</option>
+                                    <option>50분</option>
+                                  </select>
+                                </div>
+                              </div>
+                          </div>   
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -105,9 +155,12 @@ const PauseService = ({ onClose }: Props) => {
 
 
               {/* 아랫 부분 */}
-              <div className="pt-8 px-6 pb-6" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.1)' }}>
+              <div className="pt-8 px-6 pb-6 flex justify-center items-center" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.1)' }}>
                 <div className="flex items-center">
                   <div className="flex items-center flex-auto" style={{minHeight: '2.5rem',fontSize: '1.375rem', lineHeight: '1.875rem', color: 'rgba(0, 0, 0, 0.8)'}}></div>
+                  <button className=" bg-blue-500 text-white px-20 py-3 font-bold rounded-md">
+                    일시중지
+                  </button>
                 </div>
               </div>
 
