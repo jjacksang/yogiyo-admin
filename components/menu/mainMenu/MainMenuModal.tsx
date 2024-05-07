@@ -1,15 +1,37 @@
 "use client";
 import { useRecoilValue } from "recoil";
-import { menuItemAtom } from "../../../app/recoil/state";
+import { menuItemAtom, shopIdAtom } from "../../../app/recoil/state";
 import React from "react";
-import { ModalProps } from "@/lib/types";
+import { MenuItem, MenusItem, ModalProps } from "@/lib/types";
+import { getAxios } from "@/app/services/loginAPI";
 
 export default function MainMenuModal({ onClose }: ModalProps) {
     const menuGroup = useRecoilValue(menuItemAtom);
+    const shopId = useRecoilValue(shopIdAtom);
+    console.log(shopId);
+    console.log(menuGroup);
+    const groupId = menuGroup.map((item) => item.id);
+    console.log(groupId);
+    if (!menuGroup) return null;
+    const setMainMenu = async () => {
+        try {
+            const res = await getAxios.put("/owner/signature-menu/set", {
+                shopId: shopId,
+                menuIds: groupId,
+            });
+            if (res.status === 204) {
+                console.log(res);
+                console.log(res.data);
+            } else {
+                console.error("대표메뉴조회실패");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     console.log(menuGroup);
 
-    const handleModalClose = () => {};
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="flex flex-col bg-white w-1/2 h-auto rounded-2xl my-20">
@@ -36,7 +58,7 @@ export default function MainMenuModal({ onClose }: ModalProps) {
                     </div>
                     <div>
                         {/* 대표메뉴 그룹 조건렌더 영역 */}
-                        {menuGroup.map((menuItem) => (
+                        {menuGroup?.map((menuItem) => (
                             <div
                                 className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
                                 key={menuItem.id}
@@ -53,27 +75,16 @@ export default function MainMenuModal({ onClose }: ModalProps) {
                                             {menuItem.name}
                                         </p>
                                     </div>
-                                    <div className="flex flex-none items-center pl-2 border rounded-lg relative">
-                                        <>
-                                            <select>
-                                                <option>판매중</option>
-                                                <option>하루 품절</option>
-                                                <option>숨김</option>
-                                            </select>
-                                        </>
-                                    </div>
                                     {/* 판매, 품절 등 드롭다운 메뉴 */}
                                 </div>
-                                {/* {menuGroup.menus?.map((menuItem: MenusItem) => (
-                <div className="flex justify-between w-full mb-4" key={menuItem.id}>
-                    <div className="flex flex-col">
-                        <span className="text-base font-bold">{menuItem.name}</span>
-                        <p className="text-xs text-custom-gray pb-2">{menuItem.content}</p>
-                        <p className="text-xs">{menuItem.price}</p>
-                    </div>
-                    
-                </div>
-            ))} */}
+                                {menuItem?.menus?.map((item) => (
+                                    <div className="flex justify-between w-full mb-4" key={item.id}>
+                                        <div className="flex flex-col">
+                                            <span className="text-base font-bold">{item.name}</span>
+                                            <p className="text-xs">{item.price}</p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         ))}
                     </div>

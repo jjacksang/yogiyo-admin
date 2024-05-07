@@ -5,32 +5,10 @@ import { getAxios } from "@/app/services/loginAPI";
 import { MenuItem, ModalProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import MainMenuModal from "./page";
+import MainMenuModal from "./MainMenuModal";
 
 const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
-    const menuGroups = useRecoilValue(menuItemAtom);
-    console.log(shopId);
-    console.log(menuGroups);
-    const groupId = menuGroups.map((item) => item.id);
-    console.log(groupId);
-    const setMainMenu = async () => {
-        try {
-            const res = await getAxios.put("/owner/signature-menu/set", {
-                shopId: shopId,
-                menuIds: groupId,
-            });
-            if (res.status === 204) {
-                console.log(res);
-                console.log(res.data);
-            } else {
-                console.error("대표메뉴조회실패");
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     const [openModal, setOpenModal] = useState({
         MainMenuModal: false,
     });
@@ -47,6 +25,20 @@ const MainMenu = ({ onClose }: ModalProps) => {
             [modalName]: false,
         }));
     };
+    useEffect(() => {
+        const getSignatureMenu = async () => {
+            try {
+                const res = await getAxios.get(`/owner/signature-menu/shop/${shopId}`);
+                if (res.status === 200) {
+                    console.log(res);
+                    console.log(res.data);
+                }
+            } catch (error) {
+                console.error("대표 메뉴 조회 실패", error);
+            }
+        };
+        getSignatureMenu();
+    }, []);
 
     return (
         <div>
