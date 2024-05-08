@@ -1,3 +1,4 @@
+import axios from "axios";
 import { getAxios } from "./loginAPI";
 // 가게 정보 조회
 interface ShopInfo {
@@ -40,8 +41,8 @@ export interface OwnerShopList {
 
 // 가게 일시정지
 export interface TempCloseShopRequest {
-    closeUntil: string;
-    today: null | string;
+    closeUntil: string | null;
+    today: boolean | null;
 }
 
 export const ShopList = async () => {
@@ -81,3 +82,14 @@ export const DeleteMenuGroup = async () => {
 // 메뉴 그룹 추가
 
 // 메뉴 그룹 메뉴 조회
+
+// 일시정지
+export const tempCloseShop = async (shopId: number, tempCloseRequest: TempCloseShopRequest) => {
+    try {
+      const response = await axios.patch(`/owner/shop/${shopId}/temp-close`, tempCloseRequest);
+      return response.data;
+    } catch (error) {
+      console.error('Error while attempting to temporarily close the shop:', error);
+      throw error;  // Error rethrowing to be handled by the caller
+    }
+  };

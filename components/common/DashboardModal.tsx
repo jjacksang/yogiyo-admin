@@ -172,7 +172,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'icon' |
   };
 
   return (
-    <div className="fixed left-2 overflow-y-auto flex flex-col h-[calc(100vh-196px)] max-h-[600px] min-h-[230px] w-[360px] rounded-lg border border-[rgba(0,0,0,0.8)] bg-white shadow-md text-[rgba(0,0,0,0.6)] z-20 cursor-default lg:absolute lg:top-[166px] lg:right-0"
+    <div className="fixed left-2 overflow-y-auto flex flex-col h-[calc(100vh-196px)] max-h-[600px] min-h-[230px] w-[360px] rounded-lg border border-[rgba(0,0,0,0.8)] bg-white shadow-md text-[rgba(0,0,0,0.6)] cursor-default lg:absolute lg:top-[100px] lg:right-0"
      style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 8px', zIndex: 1000 }}>
        <div className="flex flex-col flex-none bg-white rounded-t-lg z-10 pt-4">
         <div className="flex flex-col flex-auto h-auto rounded-b-lg overflow-y-auto bg-white p-0" style={{padding: '16px 0px'}}>
@@ -213,24 +213,26 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'icon' |
             <label className="block text-sm font-medium text-gray-700">업종 카테고리</label>
             <input value={categories}  onChange={(e) => setCategories(e.target.value)}type="text" className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"/>
           </div>
+
           {/* icon 부분 파일업로드창 */}
           <div className="mb-4">
             <label htmlFor="icon-upload" className="block text-sm font-medium text-gray-700">Icon</label>
             <div className="mt-1 flex justify-between items-center">
-              <input type="text" className="p-1 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 mr-2 flex-grow w-1/3" value={iconFileName} readOnly/>
+            <input type="text" className="p-1 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 mr-2 flex-grow w-1/3 h-9" value={iconFileName} readOnly/>
               <input type="file" id="icon-upload" className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, 'icon')}/>
-              <label htmlFor="icon-upload" className="cursor-pointer py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors text-sm w-1/3">
+              <label htmlFor="icon-upload" className="cursor-pointer py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors text-sm w-1/4 text-center">
                 파일 찾기
               </label>
             </div>
           </div>
+
           {/* banner 부분 파일업로드창*/}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Banner</label>
             <div className="mt-1 flex justify-between items-center">            
-              <input type="text" className="p-1 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 mr-2 flex-grow w-1/3" value={bannerFileName} readOnly/>
+            <input type="text" className="p-1 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 mr-2 flex-grow w-1/3 h-9" value={bannerFileName} readOnly/>
               <input type="file" id="banner-upload" className="hidden" accept="image/*" onChange={(e) => handleFileChange(e, 'banner')}/>
-              <label htmlFor="banner-upload" className="cursor-pointer py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors text-sm w-1/3">
+              <label htmlFor="icon-upload" className="cursor-pointer py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors text-sm w-1/4 text-center">
                 파일 찾기
               </label>
             </div>

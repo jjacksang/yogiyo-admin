@@ -37,8 +37,8 @@ export const DashboardMypageMain = () => {
   };
 
   return (
-    <div className="relative overflow-auto z-10 bg-[#F7F7F7]" style={{ flex: '1 1 auto', overscrollBehavior: 'none' }}>
-      <div className="relative z-10">
+    <div className="relative overflow-auto bg-[#F7F7F7]" style={{ flex: '1 1 auto', overscrollBehavior: 'none' }}>
+      <div className="relative">
         <div className="flex flex-col z-10 mx-auto p-10 max-w-[936px] lg:p-[40px]">
           <p className="text-xl font-bold mb-4" style={{ lineHeight: '27px', color: 'rgba(0, 0, 0, 0.8)' }}>
             내 정보
