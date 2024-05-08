@@ -10,10 +10,6 @@ interface MenuItemListProps {
 export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
     const [viewOption, setViewOption] = useState<Boolean>(false);
     const menuItemGroups = useRecoilValue(menuItemAtom);
-    if (!Array.isArray(menuItemGroups)) {
-        console.error("array아님");
-        return null;
-    }
     const menuGroup = menuItemGroups.find((group) => group.id === menuGroupId);
     if (!menuGroup) return null;
     const toggleViewOption = () => {
