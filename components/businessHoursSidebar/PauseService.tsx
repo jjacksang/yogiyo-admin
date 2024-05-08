@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { shoplistState, shopIdAtom } from "../../app/recoil/state";
-
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { shoplistState, shopIdAtom, tempCloseShopRequestState  } from "../../app/recoil/state";
+import { TempCloseShopRequest, tempCloseShop } from '@/app/services/shopAPI';
 
 interface Props {
   onClose: () => void; 
@@ -12,18 +12,69 @@ const PauseService = ({ onClose }: Props) => {
 
   const store = useRecoilValue(shoplistState);
   const selectedShopId = useRecoilValue(shopIdAtom);
+  const [tempCloseRequest, setTempCloseRequest] = useRecoilState(tempCloseShopRequestState);
   const selectedShop = store?.find(shop => shop.id === selectedShopId);
 
-  // 시간 초기상태 관리 
+
+  // 시간 초기상태 관리
   const [activeTime, setActiveTime] = useState('');
 
   const timeOptions = ['30분', '1시간', '2시간', '오늘 하루', '직접 설정'];
 
-  const handleTimeSelect = (time: React.SetStateAction<string>) => {
+  const handleTimeSelect = (time: string) => {
     setActiveTime(time);
+
+    let closeUntil: string | null = null;
+    let today: boolean | null = null;
+
+    const now = new Date();
+
+    switch (time) {
+      case '30분':
+        closeUntil = new Date(now.getTime() + 30 * 60000).toISOString();
+        today = null;
+        break;
+      case '1시간':
+        closeUntil = new Date(now.getTime() + 60 * 60000).toISOString();
+        today = null;
+        break;
+      case '2시간':
+        closeUntil = new Date(now.getTime() + 120 * 60000).toISOString();
+        today = null;
+        break;
+      case '오늘 하루':
+        // 설정된 시간에 맞게 오늘 자정까지 일시중지
+        const midnight = new Date(now.setHours(23, 59, 59, 999)).toISOString();
+        closeUntil = midnight;
+        today = true;
+        break;
+      default:
+        // '직접 설정' 또는 다른 옵션 선택 시 null 처리
+        closeUntil = null;
+        today = null;
+        break;
+    }
+
+    // 업데이트된 상태 설정
+    setTempCloseRequest({ closeUntil, today });
   };
 
 
+  // 서버로 일시 중지 요청 보내는 핸들러
+  const handleTempClose = async () => {
+    if (selectedShopId && tempCloseRequest && tempCloseRequest.closeUntil) {
+      try {
+        await tempCloseShop(selectedShopId, tempCloseRequest);
+        alert('가게 일시중지가 성공적으로 업데이트되었습니다.');
+        onClose(); // 성공적으로 완료되면 모달을 닫거나 적절한 액션 수행
+      } catch (error) {
+        console.error('가게 일시중지 오류:', error);
+        alert('가게 일시중지 중 오류가 발생했습니다.');
+      }
+    } else {
+      alert('일시중지 정보를 완전히 입력해주세요.');
+    }
+  };
 
    // 반응형 대응 
    const [maxWidthStyle, setMaxWidthStyle] = useState('936px');
@@ -158,7 +209,7 @@ const PauseService = ({ onClose }: Props) => {
               <div className="pt-8 px-6 pb-6 flex justify-center items-center" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.1)' }}>
                 <div className="flex items-center">
                   <div className="flex items-center flex-auto" style={{minHeight: '2.5rem',fontSize: '1.375rem', lineHeight: '1.875rem', color: 'rgba(0, 0, 0, 0.8)'}}></div>
-                  <button className=" bg-blue-500 text-white px-20 py-3 font-bold rounded-md">
+                  <button onClick={handleTempClose} className=" bg-blue-500 text-white px-20 py-3 font-bold rounded-md">
                     일시중지
                   </button>
                 </div>

@@ -1,5 +1,5 @@
 import { AddMenu, AddMenuGroup, MenuItem, MenuList, userState, ShopId } from "@/lib/types";
-import { OwnerShopList } from "../../app/services/shopAPI";
+import { OwnerShopList, TempCloseShopRequest } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
 
 const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
@@ -113,4 +113,10 @@ export const menuItemAtom = atom<MenuItem[]>({
 export const shopIdAtom = atom<number>({
     key: "shopId",
     default: 11111,
+});
+
+// 일시정지 상태 저장 
+export const tempCloseShopRequestState = atom<TempCloseShopRequest | null>({
+    key: 'tempCloseShopRequestState',
+    default: null,
 });
