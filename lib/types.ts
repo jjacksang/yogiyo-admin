@@ -87,7 +87,7 @@ export interface MenuItem {
     name: string;
     content: string;
     visible: string;
-    menus?: MenusItem[];
+    menus?: MenusItem[] | null;
 }
 
 export interface MenusItem {
