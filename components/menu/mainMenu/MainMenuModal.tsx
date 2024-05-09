@@ -9,8 +9,6 @@ export default function MainMenuModal({ onClose }: ModalProps) {
     const menuGroup = useRecoilValue(menuItemAtom);
     const shopId = useRecoilValue(shopIdAtom);
     const [checkMenuList, setCheckMenuList] = useState<number[]>([]);
-    const [isChecked, setIsChecked] = useState([]);
-    const [menuIds, setMenuIds] = useState<number>();
 
     const setMainMenu = async () => {
         try {
@@ -41,7 +39,7 @@ export default function MainMenuModal({ onClose }: ModalProps) {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="flex flex-col bg-white w-1/2 h-3/4 rounded-2xl my-20 overflow-y-auto">
-                <div className="flex py-4">
+                <div className="flex py-4 mb-4 border-y">
                     <p className="flex justify-center text-xl font-bold w-full">대표메뉴 설정</p>
                     <button className="px-4" onClick={onClose}>
                         X
@@ -62,58 +60,64 @@ export default function MainMenuModal({ onClose }: ModalProps) {
                             </li>
                         </ul>
                     </div>
-                    <div className="px-4">
-                        {/* 대표메뉴 그룹 조건렌더 영역 */}
-                        {menuGroup?.map((menuItem) => (
-                            <div
-                                className="flex flex-col px-8 py-4 mt-4 border rounded-lg "
-                                key={menuItem.id}
-                            >
-                                <div className="flex justify-between w-full mb-2">
-                                    <div className="gap-2">
-                                        <p className="text-xl font-bold text-font-black">
-                                            {menuItem.name}
-                                        </p>
-                                    </div>
-                                    {/* 판매, 품절 등 드롭다운 메뉴 */}
-                                </div>
-                                {menuItem.menus?.map((item) => (
-                                    <div
-                                        className="flex justify-between w-full mb-4 px-2"
-                                        key={item.id}
-                                    >
-                                        <div className="flex flex-col">
-                                            <div className="flex">
-                                                <input
-                                                    type="checkbox"
-                                                    value={item.id}
-                                                    className="text-base font-bold mr-2"
-                                                    checked={
-                                                        checkMenuList.includes(item.id)
-                                                            ? true
-                                                            : false
-                                                    }
-                                                    onChange={(e) => {
-                                                        onCheckedList(
-                                                            e.target.checked,
-                                                            parseInt(e.target.value)
-                                                        );
-                                                    }}
-                                                />
-                                                <label>{item.name}</label>
-                                            </div>
-                                            <p className="text-xs text-custom-gray pl-[22px]">
-                                                {item.price}원
+                    <form className="px-4">
+                        <div>
+                            {menuGroup?.map((menuItem) => (
+                                <div
+                                    className="flex flex-col px-8 py-4 mt-4 border rounded-lg "
+                                    key={menuItem.id}
+                                >
+                                    <div className="flex justify-between w-full mb-2">
+                                        <div className="gap-2">
+                                            <p className="text-xl font-bold text-font-black">
+                                                {menuItem.name}
                                             </p>
                                         </div>
+                                        {/* 판매, 품절 등 드롭다운 메뉴 */}
                                     </div>
-                                ))}
-                            </div>
-                        ))}
-                        <div>
-                            <button onClick={setMainMenu}>저장</button>
+                                    {menuItem.menus?.map((item) => (
+                                        <div
+                                            className="flex justify-between w-full mb-4 px-2"
+                                            key={item.id}
+                                        >
+                                            <div className="flex flex-col">
+                                                <div className="flex">
+                                                    <input
+                                                        type="checkbox"
+                                                        value={item.id}
+                                                        className="text-base font-bold mr-2"
+                                                        checked={
+                                                            checkMenuList.includes(item.id)
+                                                                ? true
+                                                                : false
+                                                        }
+                                                        onChange={(e) => {
+                                                            onCheckedList(
+                                                                e.target.checked,
+                                                                parseInt(e.target.value)
+                                                            );
+                                                        }}
+                                                    />
+                                                    <label>{item.name}</label>
+                                                </div>
+                                                <p className="text-xs text-custom-gray pl-[22px]">
+                                                    {item.price}원
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
                         </div>
-                    </div>
+                    </form>
+                </div>
+                <div className="flex justify-center p-4 border-t ">
+                    <button
+                        onClick={setMainMenu}
+                        className="border rounded-xl w-full h-auto bg-yogiyo-blue text-white py-4 mx-4 text-xl font-bold"
+                    >
+                        저장
+                    </button>
                 </div>
             </div>
         </div>
