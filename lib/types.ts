@@ -95,7 +95,7 @@ export interface MenusItem {
     content: string;
     price: number;
     name: string;
-    visible: string;
+    visible?: string;
     picture: string;
 }
 
