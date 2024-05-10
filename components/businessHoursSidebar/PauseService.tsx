@@ -17,10 +17,11 @@ const PauseService = ({ onClose }: Props) => {
 
 
   // 시간 초기상태 관리
-  const [activeTime, setActiveTime] = useState('');
+  const [activeTime, setActiveTime] = useState<string>('');
 
   const timeOptions = ['30분', '1시간', '2시간', '오늘 하루', '직접 설정'];
 
+  // 일시 중지 설정을 관리하는 함수
   const handleTimeSelect = (time: string) => {
     setActiveTime(time);
 
@@ -30,51 +31,52 @@ const PauseService = ({ onClose }: Props) => {
     const now = new Date();
 
     switch (time) {
-      case '30분':
-        closeUntil = new Date(now.getTime() + 30 * 60000).toISOString();
-        today = null;
-        break;
-      case '1시간':
-        closeUntil = new Date(now.getTime() + 60 * 60000).toISOString();
-        today = null;
-        break;
-      case '2시간':
-        closeUntil = new Date(now.getTime() + 120 * 60000).toISOString();
-        today = null;
-        break;
-      case '오늘 하루':
-        // 설정된 시간에 맞게 오늘 자정까지 일시중지
-        const midnight = new Date(now.setHours(23, 59, 59, 999)).toISOString();
-        closeUntil = midnight;
-        today = true;
-        break;
-      default:
-        // '직접 설정' 또는 다른 옵션 선택 시 null 처리
-        closeUntil = null;
-        today = null;
-        break;
+        case '30분':
+            closeUntil = new Date(now.getTime() + 30 * 60000).toISOString();
+            today = false;
+            break;
+        case '1시간':
+            closeUntil = new Date(now.getTime() + 60 * 60000).toISOString();
+            today = false;
+            break;
+        case '2시간':
+            closeUntil = new Date(now.getTime() + 120 * 60000).toISOString();
+            today = false;
+            break;
+        case '오늘 하루':
+            // 오늘 자정까지
+            closeUntil = new Date(now.setHours(23, 59, 59, 999)).toISOString();
+            today = true;
+            break;
+        default:
+            closeUntil = null;
+            today = null;
+            break;
     }
 
     // 업데이트된 상태 설정
     setTempCloseRequest({ closeUntil, today });
-  };
+
+    // 디버깅 용도 로깅
+    console.log('Time selected:', time);
+};
 
 
-  // 서버로 일시 중지 요청 보내는 핸들러
-  const handleTempClose = async () => {
+   // 서버로 일시 중지 요청 보내는 핸들러
+   const handleTempClose = async () => {
     if (selectedShopId && tempCloseRequest && tempCloseRequest.closeUntil) {
-      try {
-        await tempCloseShop(selectedShopId, tempCloseRequest);
-        alert('가게 일시중지가 성공적으로 업데이트되었습니다.');
-        onClose(); // 성공적으로 완료되면 모달을 닫거나 적절한 액션 수행
-      } catch (error) {
-        console.error('가게 일시중지 오류:', error);
-        alert('가게 일시중지 중 오류가 발생했습니다.');
-      }
+        try {
+            await tempCloseShop(selectedShopId, tempCloseRequest);
+            alert('가게 일시중지가 성공적으로 업데이트되었습니다.');
+            onClose(); // 성공적으로 완료되면 모달을 닫거나 적절한 액션 수행
+        } catch (error) {
+            console.error('가게 일시중지 오류:', error);
+            alert('가게 일시중지 중 오류가 발생했습니다.');
+        }
     } else {
-      alert('일시중지 정보를 완전히 입력해주세요.');
+        alert('일시중지 정보를 완전히 입력해주세요.');
     }
-  };
+};
 
    // 반응형 대응 
    const [maxWidthStyle, setMaxWidthStyle] = useState('936px');
