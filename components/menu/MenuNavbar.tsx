@@ -20,7 +20,7 @@ export const MenuNav = () => {
         <div className="flex bg-white border-none divide-y-0">
             <div className="flex text-xl text-font-black gap-6 px-8 py-4 ">
                 <button onClick={() => handleSetContent("menuSet")}>메뉴설정</button>
-                <button>옵션설정</button>
+                <button onClick={() => handleSetContent("optionMenu")}>옵션설정</button>
                 <button onClick={() => handleSetContent("mainMenu")}>대표메뉴</button>
             </div>
         </div>
