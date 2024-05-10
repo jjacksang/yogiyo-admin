@@ -1,8 +1,8 @@
 "use client";
 
-import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
+import { shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
-import { MenuItem, MenusItem, ModalProps } from "@/lib/types";
+import { MenusItem, ModalProps } from "@/lib/types";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import MainMenuModal from "./MainMenuModal";
