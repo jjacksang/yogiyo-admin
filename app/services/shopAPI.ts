@@ -83,14 +83,17 @@ export const DeleteMenuGroup = async () => {
 
 // 메뉴 그룹 메뉴 조회
 
-// 일시정지
+// 일시정지 기능
 export const tempCloseShop = async (shopId: number, tempCloseRequest: TempCloseShopRequest) => {
     try {
-        const response = await axios.patch(`/owner/shop/${shopId}/temp-close`, tempCloseRequest);
-        return response.data;
+        const response = await getAxios.patch(`/owner/shop/${shopId}/temp-close`, tempCloseRequest);
+        if (response.status === 204) {
+            return 'Success'; // 성공 응답 처리
+        }
+        return response.data; // 기타 응답 데이터 처리
     } catch (error) {
         console.error("Error while attempting to temporarily close the shop:", error);
-        throw error; // Error rethrowing to be handled by the caller
+        throw error; // 에러 재던지기
     }
 };
 
