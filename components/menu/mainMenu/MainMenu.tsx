@@ -1,14 +1,15 @@
 "use client";
 
-import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
+import { shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
-import { MenuItem, ModalProps } from "@/lib/types";
-import { useEffect, useState } from "react";
+import { MenusItem, ModalProps } from "@/lib/types";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import MainMenuModal from "./MainMenuModal";
 
 const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
+    const [mainMenus, setMainMenus] = useState([]);
     const [openModal, setOpenModal] = useState({
         MainMenuModal: false,
     });
@@ -25,24 +26,56 @@ const MainMenu = ({ onClose }: ModalProps) => {
             [modalName]: false,
         }));
     };
-    useEffect(() => {
-        const getSignatureMenu = async () => {
-            try {
-                const res = await getAxios.get(`/owner/signature-menu/shop/${shopId}`);
-                if (res.status === 200) {
-                    console.log(res);
-                    console.log(res.data);
-                }
-            } catch (error) {
-                console.error("대표 메뉴 조회 실패", error);
+
+    const getSignatureMenu = async () => {
+        try {
+            const res = await getAxios.get(`/owner/signature-menu/shop/${shopId}`);
+            if (res.status === 200) {
+                console.log(res.data);
+                setMainMenus(res.data.signatureMenus);
             }
-        };
+        } catch (error) {
+            console.error("대표 메뉴 조회 실패", error);
+        }
+    };
+
+    const deleteMainMenu = async (menuId: number) => {
+        const response = await getAxios.delete(`/owner/signature-menu/delete/${menuId}`);
+        if (response.status === 204) {
+            const updateMainMenu = mainMenus.filter((menu: MenusItem) => menu.id !== menuId);
+            setMainMenus(updateMainMenu);
+            console.log(updateMainMenu);
+        } else {
+            console.log("삭제 요청 실패");
+        }
+    };
+
+    const memoizedMainMenu = useMemo(() => {
+        return mainMenus;
+    }, [mainMenus]);
+
+    useEffect(() => {
         getSignatureMenu();
-    }, []);
+    }, [shopId]);
+    console.log(mainMenus);
+
+    const ifMainMenuNull = () => {
+        // 만약 대표메뉴가 없을 때 렌더하기 위한 요소
+        return (
+            <div className="flex flex-col items-center my-28">
+                <img
+                    src="/Icons/대표메뉴없을때.svg"
+                    alt="대표메뉴없을때"
+                    className="w-[160px] h-[160px]"
+                />
+                <span className="flex justify-center">설정한 대표메뉴가 없습니다</span>
+            </div>
+        );
+    };
 
     return (
-        <div>
-            <div className="border rounded-lg w-full h-auto">
+        <div className="my-8 mx-4">
+            <div className="border rounded-lg bg-white w-full h-auto">
                 <div className="flex justify-between py-4 px-4">
                     <span className="font-bold text-lg">대표메뉴</span>
                     <div className="flex text-sm text-custom-gray">
@@ -56,7 +89,42 @@ const MainMenu = ({ onClose }: ModalProps) => {
                     </div>
                 </div>
             </div>
-            <div>{/* 대표 메뉴 영역 */}</div>
+            <div className="border rounded-lg bg-white w-full h-auto mt-4 ">
+                <div>
+                    {mainMenus.length === 0 ? (
+                        ifMainMenuNull()
+                    ) : (
+                        <>
+                            {memoizedMainMenu.map((item: MenusItem) => (
+                                <div className="">
+                                    <div className="flex items-center justify-between border-b">
+                                        <div className="flex">
+                                            <img src={item.picture} className="border rounded-lg" />
+                                            <div className="flex flex-col">
+                                                <span className="text-xl font-bold">
+                                                    {item.name}
+                                                </span>
+                                                <span className="text-lg text-custom-gray">
+                                                    {item.price}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button
+                                                className="flex items-center mr-4 px-4 border rounded-xl"
+                                                value={item.id}
+                                                onClick={() => deleteMainMenu(item.id)}
+                                            >
+                                                해제
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
+                </div>
+            </div>
             {openModal.MainMenuModal && (
                 <MainMenuModal onClose={() => handleModalClose("MainMenuModal")} />
             )}

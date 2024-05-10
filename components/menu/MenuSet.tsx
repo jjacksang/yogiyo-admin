@@ -9,6 +9,7 @@ import { AddMenuItem } from "./menuModal/AddMenuItem";
 import { ModalProps } from "@/lib/types";
 import { MenuItemList } from "./MenuItemList";
 import MainMenu from "./mainMenu/MainMenu";
+import OptionMenu from "./optionMenu/OptionMenu";
 
 interface ViewOption {
     [key: number]: boolean;
@@ -189,6 +190,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 </>
             )}
             {selectedNav === "mainMenu" && <MainMenu onClose={onClose} />}
+            {selectedNav === "optionMenu" && <OptionMenu onClose={onClose} />}
         </div>
     );
 };
