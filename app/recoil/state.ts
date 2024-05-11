@@ -1,4 +1,12 @@
-import { AddMenu, AddMenuGroup, MenuItem, MenuList, userState, ShopId } from "@/lib/types";
+import {
+    AddMenu,
+    AddMenuGroup,
+    MenuItem,
+    MenuList,
+    userState,
+    ShopId,
+    OptionMenu,
+} from "@/lib/types";
 import { OwnerShopList, TempCloseShopRequest } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
 
@@ -109,14 +117,33 @@ export const menuItemAtom = atom<MenuItem[]>({
     ],
 });
 
+//옵션 그룹 아톰
+export const optionGroupAtom = atom<OptionMenu[]>({
+    key: "optionGroup",
+    default: [
+        {
+            name: "옵션",
+            optionType: "visible",
+            count: 1,
+            isPossibleCount: false,
+            options: [
+                {
+                    content: "옵션이름",
+                    price: 100,
+                },
+            ],
+        },
+    ],
+});
+
 // shopId저장 아톰
 export const shopIdAtom = atom<number>({
     key: "shopId",
     default: 11111,
 });
 
-// 일시정지 상태 저장 
+// 일시정지 상태 저장
 export const tempCloseShopRequestState = atom<TempCloseShopRequest | null>({
-    key: 'tempCloseShopRequestState',
+    key: "tempCloseShopRequestState",
     default: null,
 });

@@ -102,3 +102,18 @@ export interface MenusItem {
 export interface ShopId {
     id: number;
 }
+
+// 옵션 그룹 타입
+export interface OptionMenu {
+    name: string;
+    optionType: string;
+    count: number;
+    isPossibleCount: boolean;
+    options: Options[];
+}
+
+// 옵션 타입
+export interface Options {
+    content: string;
+    price: number;
+}
