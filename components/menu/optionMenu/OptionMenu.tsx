@@ -1,8 +1,12 @@
 import { ModalProps } from "@/lib/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddOptionMenu from "./addOptionMenu";
+import { getAxios } from "@/app/services/loginAPI";
+import { useRecoilValue } from "recoil";
+import { shopIdAtom } from "@/app/recoil/state";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
+    const shopId = useRecoilValue(shopIdAtom);
     const [openModal, setOpenModal] = useState({
         addOptionMenu: false,
     });
@@ -19,6 +23,21 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             [modalName]: false,
         }));
     };
+
+    useEffect(() => {
+        const optionGroupList = async () => {
+            try {
+                const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
+                if (res.status === 200) {
+                    console.log(res);
+                    console.log(res.data);
+                }
+            } catch (error) {
+                console.error("옵션전체조회 실패", error);
+            }
+        };
+        optionGroupList();
+    }, []);
     return (
         <div className="flex flex-col mt-4 mx-8">
             <div className="flex items-center justify-between border rounded-2xl bg-white my-4 py-4">
