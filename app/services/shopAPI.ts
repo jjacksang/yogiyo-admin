@@ -94,4 +94,12 @@ export const tempCloseShop = async (shopId: number, tempCloseRequest: TempCloseS
     }
 };
 
-//대표 메뉴 삭제
+// 옵션그룹 삭제
+export const deleteOptionGroup = async (optionId: number) => {
+    const optionID = optionId;
+    try {
+        const res = await getAxios.delete(`owner/menu-option-group/${optionId}/delete`);
+    } catch (error) {
+        console.error("삭제 실패", error);
+    }
+};

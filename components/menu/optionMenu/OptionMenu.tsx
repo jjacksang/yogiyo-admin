@@ -4,6 +4,7 @@ import AddOptionMenu from "./addOptionMenu";
 import { getAxios } from "@/app/services/loginAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
+import { deleteOptionGroup } from "@/app/services/shopAPI";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -34,13 +35,8 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         console.log(id);
     };
 
-    const deleteOptionGroup = async (optionId: number) => {
-        const optionID = optionId;
-        try {
-            const res = await getAxios.delete(`owner/menu-option-group/${optionId}/delete`);
-        } catch (error) {
-            console.error("삭제 실패", error);
-        }
+    const handleDeleteOption = (optionId: number) => {
+        deleteOptionGroup(optionId);
     };
 
     useEffect(() => {
