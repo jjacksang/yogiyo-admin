@@ -82,6 +82,11 @@ export interface ModalProps {
     onClose: () => void;
 }
 
+// 더보기 옵션 타입
+export interface ViewOption {
+    [key: number]: boolean;
+}
+
 export interface MenuItem {
     id: number;
     name: string;
@@ -105,6 +110,7 @@ export interface ShopId {
 
 // 옵션 그룹 타입
 export interface OptionMenu {
+    id: number;
     name: string;
     optionType: string;
     count: number;

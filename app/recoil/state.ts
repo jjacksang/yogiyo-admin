@@ -122,6 +122,7 @@ export const optionGroupAtom = atom<OptionMenu[]>({
     key: "optionGroup",
     default: [
         {
+            id: 1,
             name: "옵션",
             optionType: "visible",
             count: 1,

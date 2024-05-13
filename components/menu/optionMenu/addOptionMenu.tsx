@@ -36,19 +36,21 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
     const addOptionGroup = async () => {
         try {
             const res = await getAxios.post(`/owner/menu-option-group/shop/${shopId}/add`, {
-                name: "옵션테스트1",
-                optionType: "REQUIRED",
+                name: optionGroupName,
+                optionType: optionType,
                 count: 1,
                 options: [
                     {
-                        content: "옵션테스트",
-                        price: 10000,
+                        content: optionName,
+                        price: price,
                     },
                 ],
                 ifPossibleCount: false,
             });
             if (res.status === 201) {
                 console.log("요청 성공", res.data);
+                setOptionGroup(res.data.menuOptionGroups);
+                console.log(optionGroup);
             }
         } catch (error) {
             console.error("옵션그룹추가실패", error);
@@ -73,7 +75,7 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
                     <div className="flex flex-col items-center border rounded-lg w-full py-4">
                         <div
                             className="font-bold text-xl"
-                            onClick={() => setOptionType("optional")}
+                            onClick={() => setOptionType("OPTIONAL")}
                         >
                             선택 옵션
                         </div>
