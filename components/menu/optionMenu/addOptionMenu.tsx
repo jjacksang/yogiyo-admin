@@ -49,6 +49,8 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
             });
             if (res.status === 201) {
                 console.log("요청 성공", res.data);
+                setOptionGroup(res.data.menuOptionGroups);
+                console.log(optionGroup);
             }
         } catch (error) {
             console.error("옵션그룹추가실패", error);

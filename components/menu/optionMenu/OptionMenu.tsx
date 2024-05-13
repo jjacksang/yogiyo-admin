@@ -1,12 +1,14 @@
-import { ModalProps } from "@/lib/types";
+import { ModalProps, ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
 import AddOptionMenu from "./addOptionMenu";
 import { getAxios } from "@/app/services/loginAPI";
-import { useRecoilValue } from "recoil";
-import { shopIdAtom } from "@/app/recoil/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
+    const [viewOption, setViewOption] = useState<ViewOption>({});
+    const [optionList, setOptionList] = useRecoilState(optionGroupAtom);
     const [openModal, setOpenModal] = useState({
         addOptionMenu: false,
     });
@@ -24,6 +26,23 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         }));
     };
 
+    const toggleViewOption = (id: number) => {
+        setViewOption((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+        console.log(id);
+    };
+
+    const deleteOptionGroup = async (optionId: number) => {
+        const optionID = optionId;
+        try {
+            const res = await getAxios.delete(`owner/menu-option-group/${optionId}/delete`);
+        } catch (error) {
+            console.error("삭제 실패", error);
+        }
+    };
+
     useEffect(() => {
         const optionGroupList = async () => {
             try {
@@ -31,6 +50,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                 if (res.status === 200) {
                     console.log(res);
                     console.log(res.data);
+                    setOptionList(res.data.menuOptionGroups);
                 }
             } catch (error) {
                 console.error("옵션전체조회 실패", error);
@@ -38,6 +58,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         };
         optionGroupList();
     }, []);
+    console.log(optionList);
     return (
         <div className="flex flex-col mt-4 mx-8">
             <div className="flex items-center justify-between border rounded-2xl bg-white my-4 py-4">
@@ -55,28 +76,54 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                     </button>
                 </div>
             </div>
-            <div className="flex flex-col border rounded-2xl bg-white p-4 mt-2">
-                <div className="flex justify-between items-center">
-                    <span className="text-xl font-bold">옵션그룹명</span>
-                    <div className="flex border rounded-xl py-2 px-4">
-                        <select className="">
-                            <option>판매중</option>
-                            <option>품절</option>
-                            <option>숨김</option>
-                        </select>
-                        <button>...</button>
+            {optionList.map((options) => (
+                <div
+                    className="flex flex-col border rounded-2xl bg-white p-4 mt-2"
+                    key={options.id}
+                >
+                    <div className="flex justify-between items-center">
+                        <span className="text-xl font-bold">{options.name}</span>
+                        <div className="flex border rounded-xl py-2 px-4 gap-2">
+                            <select className="">
+                                <option>판매중</option>
+                                <option>숨김</option>
+                            </select>
+                            <div>
+                                <button className="" onClick={() => toggleViewOption(options.id)}>
+                                    <img src="/Icons/더보기버튼.svg" />
+                                    {viewOption[options.id] && (
+                                        <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                            <li className="flex justify-start py-2">
+                                                옵션그룹명 변경
+                                            </li>
+                                            <li className="flex justify-start py-2">
+                                                연결메뉴 설정
+                                            </li>
+                                            <li className="flex justify-start py-2">그룹 숨김</li>
+                                            <li
+                                                className="flex justify-start py-2"
+                                                onClick={() => deleteOptionGroup(options.id)}
+                                            >
+                                                삭제
+                                            </li>
+                                        </ul>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                    <div className="flex items-between text-sm">
+                        <span>유형</span>
+                        <span className="">필수옵션 필수 1개 선택 옵션설정</span>
+                    </div>
+                    <div className="text-sm">
+                        <span>연결메뉴</span>
+                        <span>리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드 메뉴연결</span>
+                    </div>
+                    <div>{/* 옵션 메뉴 들어갈 곳*/}</div>
                 </div>
-                <div className="flex items-between text-sm">
-                    <span>유형</span>
-                    <span className="">필수옵션 필수 1개 선택 옵션설정</span>
-                </div>
-                <div className="text-sm">
-                    <span>연결메뉴</span>
-                    <span>리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드 메뉴연결</span>
-                </div>
-                <div>{/* 옵션 메뉴 들어갈 곳*/}</div>
-            </div>
+            ))}
+
             {openModal.addOptionMenu && (
                 <AddOptionMenu onClose={() => handleModalClose("addOptionMenu")} />
             )}

@@ -105,6 +105,7 @@ export interface ShopId {
 
 // 옵션 그룹 타입
 export interface OptionMenu {
+    id: number;
     name: string;
     optionType: string;
     count: number;
@@ -116,4 +117,9 @@ export interface OptionMenu {
 export interface Options {
     content: string;
     price: number;
+}
+
+// 더보기 옵션 타입
+export interface ViewOption {
+    [key: number]: boolean;
 }
