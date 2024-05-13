@@ -35,8 +35,19 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         console.log(id);
     };
 
-    const handleDeleteOption = (optionId: number) => {
-        deleteOptionGroup(optionId);
+    const addOption = async (optionGroupId: number) => {
+        try {
+            const res = await getAxios.post(
+                `/owner/menu-option-group/${optionGroupId}/add-option`,
+                {
+                    content: "옵션추가테스트",
+                    price: 1000,
+                }
+            );
+            if (res.status === 201) console.log("옵션추가성공", res.data);
+        } catch (error) {
+            console.error("옵션추가실패", error);
+        }
     };
 
     useEffect(() => {
@@ -79,11 +90,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                 >
                     <div className="flex justify-between items-center">
                         <span className="text-xl font-bold">{options.name}</span>
-                        <div className="flex border rounded-xl py-2 px-4 gap-2">
-                            <select className="">
-                                <option>판매중</option>
-                                <option>숨김</option>
-                            </select>
+                        <div className="flex border rounded-xl py-1 px-2 gap-2">
                             <div>
                                 <button className="" onClick={() => toggleViewOption(options.id)}>
                                     <img src="/Icons/더보기버튼.svg" />
@@ -108,14 +115,26 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-between text-sm">
-                        <span>유형</span>
-                        <span className="">필수옵션 필수 1개 선택 옵션설정</span>
+                    <div className="text-xs text-custom-gray my-2">
+                        <div className="flex text-sm">
+                            <span>유형</span>
+                            <span className="">필수옵션 필수 1개 선택 옵션설정</span>
+                        </div>
+                        <div className="text-sm">
+                            <span>연결메뉴</span>
+                            <span>리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드 메뉴연결</span>
+                        </div>
                     </div>
-                    <div className="text-sm">
-                        <span>연결메뉴</span>
-                        <span>리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드 메뉴연결</span>
+                    <div className="flex border-t py-2">
+                        <span
+                            className="text-xs px-2 text-yogiyo-blue"
+                            onClick={() => addOption(options.id)}
+                        >
+                            옵션추가
+                        </span>
+                        <span className="text-xs px-2">옵션 순서변경</span>
                     </div>
+
                     <div>{/* 옵션 메뉴 들어갈 곳*/}</div>
                 </div>
             ))}
