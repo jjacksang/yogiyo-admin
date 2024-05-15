@@ -93,7 +93,10 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                         <span className="text-xl font-bold">{options.name}</span>
                         <div className="flex border rounded-xl py-1 px-2 gap-2">
                             <div>
-                                <button className="" onClick={() => toggleViewOption(options.id)}>
+                                <button
+                                    className="flex items-center"
+                                    onClick={() => toggleViewOption(options.id)}
+                                >
                                     <img src="/Icons/더보기버튼.svg" />
                                     {viewOption[options.id] && (
                                         <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
@@ -116,7 +119,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                             </div>
                         </div>
                     </div>
-                    <div className="text-xs text-custom-gray my-2">
+                    <div className="text-xs text-custom-gray py-4">
                         <div className="flex text-sm">
                             <span>유형</span>
                             <span className="">필수옵션 필수 1개 선택 옵션설정</span>
@@ -126,7 +129,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                             <span>리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드 메뉴연결</span>
                         </div>
                     </div>
-                    <div className="flex border-t py-2">
+                    <div className="flex border-t py-4">
                         <span
                             className="text-xs px-2 text-yogiyo-blue"
                             onClick={() => addOption(options.id)}
