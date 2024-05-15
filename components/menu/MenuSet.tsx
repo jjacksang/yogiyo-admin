@@ -6,14 +6,10 @@ import { menuItemAtom, navContent, shopIdAtom } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItem } from "./menuModal/AddMenuItem";
-import { ModalProps } from "@/lib/types";
+import { ModalProps, ViewOption } from "@/lib/types";
 import { MenuItemList } from "./MenuItemList";
 import MainMenu from "./mainMenu/MainMenu";
 import OptionMenu from "./optionMenu/OptionMenu";
-
-interface ViewOption {
-    [key: number]: boolean;
-}
 
 interface Group {
     id: number;
