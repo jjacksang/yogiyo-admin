@@ -126,11 +126,16 @@ export const optionGroupAtom = atom<OptionMenu[]>({
             name: "옵션",
             optionType: "visible",
             count: 1,
+            position: 1,
             isPossibleCount: false,
-            options: [
+            visible: "true",
+            menuOptions: [
                 {
+                    id: 1,
                     content: "옵션이름",
                     price: 100,
+                    position: 1,
+                    visible: "true",
                 },
             ],
         },

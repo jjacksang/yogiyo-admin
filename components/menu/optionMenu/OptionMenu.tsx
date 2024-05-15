@@ -5,6 +5,7 @@ import { getAxios } from "@/app/services/loginAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { deleteOptionGroup } from "@/app/services/shopAPI";
+import { ItemComponent } from "./optionItem";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -134,8 +135,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                         </span>
                         <span className="text-xs px-2">옵션 순서변경</span>
                     </div>
-
-                    <div>{/* 옵션 메뉴 들어갈 곳*/}</div>
+                    <ItemComponent optionGroupId={options.id} />
                 </div>
             ))}
 
