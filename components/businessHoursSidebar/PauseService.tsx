@@ -15,68 +15,152 @@ const PauseService = ({ onClose }: Props) => {
   const [tempCloseRequest, setTempCloseRequest] = useRecoilState(tempCloseShopRequestState);
   const selectedShop = store?.find(shop => shop.id === selectedShopId);
 
-
-  // 시간 초기상태 관리
+  // 현재 시각 상태
+  const [currentTime, setCurrentTime] = useState('');
   const [activeTime, setActiveTime] = useState<string>('');
-
+  const [customTimeActive, setCustomTimeActive] = useState(false);
+  const [selectedHour, setSelectedHour] = useState('오후 1시');
+  const [selectedMinute, setSelectedMinute] = useState('00분');
+ 
   const timeOptions = ['30분', '1시간', '2시간', '오늘 하루', '직접 설정'];
+
+  // 현재 시각 업데이트
+  const updateCurrentTime = () => {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const amPm = currentHour >= 12 ? '오후' : '오전';
+    const displayHour = currentHour % 12 || 12;
+    const displayMinute = String(now.getMinutes()).padStart(2, '0');
+    setCurrentTime(`${amPm} ${displayHour}시 ${displayMinute}분`);
+  };
+
+
+  // 시간 변경
+  const handleHourChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    const hour = event.target.value as string; 
+    setSelectedHour(hour);
+    updateCloseUntil(hour, selectedMinute);
+  };
+
+  // 분 변경
+  const handleMinuteChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    const minute = event.target.value as string; 
+    setSelectedMinute(minute);
+    updateCloseUntil(selectedHour, minute);
+  };
+
+  // 시간과 분을 설정하는 함수
+  const updateCloseUntil = (hour: string, minute: string) => {
+    const now = new Date();
+    let [period, hourText] = hour.split(' ');
+    hourText = hourText.replace('시', '');
+    let hourNumber = parseInt(hourText, 10);
+    let minuteNumber = parseInt(minute.replace('분', ''), 10);
+
+    // Validate parsed numbers
+    if (isNaN(hourNumber) || isNaN(minuteNumber)) {
+        console.error('Invalid hour or minute value.');
+        return;
+    }
+
+    // Convert PM hours to 24-hour format
+    if (period === '오후' && hourNumber !== 12) {
+        hourNumber += 12;
+    } else if (period === '오전' && hourNumber === 12) {
+        hourNumber = 0;
+    }
+
+    // Adjust day if time indicates next day
+    if (period.includes('다음날')) {
+        now.setDate(now.getDate() + 1);
+    }
+
+    // Set hours and minutes
+    now.setHours(hourNumber, minuteNumber, 0, 0);
+
+    // Check for valid date
+    if (isNaN(now.getTime())) {
+        console.error('Resulting date is invalid.');
+        return;
+    }
+
+    setTempCloseRequest({ closeUntil: now.toISOString(), today: !period.includes('다음날') });
+};
+
+
 
   // 일시 중지 설정을 관리하는 함수
   const handleTimeSelect = (time: string) => {
     setActiveTime(time);
+    setCustomTimeActive(time === '직접 설정');
 
     let closeUntil: string | null = null;
     let today: boolean | null = null;
 
     const now = new Date();
-
     switch (time) {
-        case '30분':
-            closeUntil = new Date(now.getTime() + 30 * 60000).toISOString();
-            today = false;
-            break;
-        case '1시간':
-            closeUntil = new Date(now.getTime() + 60 * 60000).toISOString();
-            today = false;
-            break;
-        case '2시간':
-            closeUntil = new Date(now.getTime() + 120 * 60000).toISOString();
-            today = false;
-            break;
-        case '오늘 하루':
-            // 오늘 자정까지
-            closeUntil = new Date(now.setHours(23, 59, 59, 999)).toISOString();
-            today = true;
-            break;
-        default:
-            closeUntil = null;
-            today = null;
-            break;
+      case '30분':
+        closeUntil = new Date(now.getTime() + 30 * 60000).toISOString();
+        today = false;
+        break;
+      case '1시간':
+        closeUntil = new Date(now.getTime() + 60 * 60000).toISOString();
+        today = false;
+        break;
+      case '2시간':
+        closeUntil = new Date(now.getTime() + 120 * 60000).toISOString();
+        today = false;
+        break;
+      case '오늘 하루':
+        closeUntil = new Date(now.setHours(23, 59, 59, 999)).toISOString();
+        today = true;
+        break;
+      default:
+        closeUntil = null;
+        today = null;
+        break;
     }
 
-    // 업데이트된 상태 설정
     setTempCloseRequest({ closeUntil, today });
-
-    // 디버깅 용도 로깅
-    console.log('Time selected:', time);
-};
+  };
 
 
    // 서버로 일시 중지 요청 보내는 핸들러
    const handleTempClose = async () => {
     if (selectedShopId && tempCloseRequest && tempCloseRequest.closeUntil) {
-        try {
-            await tempCloseShop(selectedShopId, tempCloseRequest);
-            alert('가게 일시중지가 성공적으로 업데이트되었습니다.');
-            onClose(); // 성공적으로 완료되면 모달을 닫거나 적절한 액션 수행
-        } catch (error) {
-            console.error('가게 일시중지 오류:', error);
-            alert('가게 일시중지 중 오류가 발생했습니다.');
-        }
+      try {
+        await tempCloseShop(selectedShopId, tempCloseRequest);
+        alert('가게 일시중지가 성공적으로 업데이트되었습니다.');
+        onClose();
+      } catch (error) {
+        console.error('가게 일시중지 오류:', error);
+        alert('가게 일시중지 중 오류가 발생했습니다.');
+      }
     } else {
-        alert('일시중지 정보를 완전히 입력해주세요.');
+      alert('일시중지 정보를 완전히 입력해주세요.');
     }
-};
+  };
+
+  // 매 분마다 시간 업데이트하기 
+  useEffect(() => {
+    updateCurrentTime();
+    const interval = setInterval(updateCurrentTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+
+  const generateHourOptions = () => {
+    const options = [];
+    const periods = ['오전', '오후'];
+    for (const period of periods) {
+      for (let hour = 1; hour <= 12; hour++) {
+        options.push(`${period} ${hour}시`);
+      }
+    }
+    return options;
+  };
+
+  const generateMinuteOptions = () => ['00분', '10분', '20분', '30분', '40분', '50분'];
 
    // 반응형 대응 
    const [maxWidthStyle, setMaxWidthStyle] = useState('936px');
@@ -137,17 +221,17 @@ const PauseService = ({ onClose }: Props) => {
                         <div className="flex gap-2 flex-wrap ">
                           {timeOptions.map(time => (
                             <button
-                            key={time}
-                            onClick={() => handleTimeSelect(time)}
-                            style={{
-                              width: '100px',
-                              border: '1px solid rgb(229, 231, 235)', // Updated border color
-                              borderRadius: '6px',
-                              padding: '6px 12px',
-                              background: '#ffffff',
-                              color: activeTime === time ? '#3B82F6' : 'rgba(0, 0, 0, 0.6)',
-                              fontWeight: activeTime === time ? 'bold' : 'normal',
-                            }}
+                              key={time}
+                              onClick={() => handleTimeSelect(time)}
+                              style={{
+                                width: '100px',
+                                border: '1px solid rgb(229, 231, 235)', // Updated border color
+                                borderRadius: '6px',
+                                padding: '6px 12px',
+                                background: '#ffffff',
+                                color: activeTime === time ? '#3B82F6' : 'rgba(0, 0, 0, 0.6)',
+                                fontWeight: activeTime === time ? 'bold' : 'normal',
+                              }}
                             >
                               {time}
                             </button>
@@ -166,14 +250,28 @@ const PauseService = ({ onClose }: Props) => {
                           <span className=" text-gray-500">설정 범위</span>
                               <div className="flex items-center space-x-2 pt-5">
                                 <span className="text-sm text-gray-400">시작</span>
-                                <span className="text-gray-500">지금부터</span>
+                                {customTimeActive ? (
+                              <>
+                                <select onChange={handleHourChange} className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
+                                  {generateHourOptions().map(hour => <option key={hour}>{hour}</option>)}
+                                </select>
+
+                                <select onChange={handleMinuteChange} className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
+                                  {generateMinuteOptions().map(minute => <option key={minute}>{minute}</option>)}
+                                </select>
+                              </>
+                            ) : (
+                              <span className="text-gray-500" onClick={updateCurrentTime}>{`지금부터 ${currentTime}`}</span>
+                            )}
+                                
                                 <span>~</span>
                                 <span className="text-sm text-gray-400">종료</span>
                                 
+
                                 {/* 드롭박스 2개  */}
                                 <div className="flex items-center space-x-2">
                                   <div className="relative">
-                                    <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
+                                    <select onChange={handleHourChange} className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
                                       <option>오후 10시</option>
                                       <option>오후 11시</option>
                                       <option>다음날 밤 12시</option>
@@ -188,7 +286,7 @@ const PauseService = ({ onClose }: Props) => {
                                 </div>
 
                                 <div className="relative">
-                                  <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
+                                  <select onChange={handleMinuteChange} className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4">
                                     <option>00분</option>
                                     <option>10분</option>
                                     <option>20분</option>
@@ -197,6 +295,7 @@ const PauseService = ({ onClose }: Props) => {
                                     <option>50분</option>
                                   </select>
                                 </div>
+
                               </div>
                           </div>   
                         </div>
