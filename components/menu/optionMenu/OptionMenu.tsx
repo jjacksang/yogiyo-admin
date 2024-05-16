@@ -1,17 +1,19 @@
 import { ModalProps, ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
-import AddOptionMenu from "./addOptionMenu";
+import AddOptionMenu from "./addOptionGroup";
 import { getAxios } from "@/app/services/loginAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { ItemComponent } from "./optionItem";
+import { AddOption } from "./addOptionItem";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [optionList, setOptionList] = useRecoilState(optionGroupAtom);
     const [openModal, setOpenModal] = useState({
-        addOptionMenu: false,
+        addOptionGroup: false,
+        addOptionItem: false,
     });
 
     const handleModalOpen = (modalName: string) => {
@@ -27,7 +29,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         }));
     };
 
-    const toggleViewOption = (id: number) => {
+    const handleViewOption = (id: number) => {
         setViewOption((prev) => ({
             ...prev,
             [id]: !prev[id],
@@ -72,14 +74,15 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                     console.log(res);
                     console.log(res.data);
                     setOptionList(res.data.menuOptionGroups);
+                    console.log(optionList);
                 }
             } catch (error) {
                 console.error("옵션전체조회 실패", error);
             }
         };
         optionGroupList();
-    }, [setOptionList]);
-    console.log(optionList);
+    }, [optionGroupAtom]);
+
     return (
         <div className="flex flex-col my-4 mx-8">
             <div className="flex items-center justify-between border rounded-2xl bg-white my-4 py-4">
@@ -107,7 +110,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                             <div className="flex justify-between items-center relative">
                                 <span className="text-xl font-bold">{options.name}</span>
                                 <div className="flex border rounded-xl py-1 px-2 gap-2">
-                                    <div className="flex ">
+                                    <div className="flex">
                                         <>
                                             <select>
                                                 <option>판매중</option>
@@ -117,7 +120,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                         </>
                                         <button
                                             className="flex items-center"
-                                            onClick={() => toggleViewOption(options.id)}
+                                            onClick={() => handleViewOption(options.id)}
                                         >
                                             <img src="/Icons/더보기버튼.svg" />
                                             {viewOption[options.id] && (
@@ -158,12 +161,13 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                 </div>
                             </div>
                             <div className="flex border-t py-4">
-                                <span
+                                <button
                                     className="text-xs px-2 text-yogiyo-blue"
-                                    onClick={() => addOption(options.id)}
+                                    onClick={() => handleModalOpen("addOptionItem")}
                                 >
                                     옵션추가
-                                </span>
+                                </button>
+
                                 <span className="text-xs px-2">옵션 순서변경</span>
                             </div>
                             <ItemComponent optionGroupId={options.id} />
@@ -174,8 +178,11 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                 <div>옵션그룹을 불러오는 중</div>
             )}
 
-            {openModal.addOptionMenu && (
+            {openModal.addOptionGroup && (
                 <AddOptionMenu onClose={() => handleModalClose("addOptionMenu")} />
+            )}
+            {openModal.addOptionItem && (
+                <AddOption onClose={() => handleModalClose("addOptionItem")} />
             )}
         </div>
     );

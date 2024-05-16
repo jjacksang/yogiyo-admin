@@ -2,7 +2,7 @@ import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { ModalProps } from "@/lib/types";
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
 
 const AddOptionMenu = ({ onClose }: ModalProps) => {
     const [optionType, setOptionType] = useState<string>("REQUIRED");
@@ -56,7 +56,6 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
             console.error("옵션그룹추가실패", error);
         }
     };
-
     const NextOption = () => {
         return (
             <div className="flex flex-col divide-y">
