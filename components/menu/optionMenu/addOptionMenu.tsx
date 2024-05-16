@@ -152,7 +152,7 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
                                         onChange={handleOptionContent}
                                         type="text"
                                         id="optionName"
-                                        className="border rounded-xl flex items-center px-2 py-2 mr-2"
+                                        className="border rounded-xl flex items-center px-2 py-2 mr-2 text-black"
                                     />
                                     <input
                                         placeholder="가격"

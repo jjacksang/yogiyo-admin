@@ -120,26 +120,7 @@ export const menuItemAtom = atom<MenuItem[]>({
 //옵션 그룹 아톰
 export const optionGroupAtom = atom<OptionMenu[]>({
     key: "optionGroup",
-    default: [
-        {
-            id: 1,
-            name: "옵션",
-            optionType: "visible",
-            count: 1,
-            position: 1,
-            isPossibleCount: false,
-            visible: "true",
-            menuOptions: [
-                {
-                    id: 1,
-                    content: "옵션이름",
-                    price: 100,
-                    position: 1,
-                    visible: "true",
-                },
-            ],
-        },
-    ],
+    default: [],
 });
 
 // shopId저장 아톰
