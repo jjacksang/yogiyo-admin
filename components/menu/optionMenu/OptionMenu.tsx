@@ -10,17 +10,22 @@ import { AddOption } from "./addOptionItem";
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
     const [viewOption, setViewOption] = useState<ViewOption>({});
+    const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
     const [optionList, setOptionList] = useRecoilState(optionGroupAtom);
     const [openModal, setOpenModal] = useState({
         addOptionGroup: false,
         addOptionItem: false,
     });
 
-    const handleModalOpen = (modalName: string) => {
+    const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
             ...prevModal,
             [modalName]: true,
         }));
+        if (id !== undefined) {
+            setSelectGroupId(id);
+            console.log(id);
+        }
     };
     const handleModalClose = (modalName: string) => {
         setOpenModal((prevModal) => ({
@@ -35,21 +40,6 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             [id]: !prev[id],
         }));
         console.log(id);
-    };
-
-    const addOption = async (optionGroupId: number) => {
-        try {
-            const res = await getAxios.post(
-                `/owner/menu-option-group/${optionGroupId}/add-option`,
-                {
-                    content: "옵션추가테스트",
-                    price: 1000,
-                }
-            );
-            if (res.status === 201) console.log("옵션추가성공", res.data);
-        } catch (error) {
-            console.error("옵션추가실패", error);
-        }
     };
 
     const deleteOptionGroup = async (optionId: number) => {
@@ -163,7 +153,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                             <div className="flex border-t py-4">
                                 <button
                                     className="text-xs px-2 text-yogiyo-blue"
-                                    onClick={() => handleModalOpen("addOptionItem")}
+                                    onClick={() => handleModalOpen("addOptionItem", options.id)}
                                 >
                                     옵션추가
                                 </button>
@@ -182,7 +172,10 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                 <AddOptionMenu onClose={() => handleModalClose("addOptionMenu")} />
             )}
             {openModal.addOptionItem && (
-                <AddOption onClose={() => handleModalClose("addOptionItem")} />
+                <AddOption
+                    onClose={() => handleModalClose("addOptionItem")}
+                    optionGroupId={selectGroupId}
+                />
             )}
         </div>
     );
