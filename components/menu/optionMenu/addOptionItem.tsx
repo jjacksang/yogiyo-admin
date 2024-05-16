@@ -7,15 +7,23 @@ export const AddOption = ({
     optionGroupId,
 }: ModalProps & { optionGroupId: number | null }) => {
     const [content, setContent] = useState("");
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState("");
+
+    const handleAddOption = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.id === "content") {
+            setContent(e.target.value);
+        } else if (e.target.id === "price") {
+            setPrice(e.target.value);
+        }
+    };
 
     const addOption = async () => {
         try {
             const res = await getAxios.post(
                 `/owner/menu-option-group/${optionGroupId}/add-option`,
                 {
-                    content: "옵션추가테스트",
-                    price: 1000,
+                    content: content,
+                    price: price,
                 }
             );
             if (res.status === 201) console.log("옵션추가성공", res.data);
@@ -35,12 +43,24 @@ export const AddOption = ({
                 <div className="flex flex-col mx-2 text-custom-gray text-sm divide-y">
                     <div className="flex flex-col py-4">
                         <span>옵션그룹명</span>
-                        <input className="px-2 border rounded-lg" />
+                        <input
+                            className="px-2 border rounded-lg"
+                            onChange={handleAddOption}
+                            value={content}
+                            id="content"
+                            type="text"
+                        />
                     </div>
                     <div className="flex flex-col">
                         <span>옵션가격</span>
                         <div>
-                            <input className="border rounded-lg px-2"></input>
+                            <input
+                                className="border rounded-lg px-2"
+                                onChange={handleAddOption}
+                                value={price}
+                                id="price"
+                                type="text"
+                            ></input>
                             <span>일천만원</span>
                         </div>
                     </div>
