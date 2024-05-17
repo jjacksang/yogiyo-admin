@@ -2,7 +2,7 @@ import { ModalProps, ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
 import AddOptionMenu from "./addOptionGroup";
 import { getAxios } from "@/app/services/loginAPI";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { ItemComponent } from "./optionItem";
 import { AddOption } from "./addOptionItem";
@@ -16,6 +16,25 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         addOptionGroup: false,
         addOptionItem: false,
     });
+
+    useEffect(() => {
+        optionGroupList();
+    }, [shopId]);
+
+    const optionGroupList = async () => {
+        // 옵션 그룹 전체 조회
+        try {
+            const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
+            if (res.status === 200) {
+                console.log(res);
+                console.log(res.data.menuOptionGroups);
+                setOptionList(res.data.menuOptionGroups);
+                console.log(optionList);
+            }
+        } catch (error) {
+            console.error("옵션전체조회 실패", error);
+        }
+    };
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -42,6 +61,32 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         console.log(id);
     };
 
+    const addOptionGroup = async (
+        optionGroupName: string,
+        optionType: string,
+        count: number,
+        options: { content: string; price: number }[],
+        isPossibleCount: boolean
+    ) => {
+        try {
+            const res = await getAxios.post(`/owner/menu-option-group/shop/${shopId}/add`, {
+                name: optionGroupName,
+                optionType: optionType,
+                count: 1,
+                options: options,
+                isPossibleCount: isPossibleCount,
+            });
+            if (res.status === 201) {
+                console.log("요청 성공", res.data);
+                setOptionList(res.data.menuOptionGroups);
+                console.log(optionList);
+                optionGroupList();
+            }
+        } catch (error) {
+            console.error("옵션그룹추가실패", error);
+        }
+    };
+
     const deleteOptionGroup = async (optionId: number) => {
         try {
             const res = await getAxios.delete(`owner/menu-option-group/${optionId}/delete`);
@@ -55,24 +100,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         }
     };
 
-    useEffect(() => {
-        const optionGroupList = async () => {
-            // 옵션 그룹 전체 조회
-            try {
-                const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
-                if (res.status === 200) {
-                    console.log(res);
-                    console.log(res.data);
-                    setOptionList(res.data.menuOptionGroups);
-                    console.log(optionList);
-                }
-            } catch (error) {
-                console.error("옵션전체조회 실패", error);
-            }
-        };
-        optionGroupList();
-    }, [optionGroupAtom]);
-
+    console.log(optionList);
     return (
         <div className="flex flex-col my-4 mx-8">
             <div className="flex items-center justify-between border rounded-2xl bg-white my-4 py-4">
@@ -84,7 +112,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                     <button>옵션 순서 변경</button>
                     <button
                         className="border rounded-xl px-4 py-2.5 bg-yogiyo-blue text-white font-bold mx-2"
-                        onClick={() => handleModalOpen("addOptionMenu")}
+                        onClick={() => handleModalOpen("addOptionGroup")}
                     >
                         옵션그룹 추가
                     </button>
@@ -169,7 +197,10 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             )}
 
             {openModal.addOptionGroup && (
-                <AddOptionMenu onClose={() => handleModalClose("addOptionMenu")} />
+                <AddOptionMenu
+                    onClose={() => handleModalClose("addOptionGroup")}
+                    addOptionGroup={addOptionGroup}
+                />
             )}
             {openModal.addOptionItem && (
                 <AddOption
