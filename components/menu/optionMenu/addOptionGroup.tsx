@@ -1,6 +1,10 @@
-import { ModalProps, Options } from "@/lib/types";
+import { ModalProps } from "@/lib/types";
 import React, { useState } from "react";
 
+interface Options {
+    content: string;
+    price: number;
+}
 interface AddOptionMenuProps extends ModalProps {
     addOptionGroup: (
         optionGroupName: string,

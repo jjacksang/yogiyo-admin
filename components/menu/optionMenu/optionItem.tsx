@@ -22,7 +22,7 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
 
     return (
         <div>
-            {optionItem?.menuOptions?.map((option) => (
+            {optionItem?.menuOptions?.map((option: Options) => (
                 <div className="flex justify-between w-full mb-4" key={option.id}>
                     <div className="flex flex-col pt-2 pl-2">
                         <span className="text-base font-bold">{option.content}</span>

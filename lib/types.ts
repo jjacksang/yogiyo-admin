@@ -122,7 +122,7 @@ export interface OptionMenu {
 
 // 옵션 타입
 export interface Options {
-    id?: number;
+    id: number;
     content: string;
     price: number;
     position?: number;
