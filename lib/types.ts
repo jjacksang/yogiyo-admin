@@ -125,6 +125,6 @@ export interface Options {
     id: number;
     content: string;
     price: number;
-    position: number;
-    visible: string;
+    position?: number;
+    visible?: string;
 }

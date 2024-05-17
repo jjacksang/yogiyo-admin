@@ -1,17 +1,26 @@
-import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
-import { getAxios } from "@/app/services/loginAPI";
 import { ModalProps } from "@/lib/types";
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
 
-const AddOptionMenu = ({ onClose }: ModalProps) => {
+interface Options {
+    content: string;
+    price: number;
+}
+interface AddOptionMenuProps extends ModalProps {
+    addOptionGroup: (
+        optionGroupName: string,
+        optionType: string,
+        count: number,
+        options: Options[],
+        isPossibleCount: boolean
+    ) => void;
+}
+
+const AddOptionMenu = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
     const [optionType, setOptionType] = useState<string>("REQUIRED");
-    const [optionGroup, setOptionGroup] = useRecoilState(optionGroupAtom);
     const [optionGroupName, setOptionGroupName] = useState("");
     const [optionName, setOptionName] = useState("");
     const [showNextOption, setShowNextOption] = useState(false);
     const [price, setPrice] = useState("");
-    const shopId = useRecoilValue(shopIdAtom);
 
     const handleNextOption = () => {
         if (optionGroupName && optionName && price !== null) {
@@ -33,28 +42,14 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
         }
     };
 
-    const addOptionGroup = async () => {
-        try {
-            const res = await getAxios.post(`/owner/menu-option-group/shop/${shopId}/add`, {
-                name: optionGroupName,
-                optionType: optionType,
-                count: 1,
-                options: [
-                    {
-                        content: optionName,
-                        price: price,
-                    },
-                ],
-                ifPossibleCount: false,
-            });
-            if (res.status === 201) {
-                console.log("요청 성공", res.data);
-                setOptionGroup(res.data.menuOptionGroups);
-                console.log(optionGroup);
-            }
-        } catch (error) {
-            console.error("옵션그룹추가실패", error);
-        }
+    const handleSubmit = async () => {
+        const groupName = optionGroupName;
+        const type = optionType;
+        const count = 1;
+        const options: Options[] = [{ content: optionName, price: parseInt(price) }];
+        const isPossibleCount = false;
+        await addOptionGroup(groupName, type, count, options, isPossibleCount);
+        onClose();
     };
 
     const NextOption = () => {
@@ -106,7 +101,7 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
                         </button>
                         <button
                             className="border rounded-xl px-6 py-2 bg-yogiyo-blue text-white font-bold"
-                            onClick={addOptionGroup}
+                            onClick={handleSubmit}
                         >
                             저장
                         </button>
@@ -152,7 +147,7 @@ const AddOptionMenu = ({ onClose }: ModalProps) => {
                                         onChange={handleOptionContent}
                                         type="text"
                                         id="optionName"
-                                        className="border rounded-xl flex items-center px-2 py-2 mr-2"
+                                        className="border rounded-xl flex items-center px-2 py-2 mr-2 text-black"
                                     />
                                     <input
                                         placeholder="가격"
