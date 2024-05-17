@@ -81,7 +81,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
             }
         };
         updateGroupList();
-    }, [shopIdAtom, setMenuGroup]);
+    }, []);
     console.log(menuGroup);
     return (
         <div>

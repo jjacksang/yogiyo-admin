@@ -52,9 +52,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             try {
                 const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
                 if (res.status === 200) {
-                    console.log(res);
-                    console.log(res.data.menuOptionGroups);
-                    optionGroupList();
+                    setOptionList(res.data.menuOptionGroups);
                 }
             } catch (error) {
                 console.error("옵션전체조회 실패", error);
@@ -80,7 +78,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             });
             if (res.status === 201) {
                 console.log("요청 성공", res.data);
-                setOptionList(res.data.menuOptionGroups);
+                optionGroupList();
             }
         } catch (error) {
             console.error("옵션그룹추가실패", error);
