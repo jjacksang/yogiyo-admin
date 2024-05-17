@@ -1,5 +1,5 @@
 import { menuItemAtom } from "@/app/recoil/state";
-import { MenuItem, MenusItem } from "@/lib/types";
+import { MenuItem, MenusItem, ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -8,13 +8,17 @@ interface MenuItemListProps {
 }
 
 export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
-    const [viewOption, setViewOption] = useState<Boolean>(false);
+    const [viewOption, setViewOption] = useState<ViewOption>({});
     const menuItemGroups = useRecoilValue(menuItemAtom);
     const menuGroup = menuItemGroups.find((group) => group.id === menuGroupId);
     if (!menuGroup) return null;
-    const toggleViewOption = () => {
-        setViewOption(!viewOption);
-        console.log(menuGroupId);
+
+    const toggleViewOption = (id: number) => {
+        setViewOption((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+        console.log(id);
     };
 
     // useEffect(() => {
@@ -41,27 +45,32 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
                         <p className="text-xs text-custom-gray pb-2">{menuItem.content}</p>
                         <p className="text-xs">{menuItem.price}</p>
                     </div>
-                    <div className="flex items-center border rounded-lg relative">
-                        <>
-                            <select>
-                                <option>판매중</option>
-                                <option>하루 품절</option>
-                                <option>숨김</option>
-                            </select>
-                        </>
+                    <div className="">
+                        <div className="flex items-center border rounded-lg relative">
+                            <>
+                                <select>
+                                    <option>판매중</option>
+                                    <option>하루 품절</option>
+                                    <option>숨김</option>
+                                </select>
+                            </>
 
-                        <div className="flex">
-                            <button className="mx-2" onClick={() => toggleViewOption()}>
-                                보기
-                                {viewOption ? (
-                                    <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
-                                        <li className="flex justify-start py-2">메뉴 수정</li>
-                                        <li className="flex justify-start py-2">메뉴 삭제</li>
-                                    </ul>
-                                ) : (
-                                    <div></div>
-                                )}
-                            </button>
+                            <div className="">
+                                <button
+                                    className="mx-2"
+                                    onClick={() => toggleViewOption(menuItem.id)}
+                                >
+                                    보기
+                                    {viewOption[menuItem.id] ? (
+                                        <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                            <li className="flex justify-start py-2">메뉴 수정</li>
+                                            <li className="flex justify-start py-2">메뉴 삭제</li>
+                                        </ul>
+                                    ) : (
+                                        <div></div>
+                                    )}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

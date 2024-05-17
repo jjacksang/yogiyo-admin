@@ -40,6 +40,7 @@ export default function AddMenuGroup({ onClose }: ModalProps) {
             console.log(req.data);
             console.log(newMenuData);
             setMenuList((prevMenuList) => [...prevMenuList, newMenuData]);
+            onClose();
         } catch (error) {
             console.error("메뉴 추가 안되고 있음", error);
         }

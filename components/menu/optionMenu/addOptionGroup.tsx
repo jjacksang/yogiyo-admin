@@ -1,3 +1,4 @@
+import { Button } from "@/components/common/Button";
 import { ModalProps } from "@/lib/types";
 import React, { useState } from "react";
 
@@ -99,12 +100,7 @@ const AddOptionMenu = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
                         >
                             뒤로
                         </button>
-                        <button
-                            className="border rounded-xl px-6 py-2 bg-yogiyo-blue text-white font-bold"
-                            onClick={handleSubmit}
-                        >
-                            저장
-                        </button>
+                        <Button onClick={handleSubmit}>저장</Button>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { MenuNav } from "./MenuNavbar";
-import AddMenu from "./menuModal/AddMenuGroup";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, navContent, shopIdAtom } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
@@ -10,6 +9,7 @@ import { ModalProps, ViewOption } from "@/lib/types";
 import { MenuItemList } from "./MenuItemList";
 import MainMenu from "./mainMenu/MainMenu";
 import OptionMenu from "./optionMenu/OptionMenu";
+import AddMenuGroup from "./menuModal/AddMenuGroup";
 
 interface Group {
     id: number;
@@ -28,6 +28,10 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const selectedNav = useRecoilValue(navContent);
     const shopId = useRecoilValue(shopIdAtom);
     const menuGroupId = selectGroupId;
+
+    useEffect(() => {
+        updateGroupList();
+    }, [setMenuGroup]);
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -62,6 +66,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
                 if (req.status === 204) {
                     console.log("삭제 성공", req);
+                    updateGroupList();
                 }
             } catch (error) {
                 console.log("삭제 실패", error);
@@ -70,18 +75,16 @@ const MenuSet = ({ onClose }: ModalProps) => {
     };
 
     // 메뉴 그룹 전체 조회 부분
-    useEffect(() => {
-        const updateGroupList = async () => {
-            try {
-                const res = await GroupList(shopId);
-                setMenuGroup(res.menuGroups);
-                console.log(res);
-            } catch (error) {
-                console.error("리스트 업데이트 실패", error);
-            }
-        };
-        updateGroupList();
-    }, []);
+    const updateGroupList = async () => {
+        try {
+            const res = await GroupList(shopId);
+            setMenuGroup(res.menuGroups);
+            console.log(res);
+        } catch (error) {
+            console.error("리스트 업데이트 실패", error);
+        }
+    };
+
     console.log(menuGroup);
     return (
         <div>
@@ -127,7 +130,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                             {menuItem.content}
                                         </p>
                                     </div>
-                                    <div className="flex flex-none items-center pl-2 border rounded-lg relative">
+                                    <div className="flex  items-center pl-2 border rounded-lg relative">
                                         <>
                                             <select>
                                                 <option>판매중</option>
@@ -135,7 +138,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                                 <option>숨김</option>
                                             </select>
                                         </>
-                                        <div>
+                                        <div className="">
                                             <button
                                                 className="mx-2"
                                                 onClick={() => toggleViewOption(menuItem.id)}
@@ -175,7 +178,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                         ))}
                     </div>
                     {openModal.addMenuGroup && (
-                        <AddMenu onClose={() => handleModalClose("addMenuGroup")} />
+                        <AddMenuGroup onClose={() => handleModalClose("addMenuGroup")} />
                     )}
                     {openModal.addMenuItem && (
                         <AddMenuItem
