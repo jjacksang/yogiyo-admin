@@ -2,7 +2,7 @@ import { ModalProps, ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
 import AddOptionMenu from "./addOptionGroup";
 import { getAxios } from "@/app/services/loginAPI";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilCallback, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { ItemComponent } from "./optionItem";
 import { AddOption } from "./addOptionItem";
@@ -19,22 +19,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
 
     useEffect(() => {
         optionGroupList();
-    }, [shopId]);
-
-    const optionGroupList = async () => {
-        // 옵션 그룹 전체 조회
-        try {
-            const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
-            if (res.status === 200) {
-                console.log(res);
-                console.log(res.data.menuOptionGroups);
-                setOptionList(res.data.menuOptionGroups);
-                console.log(optionList);
-            }
-        } catch (error) {
-            console.error("옵션전체조회 실패", error);
-        }
-    };
+    }, []);
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -61,6 +46,23 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         console.log(id);
     };
 
+    const optionGroupList = useRecoilCallback(
+        () => async () => {
+            // 옵션 그룹 전체 조회
+            try {
+                const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
+                if (res.status === 200) {
+                    console.log(res);
+                    console.log(res.data.menuOptionGroups);
+                    optionGroupList();
+                }
+            } catch (error) {
+                console.error("옵션전체조회 실패", error);
+            }
+        },
+        []
+    );
+
     const addOptionGroup = async (
         optionGroupName: string,
         optionType: string,
@@ -79,8 +81,6 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             if (res.status === 201) {
                 console.log("요청 성공", res.data);
                 setOptionList(res.data.menuOptionGroups);
-                console.log(optionList);
-                optionGroupList();
             }
         } catch (error) {
             console.error("옵션그룹추가실패", error);
