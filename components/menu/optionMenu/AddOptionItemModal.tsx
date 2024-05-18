@@ -1,4 +1,5 @@
 import { getAxios } from "@/app/services/loginAPI";
+import { Header } from "@/components/common/Header";
 import { ModalProps } from "@/lib/types";
 import { useState } from "react";
 
@@ -32,13 +33,15 @@ export const AddOption = ({
         }
     };
     return (
-        <div className="flex items-center justify-center bg-black bg-opacity-50 fixed inset-0">
-            <div className="bg-white w-1/2 h-1/2 border rounded-2xl">
-                <div className="flex items-center justify-center border-b py-4 text-xl font-bold relative">
-                    <button className="absolute right-4" onClick={onClose}>
-                        X
-                    </button>
-                    <span>옵션 추가</span>
+        <div className="flex flex-col items-center justify-center bg-black bg-opacity-50 fixed inset-0">
+            <div className="flex flex-col bg-white divide-y px-4 border rounded-2xl  w-1/2 h-fit m-20 overflow-hidden">
+                <div className="relative">
+                    <Header>
+                        옵션추가
+                        <button className="absolute right-4" onClick={onClose}>
+                            X
+                        </button>
+                    </Header>
                 </div>
                 <div className="flex flex-col mx-2 text-custom-gray text-sm divide-y">
                     <div className="flex flex-col py-4">

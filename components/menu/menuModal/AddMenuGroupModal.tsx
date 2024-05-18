@@ -5,7 +5,7 @@ import { ModalProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-export default function AddMenuGroup({ onClose }: ModalProps) {
+export default function AddMenuGroupModal({ onClose }: ModalProps) {
     const [menuList, setMenuList] = useRecoilState(menuListState);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");

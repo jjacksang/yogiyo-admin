@@ -4,12 +4,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, navContent, shopIdAtom } from "@/app/recoil/state";
 import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
-import { AddMenuItem } from "./menuModal/AddMenuItem";
+import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { ModalProps, ViewOption } from "@/lib/types";
 import { MenuItemList } from "./MenuItemList";
 import MainMenu from "./mainMenu/MainMenu";
 import OptionMenu from "./optionMenu/OptionMenu";
-import AddMenuGroup from "./menuModal/AddMenuGroup";
+import AddMenuGroup from "./menuModal/AddMenuGroupModal";
 
 interface Group {
     id: number;
@@ -181,7 +181,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                         <AddMenuGroup onClose={() => handleModalClose("addMenuGroup")} />
                     )}
                     {openModal.addMenuItem && (
-                        <AddMenuItem
+                        <AddMenuItemModal
                             onClose={() => handleModalClose("addMenuItem")}
                             menuGroupId={selectGroupId}
                         />
