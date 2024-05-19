@@ -1,14 +1,26 @@
+import { optionGroupAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { Header } from "@/components/common/Header";
-import { ModalProps } from "@/lib/types";
+import { ModalProps, Options } from "@/lib/types";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 
-export const AddOption = ({
+export const AddOptionItemModal = ({
     onClose,
     optionGroupId,
-}: ModalProps & { optionGroupId: number | null }) => {
+    optionId,
+}: ModalProps & { optionGroupId?: number | null; optionId?: number | null | undefined }) => {
     const [content, setContent] = useState("");
     const [price, setPrice] = useState("");
+    const optionList = useRecoilValue(optionGroupAtom);
+
+    const filterOptionGroupId = optionList.find((option) => option.id === optionGroupId);
+
+    console.log(optionId);
+    const filterOptions = filterOptionGroupId?.menuOptions?.find(
+        (option) => option.id === optionId
+    );
+    console.log(filterOptions);
 
     const handleAddOption = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id === "content") {
@@ -52,7 +64,7 @@ export const AddOption = ({
                             value={content}
                             id="content"
                             type="text"
-                        />
+                        ></input>
                     </div>
                     <div className="flex flex-col">
                         <span>옵션가격</span>

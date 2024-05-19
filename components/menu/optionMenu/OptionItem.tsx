@@ -1,6 +1,6 @@
 import { optionGroupAtom } from "@/app/recoil/state";
 import { deleteOption } from "@/app/services/shopAPI";
-import { ModalProps, OptionMenu, Options, ViewOption } from "@/lib/types";
+import { ModalProps, Options, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddOptionItemModal } from "./AddOptionItemModal";
@@ -17,11 +17,6 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
     const [openModal, setOpenModal] = useState({
         addOptionItemModal: false,
     });
-    console.log(Object.keys(viewOption)[0]);
-    const handleViewOption = (id: number) => {
-        console.log(id);
-        console.log(selectOptionId);
-    };
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -75,7 +70,7 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
                                             <li
                                                 className="flex justify-start py-2"
                                                 onClick={() =>
-                                                    handleModalOpen("addOptionItemModal", option.id)
+                                                    handleModalOpen("addOptionItemModal")
                                                 }
                                             >
                                                 옵션명, 가격 수정
