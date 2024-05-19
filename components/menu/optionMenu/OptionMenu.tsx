@@ -5,7 +5,7 @@ import { getAxios } from "@/app/services/loginAPI";
 import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { ItemComponent } from "./OptionItem";
-import { AddOption } from "./AddOptionItemModal";
+import { AddOptionItemModal } from "./AddOptionItemModal";
 import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
 
 const OptionMenuModal = ({ onClose }: ModalProps) => {
@@ -136,7 +136,7 @@ const OptionMenuModal = ({ onClose }: ModalProps) => {
                             className="flex flex-col border rounded-2xl bg-white p-4 mt-2"
                             key={options.id}
                         >
-                            <div className="flex justify-between items-center relative">
+                            <div className="flex justify-between items-center">
                                 <span className="text-xl font-bold">{options.name}</span>
                                 <div className="flex border rounded-xl py-1 px-2 gap-2">
                                     <div className="flex">
@@ -148,7 +148,7 @@ const OptionMenuModal = ({ onClose }: ModalProps) => {
                                             </select>
                                         </>
                                         <button
-                                            className="flex items-center"
+                                            className="flex items-center relative"
                                             onClick={() => handleViewOption(options.id)}
                                         >
                                             <img src="/Icons/더보기버튼.svg" />
@@ -195,19 +195,21 @@ const OptionMenuModal = ({ onClose }: ModalProps) => {
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex border-t py-4">
-                                <button
-                                    className="text-xs px-2 text-yogiyo-blue"
-                                    onClick={() =>
-                                        handleModalOpen("addOptionItemModal", options.id)
-                                    }
-                                >
-                                    옵션추가
-                                </button>
+                            <div className="flex flex-col border-t py-4">
+                                <div>
+                                    <button
+                                        className="text-xs px-2 text-yogiyo-blue"
+                                        onClick={() =>
+                                            handleModalOpen("addOptionItemModal", options.id)
+                                        }
+                                    >
+                                        옵션추가
+                                    </button>
 
-                                <span className="text-xs px-2">옵션 순서변경</span>
+                                    <span className="text-xs px-2">옵션 순서변경</span>
+                                </div>
+                                <ItemComponent optionGroupId={options.id} onClose={onClose} />
                             </div>
-                            <ItemComponent optionGroupId={options.id} />
                         </div>
                     ))}
                 </>
@@ -222,7 +224,7 @@ const OptionMenuModal = ({ onClose }: ModalProps) => {
                 />
             )}
             {openModal.addOptionItemModal && (
-                <AddOption
+                <AddOptionItemModal
                     onClose={() => handleModalClose("addOptionItemModal")}
                     optionGroupId={selectGroupId}
                 />

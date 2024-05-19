@@ -117,7 +117,7 @@ export interface OptionMenu {
     count: number;
     isPossibleCount: boolean;
     visible: string;
-    menuOptions: Options[];
+    menuOptions?: Options[];
 }
 
 // 옵션 타입

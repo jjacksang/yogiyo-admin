@@ -1,10 +1,11 @@
 import { optionGroupAtom } from "@/app/recoil/state";
 import { deleteOption } from "@/app/services/shopAPI";
-import { OptionMenu, Options, ViewOption } from "@/lib/types";
+import { ModalProps, OptionMenu, Options, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
+import { AddOptionItemModal } from "./AddOptionItemModal";
 
-interface optionId {
+interface optionId extends ModalProps {
     optionGroupId: number;
 }
 
@@ -12,13 +13,31 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
     const optionList = useRecoilValue(optionGroupAtom);
     const optionItem = optionList.find((group) => group.id === optionGroupId);
     const [viewOption, setViewOption] = useState<ViewOption>({});
-
+    const [selectOptionId, setSelectOptionId] = useState<number>();
+    const [openModal, setOpenModal] = useState({
+        addOptionItemModal: false,
+    });
+    console.log(Object.keys(viewOption)[0]);
     const handleViewOption = (id: number) => {
-        setViewOption((prev) => ({
-            ...prev,
-            [id]: !prev[id],
-        }));
         console.log(id);
+        console.log(selectOptionId);
+    };
+
+    const handleModalOpen = (modalName: string, id?: number) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: true,
+        }));
+        if (id !== undefined) {
+            setSelectOptionId(id);
+            console.log(id);
+        }
+    };
+    const handleModalClose = (modalName: string) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: false,
+        }));
     };
 
     return (
@@ -41,12 +60,24 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
                             <div className="flex">
                                 <button
                                     className="px-0.5"
-                                    onClick={() => handleViewOption(option.id)}
+                                    onClick={() => {
+                                        setViewOption((prev) => ({
+                                            [option.id]: !prev[option.id],
+                                        }));
+                                    }}
                                 >
                                     <img src="/Icons/더보기버튼.svg" />
                                     {viewOption[option.id] && (
-                                        <ul className="flex flex-col divide-y absolute top-9 right-0 w-[200px] border rounded-xl bg-white px-2 py-1 z-10">
-                                            <li className="flex justify-start py-2">
+                                        <ul
+                                            className="flex flex-col divide-y absolute top-9 right-0 w-[200px] border rounded-xl bg-white px-2 py-1 z-10"
+                                            key={option.id}
+                                        >
+                                            <li
+                                                className="flex justify-start py-2"
+                                                onClick={() =>
+                                                    handleModalOpen("addOptionItemModal", option.id)
+                                                }
+                                            >
                                                 옵션명, 가격 수정
                                             </li>
                                             <li
@@ -61,6 +92,13 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
                             </div>
                         </div>
                     </div>
+                    {openModal.addOptionItemModal && (
+                        <AddOptionItemModal
+                            onClose={() => handleModalClose("addOptionItemModal")}
+                            optionGroupId={optionItem.id}
+                            optionId={parseInt(Object.keys(viewOption)[0])}
+                        />
+                    )}
                 </div>
             ))}
 
