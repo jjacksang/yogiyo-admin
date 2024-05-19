@@ -1,4 +1,5 @@
 import { optionGroupAtom } from "@/app/recoil/state";
+import { deleteOption } from "@/app/services/shopAPI";
 import { OptionMenu, Options, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -46,13 +47,14 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
                                     {viewOption[option.id] && (
                                         <ul className="flex flex-col divide-y absolute top-9 right-0 w-[200px] border rounded-xl bg-white px-2 py-1 z-10">
                                             <li className="flex justify-start py-2">
-                                                옵션그룹명 변경
+                                                옵션명, 가격 수정
                                             </li>
-                                            <li className="flex justify-start py-2">
-                                                연결메뉴 설정
+                                            <li
+                                                className="flex justify-start py-2"
+                                                onClick={() => deleteOption(option.id)}
+                                            >
+                                                삭제
                                             </li>
-                                            <li className="flex justify-start py-2">그룹숨김</li>
-                                            <li className="flex justify-start py-2">삭제</li>
                                         </ul>
                                     )}
                                 </button>

@@ -2,10 +2,12 @@ import { menuItemAtom } from "@/app/recoil/state";
 import { Button } from "@/components/common/Button";
 import { Header } from "@/components/common/Header";
 import { ModalProps } from "@/lib/types";
+import { useState } from "react";
 import { useRecoilValue } from "recoil";
 
 export const OptionMenuLinkModal = ({ onClose }: ModalProps) => {
     const menuGroups = useRecoilValue(menuItemAtom);
+    const [selectMenu, setSelectMenu] = useState([]);
 
     console.log(menuGroups);
     return (
@@ -37,7 +39,6 @@ export const OptionMenuLinkModal = ({ onClose }: ModalProps) => {
                         </div>
                     ))}
                 </div>
-
                 <Button>저장</Button>
             </div>
         </div>
