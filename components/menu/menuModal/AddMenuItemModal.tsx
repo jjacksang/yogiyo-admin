@@ -11,7 +11,7 @@ interface MenuData {
     price?: number;
 }
 
-export const AddMenuItem = ({
+export const AddMenuItemModal = ({
     onClose,
     menuGroupId,
 }: ModalProps & { menuGroupId: number | null }) => {

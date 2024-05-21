@@ -1,20 +1,22 @@
 import { ModalProps, ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
-import AddOptionMenu from "./addOptionGroup";
+import AddOptionMenu from "./AddOptionGroupModal";
 import { getAxios } from "@/app/services/loginAPI";
-import { useRecoilCallback, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
-import { ItemComponent } from "./optionItem";
-import { AddOption } from "./addOptionItem";
+import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
+import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
+import { ItemComponent } from "./OptionItem";
+import { AddOptionItemModal } from "./AddOptionItemModal";
+import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
 
-const OptionMenu = ({ onClose }: ModalProps) => {
+const OptionMenuModal = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
     const [optionList, setOptionList] = useRecoilState(optionGroupAtom);
     const [openModal, setOpenModal] = useState({
-        addOptionGroup: false,
-        addOptionItem: false,
+        addOptionGroupModal: false,
+        addOptionItemModal: false,
+        optionMenuLinkModal: false,
     });
 
     useEffect(() => {
@@ -98,6 +100,17 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         }
     };
 
+    // 옵션 그룹 메뉴 연결
+    const LinkOptionMenu = () => {
+        const menuIds = [];
+        const menuGroupId = useRecoilValue(menuItemAtom);
+        try {
+            const res = getAxios.put(`/owner/menu-option-group//link-menu`);
+        } catch (error) {
+            console.error("옵션 그룹 메뉴 연결 실패", error);
+        }
+    };
+
     console.log(optionList);
     return (
         <div className="flex flex-col my-4 mx-8">
@@ -110,7 +123,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                     <button>옵션 순서 변경</button>
                     <button
                         className="border rounded-xl px-4 py-2.5 bg-yogiyo-blue text-white font-bold mx-2"
-                        onClick={() => handleModalOpen("addOptionGroup")}
+                        onClick={() => handleModalOpen("addOptionGroupModal")}
                     >
                         옵션그룹 추가
                     </button>
@@ -123,7 +136,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                             className="flex flex-col border rounded-2xl bg-white p-4 mt-2"
                             key={options.id}
                         >
-                            <div className="flex justify-between items-center relative">
+                            <div className="flex justify-between items-center">
                                 <span className="text-xl font-bold">{options.name}</span>
                                 <div className="flex border rounded-xl py-1 px-2 gap-2">
                                     <div className="flex">
@@ -135,7 +148,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                             </select>
                                         </>
                                         <button
-                                            className="flex items-center"
+                                            className="flex items-center relative"
                                             onClick={() => handleViewOption(options.id)}
                                         >
                                             <img src="/Icons/더보기버튼.svg" />
@@ -172,21 +185,31 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                 <div className="text-sm">
                                     <span>연결메뉴</span>
                                     <span>
-                                        리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드 메뉴연결
+                                        리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드
+                                        <button
+                                            className="px-2 text-yogiyo-blue"
+                                            onClick={() => handleModalOpen("optionMenuLinkModal")}
+                                        >
+                                            메뉴연결
+                                        </button>
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex border-t py-4">
-                                <button
-                                    className="text-xs px-2 text-yogiyo-blue"
-                                    onClick={() => handleModalOpen("addOptionItem", options.id)}
-                                >
-                                    옵션추가
-                                </button>
+                            <div className="flex flex-col border-t py-4">
+                                <div>
+                                    <button
+                                        className="text-xs px-2 text-yogiyo-blue"
+                                        onClick={() =>
+                                            handleModalOpen("addOptionItemModal", options.id)
+                                        }
+                                    >
+                                        옵션추가
+                                    </button>
 
-                                <span className="text-xs px-2">옵션 순서변경</span>
+                                    <span className="text-xs px-2">옵션 순서변경</span>
+                                </div>
+                                <ItemComponent optionGroupId={options.id} onClose={onClose} />
                             </div>
-                            <ItemComponent optionGroupId={options.id} />
                         </div>
                     ))}
                 </>
@@ -194,20 +217,23 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                 <div>옵션그룹을 불러오는 중</div>
             )}
 
-            {openModal.addOptionGroup && (
+            {openModal.addOptionGroupModal && (
                 <AddOptionMenu
-                    onClose={() => handleModalClose("addOptionGroup")}
+                    onClose={() => handleModalClose("addOptionGroupModal")}
                     addOptionGroup={addOptionGroup}
                 />
             )}
-            {openModal.addOptionItem && (
-                <AddOption
-                    onClose={() => handleModalClose("addOptionItem")}
+            {openModal.addOptionItemModal && (
+                <AddOptionItemModal
+                    onClose={() => handleModalClose("addOptionItemModal")}
                     optionGroupId={selectGroupId}
                 />
+            )}
+            {openModal.optionMenuLinkModal && (
+                <OptionMenuLinkModal onClose={() => handleModalClose("optionMenuLinkModal")} />
             )}
         </div>
     );
 };
 
-export default OptionMenu;
+export default OptionMenuModal;

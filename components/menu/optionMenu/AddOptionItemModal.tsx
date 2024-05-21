@@ -1,13 +1,27 @@
+import { optionGroupAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
-import { ModalProps } from "@/lib/types";
+import { Header } from "@/components/common/Header";
+import { ModalProps, Options } from "@/lib/types";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 
-export const AddOption = ({
+export const AddOptionItemModal = ({
     onClose,
     optionGroupId,
-}: ModalProps & { optionGroupId: number | null }) => {
+    optionId,
+}: ModalProps & { optionGroupId?: number | null; optionId?: number | null | undefined }) => {
     const [content, setContent] = useState("");
     const [price, setPrice] = useState("");
+    const optionList = useRecoilValue(optionGroupAtom);
+
+    const filterOptionGroupId = optionList.find((option) => option.id === optionGroupId);
+
+    console.log(optionGroupId);
+    console.log(optionId);
+    const filterOptions = filterOptionGroupId?.menuOptions?.find(
+        (option) => option.id === optionId
+    );
+    console.log(filterOptions);
 
     const handleAddOption = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.id === "content") {
@@ -32,13 +46,15 @@ export const AddOption = ({
         }
     };
     return (
-        <div className="flex items-center justify-center bg-black bg-opacity-50 fixed inset-0">
-            <div className="bg-white w-1/2 h-1/2 border rounded-2xl">
-                <div className="flex items-center justify-center border-b py-4 text-xl font-bold relative">
-                    <button className="absolute right-4" onClick={onClose}>
-                        X
-                    </button>
-                    <span>옵션 추가</span>
+        <div className="flex flex-col items-center justify-center bg-black bg-opacity-50 fixed inset-0">
+            <div className="flex flex-col bg-white divide-y px-4 border rounded-2xl  w-1/2 h-fit m-20 overflow-hidden">
+                <div className="relative">
+                    <Header>
+                        옵션추가
+                        <button className="absolute right-4" onClick={onClose}>
+                            X
+                        </button>
+                    </Header>
                 </div>
                 <div className="flex flex-col mx-2 text-custom-gray text-sm divide-y">
                     <div className="flex flex-col py-4">
@@ -46,10 +62,10 @@ export const AddOption = ({
                         <input
                             className="px-2 border rounded-lg"
                             onChange={handleAddOption}
-                            value={content}
+                            value={filterOptions ? filterOptions?.content : content}
                             id="content"
                             type="text"
-                        />
+                        ></input>
                     </div>
                     <div className="flex flex-col">
                         <span>옵션가격</span>
@@ -57,7 +73,7 @@ export const AddOption = ({
                             <input
                                 className="border rounded-lg px-2"
                                 onChange={handleAddOption}
-                                value={price}
+                                value={filterOptions ? filterOptions?.price : price}
                                 id="price"
                                 type="text"
                             ></input>

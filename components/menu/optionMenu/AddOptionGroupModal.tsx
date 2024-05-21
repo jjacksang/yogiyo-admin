@@ -1,3 +1,4 @@
+import { Button } from "@/components/common/Button";
 import { ModalProps } from "@/lib/types";
 import React, { useState } from "react";
 
@@ -15,7 +16,7 @@ interface AddOptionMenuProps extends ModalProps {
     ) => void;
 }
 
-const AddOptionMenu = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
+const AddOptionMenuModal = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
     const [optionType, setOptionType] = useState<string>("REQUIRED");
     const [optionGroupName, setOptionGroupName] = useState("");
     const [optionName, setOptionName] = useState("");
@@ -99,12 +100,7 @@ const AddOptionMenu = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
                         >
                             뒤로
                         </button>
-                        <button
-                            className="border rounded-xl px-6 py-2 bg-yogiyo-blue text-white font-bold"
-                            onClick={handleSubmit}
-                        >
-                            저장
-                        </button>
+                        <Button onClick={handleSubmit}>저장</Button>
                     </div>
                 </div>
             </div>
@@ -165,12 +161,7 @@ const AddOptionMenu = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
                             </div>
                         </div>
                         <div className="flex justify-end py-4">
-                            <button
-                                className="border rounded-xl bg-yogiyo-blue text-white text-xl font-bold w-1/4 px-4 py-2 mr-2"
-                                onClick={handleNextOption}
-                            >
-                                다음
-                            </button>
+                            <Button onClick={handleNextOption}>다음</Button>
                         </div>
                     </>
                 )}
@@ -179,4 +170,4 @@ const AddOptionMenu = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
     );
 };
 
-export default AddOptionMenu;
+export default AddOptionMenuModal;
