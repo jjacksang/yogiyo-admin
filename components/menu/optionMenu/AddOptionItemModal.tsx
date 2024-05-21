@@ -16,6 +16,7 @@ export const AddOptionItemModal = ({
 
     const filterOptionGroupId = optionList.find((option) => option.id === optionGroupId);
 
+    console.log(optionGroupId);
     console.log(optionId);
     const filterOptions = filterOptionGroupId?.menuOptions?.find(
         (option) => option.id === optionId

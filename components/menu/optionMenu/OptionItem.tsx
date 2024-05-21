@@ -9,14 +9,17 @@ interface optionId extends ModalProps {
     optionGroupId: number;
 }
 
-export const ItemComponent = ({ optionGroupId }: optionId) => {
+export const ItemComponent = ({ optionGroupId, onClose }: optionId) => {
     const optionList = useRecoilValue(optionGroupAtom);
     const optionItem = optionList.find((group) => group.id === optionGroupId);
-    const [viewOption, setViewOption] = useState<ViewOption>({});
+    const [viewOption, setViewOption] = useState<number | null>(null);
     const [selectOptionId, setSelectOptionId] = useState<number>();
+    const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
     const [openModal, setOpenModal] = useState({
         addOptionItemModal: false,
     });
+    console.log(optionList);
+    console.log(optionItem);
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -33,6 +36,7 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
             ...prevModal,
             [modalName]: false,
         }));
+        setViewOption(null);
     };
 
     return (
@@ -56,22 +60,22 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
                                 <button
                                     className="px-0.5"
                                     onClick={() => {
-                                        setViewOption((prev) => ({
-                                            [option.id]: !prev[option.id],
-                                        }));
+                                        setViewOption(option.id);
                                     }}
                                 >
                                     <img src="/Icons/더보기버튼.svg" />
-                                    {viewOption[option.id] && (
+                                    {viewOption === option.id && (
                                         <ul
                                             className="flex flex-col divide-y absolute top-9 right-0 w-[200px] border rounded-xl bg-white px-2 py-1 z-10"
                                             key={option.id}
                                         >
                                             <li
                                                 className="flex justify-start py-2"
-                                                onClick={() =>
-                                                    handleModalOpen("addOptionItemModal")
-                                                }
+                                                onClick={() => {
+                                                    handleModalOpen("addOptionItemModal");
+                                                    setSelectGroupId(optionItem.id);
+                                                    console.log(selectGroupId);
+                                                }}
                                             >
                                                 옵션명, 가격 수정
                                             </li>
@@ -87,16 +91,15 @@ export const ItemComponent = ({ optionGroupId }: optionId) => {
                             </div>
                         </div>
                     </div>
-                    {openModal.addOptionItemModal && (
-                        <AddOptionItemModal
-                            onClose={() => handleModalClose("addOptionItemModal")}
-                            optionGroupId={optionItem.id}
-                            optionId={parseInt(Object.keys(viewOption)[0])}
-                        />
-                    )}
                 </div>
             ))}
-
+            {openModal.addOptionItemModal && (
+                <AddOptionItemModal
+                    onClose={() => handleModalClose("addOptionItemModal")}
+                    optionGroupId={selectGroupId}
+                    optionId={viewOption}
+                />
+            )}
             {/* 옵션 그룹 밑에 있는 설명란 임시 저장 */}
         </div>
     );
