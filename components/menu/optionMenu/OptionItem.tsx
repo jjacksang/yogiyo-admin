@@ -9,17 +9,15 @@ interface optionId extends ModalProps {
     optionGroupId: number;
 }
 
-export const ItemComponent = ({ optionGroupId, onClose }: optionId) => {
+export const ItemComponent = ({ optionGroupId }: optionId) => {
     const optionList = useRecoilValue(optionGroupAtom);
     const optionItem = optionList.find((group) => group.id === optionGroupId);
-    const [viewOption, setViewOption] = useState<number | null>(null);
+    const [viewOption, setViewOption] = useState<ViewOption>({});
     const [selectOptionId, setSelectOptionId] = useState<number>();
-    const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+    const [seletGroupId, setSelectGroupId] = useState<number>();
     const [openModal, setOpenModal] = useState({
         addOptionItemModal: false,
     });
-    console.log(optionList);
-    console.log(optionItem);
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -36,7 +34,6 @@ export const ItemComponent = ({ optionGroupId, onClose }: optionId) => {
             ...prevModal,
             [modalName]: false,
         }));
-        setViewOption(null);
     };
 
     return (
@@ -60,11 +57,13 @@ export const ItemComponent = ({ optionGroupId, onClose }: optionId) => {
                                 <button
                                     className="px-0.5"
                                     onClick={() => {
-                                        setViewOption(option.id);
+                                        setViewOption((prev) => ({
+                                            [option.id]: !prev[option.id],
+                                        }));
                                     }}
                                 >
                                     <img src="/Icons/더보기버튼.svg" />
-                                    {viewOption === option.id && (
+                                    {viewOption[option.id] && (
                                         <ul
                                             className="flex flex-col divide-y absolute top-9 right-0 w-[200px] border rounded-xl bg-white px-2 py-1 z-10"
                                             key={option.id}
@@ -74,7 +73,6 @@ export const ItemComponent = ({ optionGroupId, onClose }: optionId) => {
                                                 onClick={() => {
                                                     handleModalOpen("addOptionItemModal");
                                                     setSelectGroupId(optionItem.id);
-                                                    console.log(selectGroupId);
                                                 }}
                                             >
                                                 옵션명, 가격 수정
@@ -96,10 +94,11 @@ export const ItemComponent = ({ optionGroupId, onClose }: optionId) => {
             {openModal.addOptionItemModal && (
                 <AddOptionItemModal
                     onClose={() => handleModalClose("addOptionItemModal")}
-                    optionGroupId={selectGroupId}
-                    optionId={viewOption}
+                    optionGroupId={seletGroupId}
+                    optionId={parseInt(Object.keys(viewOption)[0])}
                 />
             )}
+
             {/* 옵션 그룹 밑에 있는 설명란 임시 저장 */}
         </div>
     );

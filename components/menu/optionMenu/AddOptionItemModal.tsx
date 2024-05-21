@@ -62,7 +62,7 @@ export const AddOptionItemModal = ({
                         <input
                             className="px-2 border rounded-lg"
                             onChange={handleAddOption}
-                            value={content}
+                            value={filterOptions ? filterOptions?.content : content}
                             id="content"
                             type="text"
                         ></input>
@@ -73,7 +73,7 @@ export const AddOptionItemModal = ({
                             <input
                                 className="border rounded-lg px-2"
                                 onChange={handleAddOption}
-                                value={price}
+                                value={filterOptions ? filterOptions?.price : price}
                                 id="price"
                                 type="text"
                             ></input>
