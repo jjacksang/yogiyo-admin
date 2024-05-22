@@ -119,7 +119,7 @@ export const AddMenuItemModal = ({
                     <input
                         onChange={handleAddMenu}
                         id="price"
-                        type="text"
+                        type="number"
                         className="border rounded-lg"
                     ></input>
                 </div>

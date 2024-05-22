@@ -9,7 +9,7 @@ interface optionId extends ModalProps {
     optionGroupId: number;
 }
 
-export const ItemComponent = ({ optionGroupId }: optionId) => {
+export const OptionItem = ({ optionGroupId }: optionId) => {
     const optionList = useRecoilValue(optionGroupAtom);
     const optionItem = optionList.find((group) => group.id === optionGroupId);
     const [viewOption, setViewOption] = useState<ViewOption>({});

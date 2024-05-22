@@ -27,7 +27,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
     const selectedNav = useRecoilValue(navContent);
     const shopId = useRecoilValue(shopIdAtom);
-    const menuGroupId = selectGroupId;
 
     useEffect(() => {
         updateGroupList();
@@ -60,7 +59,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
     };
 
     // 메뉴 그룹 제거 api요청부분
-    const deleteMenuGroup = async (ids: Group) => {
+    const deleteMenuGroup = async (menuGroupId: number) => {
         if (menuGroupId != null) {
             try {
                 const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
@@ -78,7 +77,12 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const updateGroupList = async () => {
         try {
             const res = await GroupList(shopId);
-            setMenuGroup(res.menuGroups);
+            setMenuGroup(
+                res.menuGroups.map((data: any) => ({
+                    ...data,
+                    picture: `https://yogiyo-clone.shop${data.picture}`,
+                }))
+            );
             console.log(res);
         } catch (error) {
             console.error("리스트 업데이트 실패", error);
@@ -152,7 +156,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                                         <li
                                                             className="flex justify-start py-2"
                                                             onClick={() =>
-                                                                deleteMenuGroup(menuItem)
+                                                                deleteMenuGroup(menuItem.id)
                                                             }
                                                         >
                                                             메뉴 삭제

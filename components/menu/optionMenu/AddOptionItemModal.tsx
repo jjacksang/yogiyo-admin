@@ -11,7 +11,7 @@ export const AddOptionItemModal = ({
     optionId,
 }: ModalProps & { optionGroupId?: number | null; optionId?: number | null | undefined }) => {
     const [content, setContent] = useState("");
-    const [price, setPrice] = useState("");
+    const [price, setPrice] = useState<number>();
     const optionList = useRecoilValue(optionGroupAtom);
 
     const filterOptionGroupId = optionList.find((option) => option.id === optionGroupId);
@@ -27,7 +27,7 @@ export const AddOptionItemModal = ({
         if (e.target.id === "content") {
             setContent(e.target.value);
         } else if (e.target.id === "price") {
-            setPrice(e.target.value);
+            setPrice(e.target.valueAsNumber);
         }
     };
 
@@ -75,7 +75,7 @@ export const AddOptionItemModal = ({
                                 onChange={handleAddOption}
                                 value={filterOptions ? filterOptions?.price : price}
                                 id="price"
-                                type="text"
+                                type="number"
                             ></input>
                             <span>일천만원</span>
                         </div>
