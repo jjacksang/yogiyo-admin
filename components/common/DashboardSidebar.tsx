@@ -25,23 +25,22 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu, to
 
     const toggleShopListDropdown = () => setShopListDropdownOpen(!shopListDropdownOpen);
 
-
     // 모달 열고 닫는 함수
     const settoggleModal = () => setIsModalOpen(!isModalOpen);
 
     const fetchShopList = async () => {
         try {
-          const fetchedShopList = await ShopList();
-          setShopList(fetchedShopList);
-          if (fetchedShopList.length > 0) {
-            const firstShopId = fetchedShopList[0].id; 
-            setShopId(firstShopId);
-            setSelectedShopId(firstShopId);
-          }
+            const fetchedShopList = await ShopList();
+            setShopList(fetchedShopList);
+            if (fetchedShopList.length > 0) {
+                const firstShopId = fetchedShopList[0].id;
+                setShopId(firstShopId);
+                setSelectedShopId(firstShopId);
+            }
         } catch (error) {
-          console.error("Error fetching shop list:", error);
+            console.error("Error fetching shop list:", error);
         }
-      };
+    };
 
     const ownerStore = (store ?? []).map((shop: OwnerShopList) => {
         return (
@@ -57,58 +56,68 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu, to
         );
     });
 
-
     useEffect(() => {
-    const fetchShopList = async () => {
-      try {
-        const fetchedShopList = await ShopList();
-        if (fetchedShopList.length > 0) {
-          setStore(fetchedShopList);
-          setSelectedShopId(fetchedShopList[0].id); 
-        }
-      } catch (error) {
-        console.error("Error fetching shop list:", error);
-      }
-    };
-    fetchShopList();
-  }, [setStore, setSelectedShopId]);
+        const fetchShopList = async () => {
+            try {
+                const fetchedShopList = await ShopList();
+                if (fetchedShopList.length > 0) {
+                    setStore(fetchedShopList);
+                    setSelectedShopId(fetchedShopList[0].id);
+                    console.log(store);
+                }
+            } catch (error) {
+                console.error("Error fetching shop list:", error);
+            }
+        };
+        fetchShopList();
+    }, [setStore, setSelectedShopId]);
 
-    
-      const handleSelectShop = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSelectShop = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedShopId(parseInt(event.target.value, 10));
-      };
+    };
 
-      const selectedShop = store?.find(shop => shop.id === selectedShopId);
-
-
+    const selectedShop = store?.find((shop) => shop.id === selectedShopId);
 
     return (
-        <div style={{ width: "260px", background: "#ffffff" }} className="relative z-10 flex flex-col">
+        <div
+            style={{ width: "260px", background: "#ffffff" }}
+            className="relative z-10 flex flex-col"
+        >
             {/* 대시보드 버튼 및 누르면 모달창 나오는 부분 */}
             <div className="flex justify-center py-4 h-[106px] border-b border-gray-200">
-            {store && store.length > 0 ? (
-            <>
-              <div className="flex items-center gap-2">
-                <img src={selectedShop?.icon} alt={selectedShop?.name} className="w-[28px] h-[28px]" />
-              <div className="flex flex-col">
-                <span className="text-lg font-bold">{selectedShop?.name}</span>
-                <p className="text-xs">ID: {selectedShop?.id}</p>
-              </div>
-                <select value={selectedShopId.toString()} onChange={handleSelectShop} className="mt-2">
-                  {store.map(shop => (
-                    <option key={shop.id} value={shop.id.toString()}>{shop.name}</option>
-                  ))}
-                </select>
-              </div>
-            </>
-            ) : (
-            <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
-              <button onClick={() => setIsModalOpen(true)}>아직 가게가 없습니다</button>
-            </div>
-            )}
+                {store && store.length > 0 ? (
+                    <>
+                        <div className="flex items-center gap-2">
+                            <img
+                                src={selectedShop?.icon}
+                                alt={selectedShop?.name}
+                                className="w-[28px] h-[28px]"
+                            />
+                            <div className="flex flex-col">
+                                <span className="text-lg font-bold">{selectedShop?.name}</span>
+                                <p className="text-xs">ID: {selectedShop?.id}</p>
+                            </div>
+                            <select
+                                value={selectedShopId.toString()}
+                                onChange={handleSelectShop}
+                                className="mt-2"
+                            >
+                                {store.map((shop) => (
+                                    <option key={shop.id} value={shop.id.toString()}>
+                                        {shop.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </>
+                ) : (
+                    <div className="inline-flex items-center justify-start w-[236px] h-[74px] p-[19px_8px_19px_12px] bg-white rounded-[8px] border border-[rgba(0,0,0,0.6)] cursor-pointer relative flex-row font-bold">
+                        <button onClick={() => setIsModalOpen(true)}>아직 가게가 없습니다</button>
+                    </div>
+                )}
             </div>
             {isModalOpen && <DashboardModal closeModal={settoggleModal} />}
-            
+
             {/* 버튼 3개 부분 */}
             <div
                 style={{ lineHeight: "16px", gap: "4px" }}

@@ -49,7 +49,11 @@ export const ShopList = async () => {
     try {
         const resShops = await getAxios.get("/owner/shop/");
         console.log(resShops.data);
-        return resShops.data;
+        const some = resShops.data.map((ss: any) => ({
+            ...ss,
+            icon: `https://yogiyo-clone.shop${ss.icon}`,
+        }));
+        return some; // 이 부분 수정하세여
     } catch (error) {
         console.error("Error fetching shop list:", error);
         throw error;

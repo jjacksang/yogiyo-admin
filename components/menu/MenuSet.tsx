@@ -77,7 +77,12 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const updateGroupList = async () => {
         try {
             const res = await GroupList(shopId);
-            setMenuGroup(res.menuGroups);
+            setMenuGroup(
+                res.menuGroups.map((data: any) => ({
+                    ...data,
+                    picture: `https://yogiyo-clone.shop${data.picture}`,
+                }))
+            );
             console.log(res);
         } catch (error) {
             console.error("리스트 업데이트 실패", error);
