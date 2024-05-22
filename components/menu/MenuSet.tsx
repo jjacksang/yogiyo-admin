@@ -27,7 +27,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
     const selectedNav = useRecoilValue(navContent);
     const shopId = useRecoilValue(shopIdAtom);
-    const menuGroupId = selectGroupId;
 
     useEffect(() => {
         updateGroupList();
@@ -60,7 +59,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
     };
 
     // 메뉴 그룹 제거 api요청부분
-    const deleteMenuGroup = async (ids: Group) => {
+    const deleteMenuGroup = async (menuGroupId: number) => {
         if (menuGroupId != null) {
             try {
                 const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
@@ -152,7 +151,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                                         <li
                                                             className="flex justify-start py-2"
                                                             onClick={() =>
-                                                                deleteMenuGroup(menuItem)
+                                                                deleteMenuGroup(menuItem.id)
                                                             }
                                                         >
                                                             메뉴 삭제

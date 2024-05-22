@@ -4,11 +4,11 @@ import AddOptionMenu from "./AddOptionGroupModal";
 import { getAxios } from "@/app/services/loginAPI";
 import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
-import { ItemComponent } from "./OptionItem";
+import { OptionItem } from "./OptionItem";
 import { AddOptionItemModal } from "./AddOptionItemModal";
 import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
 
-const OptionMenuModal = ({ onClose }: ModalProps) => {
+const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
@@ -208,7 +208,7 @@ const OptionMenuModal = ({ onClose }: ModalProps) => {
 
                                     <span className="text-xs px-2">옵션 순서변경</span>
                                 </div>
-                                <ItemComponent optionGroupId={options.id} onClose={onClose} />
+                                <OptionItem optionGroupId={options.id} onClose={onClose} />
                             </div>
                         </div>
                     ))}
@@ -236,4 +236,4 @@ const OptionMenuModal = ({ onClose }: ModalProps) => {
     );
 };
 
-export default OptionMenuModal;
+export default OptionMenu;
