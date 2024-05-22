@@ -79,7 +79,18 @@ export const DeleteMenuGroup = async () => {
     }
 };
 
-// 메뉴 그룹 추가
+// 메뉴 그룹 메뉴 삭제
+export const deleteMenuItem = async (menuGroupId: number) => {
+    try {
+        const res = await getAxios.delete(`/owner/menu-group/delete-menu/${menuGroupId}`);
+        if (res.status === 204) {
+            console.log(res.data);
+            console.log(res);
+        }
+    } catch (error) {
+        console.error("메뉴 삭제실패", error);
+    }
+};
 
 // 메뉴 그룹 메뉴 조회
 
