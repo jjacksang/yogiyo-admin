@@ -151,7 +151,6 @@ const DashboardModal: React.FC<DashboardModalProps> = ({ closeModal }) => {
                 addShop((oldShops) => [...(oldShops ?? []), newShop]);
                 setApiResponse(JSON.stringify(response));
             }
-            console.log(banner);
         } catch (error) {
             console.error(error);
             setApiResponse("입점 신청 중 오류가 발생했습니다.");

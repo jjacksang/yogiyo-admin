@@ -63,7 +63,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu, to
                 if (fetchedShopList.length > 0) {
                     setStore(fetchedShopList);
                     setSelectedShopId(fetchedShopList[0].id);
-                    console.log(store);
                 }
             } catch (error) {
                 console.error("Error fetching shop list:", error);
