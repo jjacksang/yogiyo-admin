@@ -4,6 +4,7 @@ import { ModalProps, Options, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddOptionItemModal } from "./AddOptionItemModal";
+import { ItemList } from "../menuModal/common/ItemList";
 
 interface optionId extends ModalProps {
     optionGroupId: number;
@@ -39,57 +40,42 @@ export const OptionItem = ({ optionGroupId }: optionId) => {
     return (
         <div>
             {optionItem?.menuOptions?.map((option: Options) => (
-                <div className="flex justify-between w-full mb-4" key={option.id}>
-                    <div className="flex flex-col pt-2 pl-2">
-                        <span className="text-base font-bold">{option.content}</span>
-                        <p className="text-xs text-custom-gray pb-2">{option.price}</p>
-                    </div>
-                    <div className="relative">
-                        <div className="flex items-center border rounded-lg  px-2 py-1">
-                            <>
-                                <select>
-                                    <option>판매중</option>
-                                    <option>하루 품절</option>
-                                    <option>숨김</option>
-                                </select>
-                            </>
-                            <div className="flex">
-                                <button
-                                    className="px-0.5"
-                                    onClick={() => {
-                                        setViewOption((prev) => ({
-                                            [option.id]: !prev[option.id],
-                                        }));
-                                    }}
+                <ItemList option={option}>
+                    <div className="flex">
+                        <button
+                            className="px-0.5"
+                            onClick={() => {
+                                setViewOption((prev) => ({
+                                    [option.id]: !prev[option.id],
+                                }));
+                            }}
+                        >
+                            <img src="/Icons/더보기버튼.svg" />
+                            {viewOption[option.id] && (
+                                <ul
+                                    className="flex flex-col divide-y absolute top-9 right-0 w-[200px] border rounded-xl bg-white px-2 py-1 z-10"
+                                    key={option.id}
                                 >
-                                    <img src="/Icons/더보기버튼.svg" />
-                                    {viewOption[option.id] && (
-                                        <ul
-                                            className="flex flex-col divide-y absolute top-9 right-0 w-[200px] border rounded-xl bg-white px-2 py-1 z-10"
-                                            key={option.id}
-                                        >
-                                            <li
-                                                className="flex justify-start py-2"
-                                                onClick={() => {
-                                                    handleModalOpen("addOptionItemModal");
-                                                    setSelectGroupId(optionItem.id);
-                                                }}
-                                            >
-                                                옵션명, 가격 수정
-                                            </li>
-                                            <li
-                                                className="flex justify-start py-2"
-                                                onClick={() => deleteOption(option.id)}
-                                            >
-                                                삭제
-                                            </li>
-                                        </ul>
-                                    )}
-                                </button>
-                            </div>
-                        </div>
+                                    <li
+                                        className="flex justify-start py-2"
+                                        onClick={() => {
+                                            handleModalOpen("addOptionItemModal");
+                                            setSelectGroupId(optionItem.id);
+                                        }}
+                                    >
+                                        옵션명, 가격 수정
+                                    </li>
+                                    <li
+                                        className="flex justify-start py-2"
+                                        onClick={() => deleteOption(option.id)}
+                                    >
+                                        삭제
+                                    </li>
+                                </ul>
+                            )}
+                        </button>
                     </div>
-                </div>
+                </ItemList>
             ))}
             {openModal.addOptionItemModal && (
                 <AddOptionItemModal

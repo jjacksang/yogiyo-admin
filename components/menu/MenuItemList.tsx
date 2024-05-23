@@ -4,6 +4,7 @@ import { MenusItem, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
+import { ItemList } from "./menuModal/common/ItemList";
 
 interface MenuItemListProps {
     menuGroupId: number;
@@ -62,54 +63,34 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
     return (
         <div>
             {menuGroup.menus?.map((menuItem: MenusItem) => (
-                <div className="flex justify-between w-full mb-4" key={menuItem.id}>
-                    <div className="flex flex-col pt-2 pl-2">
-                        <span className="text-base font-bold">{menuItem.name}</span>
-                        <p className="text-xs text-custom-gray pb-2">{menuItem.content}</p>
-                        <p className="text-xs text-custom-gray pb-2">{menuItem.price}</p>
+                <ItemList option={menuItem}>
+                    <div className="flex">
+                        <button className="px-0.5" onClick={() => toggleViewOption(menuItem.id)}>
+                            <img src="/Icons/더보기버튼.svg" />
+                            {viewOption[menuItem.id] ? (
+                                <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                    <li
+                                        className="flex justify-start py-2"
+                                        onClick={() => {
+                                            handleModalOpen("addMenuItemModal");
+                                            setSelectGroupId(menuItem.id);
+                                        }}
+                                    >
+                                        메뉴 수정
+                                    </li>
+                                    <li
+                                        className="flex justify-start py-2"
+                                        onClick={() => deleteMenuItem(menuItem.id)}
+                                    >
+                                        메뉴 삭제
+                                    </li>
+                                </ul>
+                            ) : (
+                                <div></div>
+                            )}
+                        </button>
                     </div>
-                    <div className="">
-                        <div className="flex items-center border rounded-lg px-2 py-1 relative">
-                            <>
-                                <select>
-                                    <option>판매중</option>
-                                    <option>하루 품절</option>
-                                    <option>숨김</option>
-                                </select>
-                            </>
-
-                            <div className="flex">
-                                <button
-                                    className="px-0.5"
-                                    onClick={() => toggleViewOption(menuItem.id)}
-                                >
-                                    보기
-                                    {viewOption[menuItem.id] ? (
-                                        <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
-                                            <li
-                                                className="flex justify-start py-2"
-                                                onClick={() => {
-                                                    handleModalOpen("addMenuItemModal");
-                                                    setSelectGroupId(menuItem.id);
-                                                }}
-                                            >
-                                                메뉴 수정
-                                            </li>
-                                            <li
-                                                className="flex justify-start py-2"
-                                                onClick={() => deleteMenuItem(menuItem.id)}
-                                            >
-                                                메뉴 삭제
-                                            </li>
-                                        </ul>
-                                    ) : (
-                                        <div></div>
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </ItemList>
             ))}
             {openModal.addMenuItemModal && (
                 <AddMenuItemModal

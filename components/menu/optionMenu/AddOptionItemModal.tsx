@@ -50,7 +50,7 @@ export const AddOptionItemModal = ({
             <div className="flex flex-col bg-white divide-y px-4 border rounded-2xl  w-1/2 h-fit m-20 overflow-hidden">
                 <div className="relative">
                     <Header>
-                        옵션추가
+                        <span>옵션추가</span>
                         <button className="absolute right-4" onClick={onClose}>
                             X
                         </button>
