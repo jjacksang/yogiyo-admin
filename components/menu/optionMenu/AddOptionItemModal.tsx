@@ -15,7 +15,8 @@ export const AddOptionItemModal = ({
     const optionList = useRecoilValue(optionGroupAtom);
 
     const filterOptionGroupId = optionList.find((option) => option.id === optionGroupId);
-
+    console.log(filterOptionGroupId);
+    console.log(optionList);
     console.log(optionGroupId);
     console.log(optionId);
     const filterOptions = filterOptionGroupId?.menuOptions?.find(

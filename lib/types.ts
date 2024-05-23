@@ -101,7 +101,7 @@ export interface MenusItem {
     price: number;
     name: string;
     visible?: string;
-    picture: string;
+    picture?: string;
 }
 
 export interface ShopId {

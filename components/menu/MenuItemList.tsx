@@ -1,10 +1,11 @@
 import { menuItemAtom } from "@/app/recoil/state";
 import { deleteMenuItem } from "@/app/services/shopAPI";
 import { MenusItem, ViewOption } from "@/lib/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { ItemList } from "./menuModal/common/ItemList";
+import { getAxios } from "@/app/services/loginAPI";
 
 interface MenuItemListProps {
     menuGroupId: number;
@@ -16,6 +17,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
     const menuGroup = menuItemGroups.find((group) => group.id === menuGroupId);
     if (!menuGroup) return null;
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+    const [selectItemId, setSelectItemId] = useState<number>();
     const [openModal, setOpenModal] = useState({
         addMenuItemModal: false,
     });
@@ -26,7 +28,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
             [modalName]: true,
         }));
         if (id !== undefined) {
-            setSelectGroupId(id);
+            setSelectItemId(id);
             console.log(id);
         }
     };
@@ -45,20 +47,20 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
         console.log(id);
     };
 
-    // useEffect(() => {
-    //     const getItemList = async () => {
-    //         try {
-    //             const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
-    //             const menus = res.data;
-    //             // setMenuItems(menus);
-    //             console.log(menus);
-    //             console.log(res.data);
-    //         } catch (error) {
-    //             console.log("리스트 가져오기 실패", error);
-    //         }
-    //     };
-    //     getItemList();
-    // }, [menuGroup]);
+    useEffect(() => {
+        const getItemList = async () => {
+            try {
+                const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
+                const menus = res.data;
+                // setMenuItems(menus);
+                console.log(menus);
+                console.log(res.data);
+            } catch (error) {
+                console.log("리스트 가져오기 실패", error);
+            }
+        };
+        getItemList();
+    }, [menuGroup]);
 
     return (
         <div>
@@ -73,7 +75,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
                                         className="flex justify-start py-2"
                                         onClick={() => {
                                             handleModalOpen("addMenuItemModal");
-                                            setSelectGroupId(menuItem.id);
+                                            setSelectGroupId(menuGroup.id);
                                         }}
                                     >
                                         메뉴 수정
@@ -95,6 +97,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
             {openModal.addMenuItemModal && (
                 <AddMenuItemModal
                     menuGroupId={selectGroupId}
+                    itemId={parseInt(Object.keys(viewOption)[0])}
                     onClose={() => handleModalClose("addMenuItemModal")}
                 />
             )}

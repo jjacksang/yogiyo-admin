@@ -1,4 +1,4 @@
-import { addMenuGroup, menuListState } from "@/app/recoil/state";
+import { addMenuGroup, menuItemAtom, menuListState } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { ImageUploadBtn } from "@/components/common/ImageUploadBtn";
 import { ModalProps } from "@/lib/types";
@@ -14,12 +14,19 @@ interface MenuData {
 export const AddMenuItemModal = ({
     onClose,
     menuGroupId,
-}: ModalProps & { menuGroupId: number | null }) => {
+    itemId,
+}: ModalProps & { menuGroupId: number | null; itemId?: number | null | undefined }) => {
     const [prevData, setPrevData] = useState<MenuData | null>(null);
     const [itemImage, setItemImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const menuGroupList = useRecoilValue(menuListState);
+    const menuGroup = useRecoilValue(menuItemAtom);
     let itemData = {};
+    console.log(itemId);
+    console.log(menuGroup);
+    console.log(menuGroupId);
+    const filterMenuGroups = menuGroup.find((item) => item.id === menuGroupId);
+    const filterMenuItem = filterMenuGroups?.menus?.find((item) => item.id === itemId);
+    console.log(filterMenuItem);
 
     const handleImageSelect = (image: File | null) => {
         setItemImage(image);
