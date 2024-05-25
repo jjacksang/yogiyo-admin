@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MenuNav } from "./MenuNavbar";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, navContent, shopIdAtom } from "@/app/recoil/state";
-import { GroupList, ReorderMenu } from "@/app/services/shopAPI";
+import { GroupList } from "@/app/services/shopAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { ModalProps, ViewOption } from "@/lib/types";
@@ -12,6 +12,7 @@ import OptionMenu from "./optionMenu/OptionMenu";
 import AddMenuGroup from "./menuModal/AddMenuGroupModal";
 import { ItemLayout } from "./menuModal/common/ItemLayout";
 import { ItemHeader } from "./menuModal/common/ItemHeader";
+import { ReorderModal } from "../common/ReorderModal";
 
 interface Group {
     id: number;
@@ -23,6 +24,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [openModal, setOpenModal] = useState({
         addMenuGroup: false,
         addMenuItem: false,
+        reorderModal: false,
     });
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuItemAtom);
@@ -93,9 +95,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
         }
     };
 
-    const menuGroupIds = menuGroup.map((item) => item.id);
-
-    console.log(menuGroupIds);
     return (
         <div>
             <MenuNav />
@@ -109,7 +108,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                             />
                             {/* 메뉴 검색 영역 */}
                             <div className="text-custom-gray text-sm">
-                                <button onClick={() => ReorderMenu(shopId, menuGroupIds)}>
+                                <button onClick={() => handleModalOpen("reorderModal")}>
                                     메뉴그룹
                                 </button>
                                 {/* 메뉴 그룹 드레그 영역 */}
@@ -135,7 +134,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                     }}
                                 >
                                     <div className="flex flex-col gap-2 py-4">
-                                        <img src={menuItem.picture} />
                                         <span className="text-base font-bold text-font-black">
                                             {menuItem.name}
                                         </span>
@@ -199,6 +197,9 @@ const MenuSet = ({ onClose }: ModalProps) => {
                             onClose={() => handleModalClose("addMenuItem")}
                             menuGroupId={selectGroupId}
                         />
+                    )}
+                    {openModal.reorderModal && (
+                        <ReorderModal onClose={() => handleModalClose("reorderModal")} />
                     )}
                 </>
             )}
