@@ -21,12 +21,9 @@ export const AddMenuItemModal = ({
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const menuGroup = useRecoilValue(menuItemAtom);
     let itemData = {};
-    console.log(itemId);
-    console.log(menuGroup);
-    console.log(menuGroupId);
+
     const filterMenuGroups = menuGroup.find((item) => item.id === menuGroupId);
     const filterMenuItem = filterMenuGroups?.menus?.find((item) => item.id === itemId);
-    console.log(filterMenuItem);
 
     const handleImageSelect = (image: File | null) => {
         setItemImage(image);
@@ -97,6 +94,7 @@ export const AddMenuItemModal = ({
                     <span className="text-xl font-bold">메뉴명</span>
                     <input
                         onChange={handleAddMenu}
+                        value={filterMenuItem ? filterMenuItem?.name : prevData?.menuName}
                         id="menuName"
                         type="text"
                         className="border rounded-lg h-auto"
@@ -107,6 +105,7 @@ export const AddMenuItemModal = ({
                     <div className="py-4 px-2">
                         <input
                             onChange={handleAddMenu}
+                            value={filterMenuItem ? filterMenuItem?.content : prevData?.content}
                             id="content"
                             type="text"
                             className="border rounded-lg"
@@ -125,6 +124,7 @@ export const AddMenuItemModal = ({
                     <span className="text-xl font-bold">가격</span>
                     <input
                         onChange={handleAddMenu}
+                        value={filterMenuItem ? filterMenuItem?.price : prevData?.price}
                         id="price"
                         type="number"
                         className="border rounded-lg"
