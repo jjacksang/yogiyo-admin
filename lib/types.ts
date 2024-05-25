@@ -92,6 +92,7 @@ export interface MenuItem {
     name: string;
     content: string;
     visible: string;
+    picture: string;
     menus?: MenusItem[] | null;
 }
 
