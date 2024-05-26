@@ -50,33 +50,6 @@ export interface DynamicRoute {
     };
 }
 
-export interface AddMenuGroup {
-    shopId: number;
-    name: string;
-    content: string;
-}
-
-export interface AddMenu {
-    picture: string;
-    menuData: {
-        name: string;
-        content: string;
-        price: number;
-    };
-}
-
-export interface MenuList {
-    id: number;
-    name: string;
-    content: string;
-}
-
-export interface NewGroupMenu {
-    name: string;
-    content: string;
-    price: number;
-}
-
 // 모달 오픈 클로즈 타입
 export interface ModalProps {
     onClose: () => void;
@@ -87,65 +60,6 @@ export interface ViewOption {
     [key: number]: boolean;
 }
 
-export interface MenuItem {
-    id: number;
-    name: string;
-    content: string;
-    visible: string;
-    menus?: MenusItem[] | null;
-}
-
-export interface MenusItem {
-    id: number;
-    content: string;
-    price: number;
-    name: string;
-    visible?: string;
-    picture?: string;
-}
-
 export interface ShopId {
     id: number;
-}
-
-// 옵션 그룹 타입
-export interface OptionMenu {
-    id: number;
-    name: string;
-    position: number;
-    optionType: string;
-    count: number;
-    isPossibleCount: boolean;
-    visible: string;
-    menuOptions?: Options[];
-}
-
-// 옵션 타입
-export interface Options {
-    id: number;
-    content: string;
-    price: number;
-    position?: number;
-    visible?: string;
-}
-
-// 리뷰 타입
-export interface IReview {
-    id: number;
-    tasteScore: number;
-    quantityScore: number;
-    deliveryScore: number;
-    totalScore: number;
-    content: string;
-    ownerReply: string;
-    memberName: string;
-    createdAt: string;
-    reviewImages: [string];
-    menus: [
-        {
-            name: string;
-            quantity: number;
-            price: number;
-        }
-    ];
 }

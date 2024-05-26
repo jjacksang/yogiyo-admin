@@ -1,10 +1,11 @@
 import { optionGroupAtom } from "@/app/recoil/state";
 import { deleteOption } from "@/app/services/shopAPI";
-import { ModalProps, Options, ViewOption } from "@/lib/types";
+import { ModalProps, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddOptionItemModal } from "./AddOptionItemModal";
 import { ItemList } from "../menuModal/common/ItemList";
+import { Options } from "./option";
 
 interface optionId extends ModalProps {
     optionGroupId: number;

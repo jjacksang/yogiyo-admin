@@ -1,14 +1,8 @@
-import {
-    AddMenu,
-    AddMenuGroup,
-    MenuItem,
-    MenuList,
-    userState,
-    ShopId,
-    OptionMenu,
-} from "@/lib/types";
+import { userState } from "@/lib/types";
 import { OwnerShopList, TempCloseShopRequest } from "../../app/services/shopAPI";
 import { AtomEffect, atom } from "recoil";
+import { OptionMenu } from "@/components/menu/optionMenu/option";
+import { AddMenu, AddMenuGroup, MenuItem, MenuList } from "@/components/menu/menu";
 
 const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
     (key: string) =>

@@ -2,7 +2,7 @@
 import { useRecoilValue } from "recoil";
 import { menuItemAtom, shopIdAtom } from "../../../app/recoil/state";
 import React, { useState } from "react";
-import { MenuItem, MenusItem, ModalProps } from "@/lib/types";
+import { ModalProps } from "@/lib/types";
 import { getAxios } from "@/app/services/loginAPI";
 
 export default function MainMenuModal({ onClose }: ModalProps) {

@@ -1,7 +1,7 @@
 import { optionGroupAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { Header } from "@/components/common/Header";
-import { ModalProps, Options } from "@/lib/types";
+import { ModalProps } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 

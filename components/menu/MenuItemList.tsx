@@ -1,11 +1,12 @@
 import { menuItemAtom } from "@/app/recoil/state";
 import { deleteMenuItem } from "@/app/services/shopAPI";
-import { MenusItem, ViewOption } from "@/lib/types";
+import { ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { ItemList } from "./menuModal/common/ItemList";
 import { getAxios } from "@/app/services/loginAPI";
+import { MenusItem } from "./menu";
 
 interface MenuItemListProps {
     menuGroupId: number;

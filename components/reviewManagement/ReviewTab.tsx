@@ -1,4 +1,4 @@
-import { content } from "@/app/recoil/state";
+import { content, shopIdAtom } from "@/app/recoil/state";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -13,6 +13,7 @@ export const ReviewTab = () => {
     const handleMenuClick = (review: "ReviewManagement") => {
         setSelectMenu(review);
     };
+
     return (
         <>
             <a
