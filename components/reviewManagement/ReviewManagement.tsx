@@ -1,0 +1,33 @@
+import { ItemHeader } from "../menu/menuModal/common/ItemHeader";
+import { ItemLayout } from "../menu/menuModal/common/ItemLayout";
+import { FaStar } from "react-icons/fa";
+
+export const ReviewManagement = () => {
+    return (
+        <div className="my-4 mx-2">
+            <ItemLayout>
+                <ItemHeader>
+                    <div className="flex flex-col w-full divide-y gap-2">
+                        <div className="px-4 py-2">
+                            <span className="text-custom-gray text-xl">리뷰관리</span>
+                        </div>
+                        <div className="px-4 py-4">
+                            <span className="text-custom-gray text-base">전체 별점</span>
+                            <div>
+                                <div>
+                                    <FaStar size="16" color="yellow" />
+                                </div>
+                                <span>(총리뷰)</span>
+                            </div>
+                            <div>
+                                <span>맛</span>
+                                <span>양</span>
+                                <span>배달</span>
+                            </div>
+                        </div>
+                    </div>
+                </ItemHeader>
+            </ItemLayout>
+        </div>
+    );
+};
