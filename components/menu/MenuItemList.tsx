@@ -1,71 +1,107 @@
 import { menuItemAtom } from "@/app/recoil/state";
-import { MenuItem, MenusItem } from "@/lib/types";
+import { deleteMenuItem } from "@/app/services/shopAPI";
+import { ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
+import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
+import { ItemList } from "./menuModal/common/ItemList";
+import { getAxios } from "@/app/services/loginAPI";
+import { MenusItem } from "./menu";
 
 interface MenuItemListProps {
     menuGroupId: number;
 }
 
 export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
-    const [viewOption, setViewOption] = useState<Boolean>(false);
+    const [viewOption, setViewOption] = useState<ViewOption>({});
     const menuItemGroups = useRecoilValue(menuItemAtom);
     const menuGroup = menuItemGroups.find((group) => group.id === menuGroupId);
     if (!menuGroup) return null;
-    const toggleViewOption = () => {
-        setViewOption(!viewOption);
-        console.log(menuGroupId);
+    const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+    const [selectItemId, setSelectItemId] = useState<number>();
+    const [openModal, setOpenModal] = useState({
+        addMenuItemModal: false,
+    });
+
+    const handleModalOpen = (modalName: string, id?: number) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: true,
+        }));
+        if (id !== undefined) {
+            setSelectItemId(id);
+            console.log(id);
+        }
+    };
+    const handleModalClose = (modalName: string) => {
+        setOpenModal((prevModal) => ({
+            ...prevModal,
+            [modalName]: false,
+        }));
     };
 
-    // useEffect(() => {
-    //     const getItemList = async () => {
-    //         try {
-    //             const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
-    //             const menus = res.data;
-    //             // setMenuItems(menus);
-    //             console.log(menus);
-    //             console.log(res.data);
-    //         } catch (error) {
-    //             console.log("리스트 가져오기 실패", error);
-    //         }
-    //     };
-    //     getItemList();
-    // }, [menuGroup]);
+    const toggleViewOption = (id: number) => {
+        setViewOption((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+        console.log(id);
+    };
+
+    useEffect(() => {
+        const getItemList = async () => {
+            try {
+                const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
+                const menus = res.data;
+                // setMenuItems(menus);
+                console.log(menus);
+                console.log(res.data);
+            } catch (error) {
+                console.log("리스트 가져오기 실패", error);
+            }
+        };
+        getItemList();
+    }, [menuGroup]);
 
     return (
         <div>
             {menuGroup.menus?.map((menuItem: MenusItem) => (
-                <div className="flex justify-between w-full mb-4" key={menuItem.id}>
-                    <div className="flex flex-col">
-                        <span className="text-base font-bold">{menuItem.name}</span>
-                        <p className="text-xs text-custom-gray pb-2">{menuItem.content}</p>
-                        <p className="text-xs">{menuItem.price}</p>
+                <ItemList option={menuItem}>
+                    <div className="flex">
+                        <button className="px-0.5" onClick={() => toggleViewOption(menuItem.id)}>
+                            <img src="/Icons/더보기버튼.svg" />
+                            {viewOption[menuItem.id] ? (
+                                <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                    <li
+                                        className="flex justify-start py-2"
+                                        onClick={() => {
+                                            handleModalOpen("addMenuItemModal");
+                                            setSelectGroupId(menuGroup.id);
+                                        }}
+                                    >
+                                        메뉴 수정
+                                    </li>
+                                    <li
+                                        className="flex justify-start py-2"
+                                        onClick={() => deleteMenuItem(menuItem.id)}
+                                    >
+                                        메뉴 삭제
+                                    </li>
+                                </ul>
+                            ) : (
+                                <div></div>
+                            )}
+                        </button>
                     </div>
-                    <div className="flex items-center border rounded-lg relative">
-                        <>
-                            <select>
-                                <option>판매중</option>
-                                <option>하루 품절</option>
-                                <option>숨김</option>
-                            </select>
-                        </>
-
-                        <div className="flex">
-                            <button className="mx-2" onClick={() => toggleViewOption()}>
-                                보기
-                                {viewOption ? (
-                                    <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
-                                        <li className="flex justify-start py-2">메뉴 수정</li>
-                                        <li className="flex justify-start py-2">메뉴 삭제</li>
-                                    </ul>
-                                ) : (
-                                    <div></div>
-                                )}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                </ItemList>
             ))}
+            {openModal.addMenuItemModal && (
+                <AddMenuItemModal
+                    menuGroupId={selectGroupId}
+                    itemId={parseInt(Object.keys(viewOption)[0])}
+                    onClose={() => handleModalClose("addMenuItemModal")}
+                />
+            )}
         </div>
     );
 };

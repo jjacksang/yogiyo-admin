@@ -32,7 +32,13 @@ const MainMenu = ({ onClose }: ModalProps) => {
             const res = await getAxios.get(`/owner/signature-menu/shop/${shopId}`);
             if (res.status === 200) {
                 console.log(res.data);
-                setMainMenus(res.data.signatureMenus);
+
+                setMainMenus(
+                    res.data.signatureMenus.map((sm: any) => ({
+                        ...sm,
+                        picture: `https://yogiyo-clone.shop${sm.picture}`,
+                    }))
+                );
             }
         } catch (error) {
             console.error("대표 메뉴 조회 실패", error);
@@ -99,7 +105,10 @@ const MainMenu = ({ onClose }: ModalProps) => {
                                 <div className="">
                                     <div className="flex items-center justify-between border-b">
                                         <div className="flex">
-                                            <img src={item.picture} className="border rounded-lg" />
+                                            <img
+                                                src={item.picture}
+                                                className="border rounded-lg mx-1 my-1 w-[48px] h-[48px]"
+                                            />
                                             <div className="flex flex-col">
                                                 <span className="text-xl font-bold">
                                                     {item.name}

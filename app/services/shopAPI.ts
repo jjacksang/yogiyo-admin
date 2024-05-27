@@ -49,7 +49,11 @@ export const ShopList = async () => {
     try {
         const resShops = await getAxios.get("/owner/shop/");
         console.log(resShops.data);
-        return resShops.data;
+        const some = resShops.data.map((ss: any) => ({
+            ...ss,
+            icon: `https://yogiyo-clone.shop${ss.icon}`,
+        }));
+        return some; // 이 부분 수정하세여
     } catch (error) {
         console.error("Error fetching shop list:", error);
         throw error;
@@ -79,11 +83,37 @@ export const DeleteMenuGroup = async () => {
     }
 };
 
-// 메뉴 그룹 추가
+// 메뉴 그룹 메뉴 삭제
+export const deleteMenuItem = async (menuGroupId: number) => {
+    try {
+        const res = await getAxios.delete(`/owner/menu-group/delete-menu/${menuGroupId}`);
+        if (res.status === 204) {
+            console.log(res.data);
+            console.log(res);
+        }
+    } catch (error) {
+        console.error("메뉴 삭제실패", error);
+    }
+};
 
 // 메뉴 그룹 메뉴 조회
 
-// 일시정지 기능
+// 메뉴 그룹 순서 변경
+export const ReorderMenu = async (shopId: number, menuGroupIds: number[]) => {
+    try {
+        const res = await getAxios.put(`/owner/menu-group/shop/${shopId}/change-position`, {
+            menuGroupIds: menuGroupIds,
+        });
+        if (res.status === 204) {
+            console.log(res);
+            console.log(res.data);
+        }
+    } catch (error) {
+        console.error("메뉴 그룹 순서 변경 실패", error);
+    }
+};
+
+// 일시정지
 export const tempCloseShop = async (shopId: number, tempCloseRequest: TempCloseShopRequest) => {
     try {
         const response = await getAxios.patch(`/owner/shop/${shopId}/temp-close`, tempCloseRequest);
@@ -104,5 +134,17 @@ export const deleteOptionGroup = async (optionId: number) => {
         const res = await getAxios.delete(`owner/menu-option-group/${optionId}/delete`);
     } catch (error) {
         console.error("삭제 실패", error);
+    }
+};
+
+// 옵션 삭제
+export const deleteOption = async (optionId: number) => {
+    try {
+        const res = await getAxios.delete(`/owner/menu-option-group/option/${optionId}/delete`);
+        if (res.status === 204) {
+            console.log("옵션 삭제 성공", res.data);
+        }
+    } catch (error) {
+        console.error("옵션 삭제 실패", error);
     }
 };

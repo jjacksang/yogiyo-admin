@@ -1,4 +1,4 @@
-import { addMenuGroup, menuListState } from "@/app/recoil/state";
+import { addMenuGroup, menuItemAtom, menuListState } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { ImageUploadBtn } from "@/components/common/ImageUploadBtn";
 import { ModalProps } from "@/lib/types";
@@ -11,15 +11,19 @@ interface MenuData {
     price?: number;
 }
 
-export const AddMenuItem = ({
+export const AddMenuItemModal = ({
     onClose,
     menuGroupId,
-}: ModalProps & { menuGroupId: number | null }) => {
+    itemId,
+}: ModalProps & { menuGroupId: number | null; itemId?: number | null | undefined }) => {
     const [prevData, setPrevData] = useState<MenuData | null>(null);
     const [itemImage, setItemImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const menuGroupList = useRecoilValue(menuListState);
+    const menuGroup = useRecoilValue(menuItemAtom);
     let itemData = {};
+
+    const filterMenuGroups = menuGroup.find((item) => item.id === menuGroupId);
+    const filterMenuItem = filterMenuGroups?.menus?.find((item) => item.id === itemId);
 
     const handleImageSelect = (image: File | null) => {
         setItemImage(image);
@@ -90,6 +94,7 @@ export const AddMenuItem = ({
                     <span className="text-xl font-bold">메뉴명</span>
                     <input
                         onChange={handleAddMenu}
+                        value={filterMenuItem ? filterMenuItem?.name : prevData?.menuName}
                         id="menuName"
                         type="text"
                         className="border rounded-lg h-auto"
@@ -100,6 +105,7 @@ export const AddMenuItem = ({
                     <div className="py-4 px-2">
                         <input
                             onChange={handleAddMenu}
+                            value={filterMenuItem ? filterMenuItem?.content : prevData?.content}
                             id="content"
                             type="text"
                             className="border rounded-lg"
@@ -118,8 +124,9 @@ export const AddMenuItem = ({
                     <span className="text-xl font-bold">가격</span>
                     <input
                         onChange={handleAddMenu}
+                        value={filterMenuItem ? filterMenuItem?.price : prevData?.price}
                         id="price"
-                        type="text"
+                        type="number"
                         className="border rounded-lg"
                     ></input>
                 </div>

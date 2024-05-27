@@ -1,13 +1,8 @@
-"use client";
-import React, { ReactNode, useState } from "react";
+import { content, shopIdAtom } from "@/app/recoil/state";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { content } from "@/app/recoil/state";
 
-type MenuGroupProps = {
-    children?: ReactNode;
-};
-
-const MenuGroup = ({ children }: MenuGroupProps) => {
+export const ReviewTab = () => {
     const [showOption, setShowOption] = useState<boolean>(false);
     const [selectMenu, setSelectMenu] = useRecoilState(content);
 
@@ -15,10 +10,9 @@ const MenuGroup = ({ children }: MenuGroupProps) => {
         setShowOption(!showOption);
     };
 
-    const handleMenuClick = (menuState: "menuSet") => {
-        setSelectMenu(menuState);
+    const handleMenuClick = (review: "ReviewManagement") => {
+        setSelectMenu(review);
     };
-    console.log(selectMenu);
 
     return (
         <>
@@ -34,13 +28,16 @@ const MenuGroup = ({ children }: MenuGroupProps) => {
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                 ></svg>
-                메뉴관리
+                리뷰
                 <button onClick={OpenCloseBtn}>ㅇ</button>
             </a>
             {showOption ? (
                 <ul>
-                    <li className="text-base pt-2 pl-6" onClick={() => handleMenuClick("menuSet")}>
-                        메뉴 관리
+                    <li
+                        className="text-base pt-2 pl-6"
+                        onClick={() => handleMenuClick("ReviewManagement")}
+                    >
+                        리뷰 관리
                     </li>
                 </ul>
             ) : (
@@ -49,5 +46,3 @@ const MenuGroup = ({ children }: MenuGroupProps) => {
         </>
     );
 };
-
-export default MenuGroup;
