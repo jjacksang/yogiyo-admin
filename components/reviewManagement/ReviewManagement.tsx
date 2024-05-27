@@ -4,16 +4,20 @@ import { ItemLayout } from "../menu/menuModal/common/ItemLayout";
 import { FaStar } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import { shopIdAtom } from "@/app/recoil/state";
-
-const dummyData = {
-    sort: "LATEST",
-    startDate: 2024 - 5 - 21,
-    endDate: 2024 - 5 - 26,
-    status: "ALL",
-};
+import TotalReview from "./TotalReview";
+import React, { useEffect, useState } from "react";
+import { BsCalendarRange } from "react-icons/bs";
+import CalendarRange from "./DatePicker/CalendarRange";
 
 export const ReviewManagement = () => {
+    const [sortReview, setSortReview] = useState("LATEST");
     const shopId = useRecoilValue(shopIdAtom);
+
+    const reviewOption = [
+        { value: "LATEST", label: "최신순" },
+        { value: "RATING_LOW", label: "별점 낮은순" },
+        { value: "RATING_HIGH", label: "별점 높은순" },
+    ];
     const getReviews = async () => {
         try {
             const res = await getAxios.get(
@@ -26,32 +30,39 @@ export const ReviewManagement = () => {
             console.log("리뷰 조회 실패", error);
         }
     };
+
+    const handleSortReview = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSortReview(e.target.value);
+    };
+
+    useEffect(() => {
+        console.log(sortReview);
+    }, [handleSortReview]);
+
     return (
         <div className="my-4 mx-2">
             <ItemLayout>
                 <ItemHeader>
-                    <div className="flex flex-col w-full divide-y gap-2">
-                        <div className="px-4 py-2">
-                            <span className="text-custom-gray text-xl" onClick={getReviews}>
-                                리뷰관리
-                            </span>
-                        </div>
-                        <div className="px-4 py-4">
-                            <span className="text-custom-gray text-base">전체 별점</span>
-                            <div>
-                                <div>
-                                    <FaStar size="16" color="yellow" />
-                                </div>
-                                <span>(총리뷰)</span>
-                            </div>
-                            <div>
-                                <span>맛</span>
-                                <span>양</span>
-                                <span>배달</span>
-                            </div>
-                        </div>
-                    </div>
+                    <TotalReview />
                 </ItemHeader>
+                <div className="flex border rounded-xl px-4 py-4 w-full bg-white gap-2">
+                    <div className="flex">
+                        <select
+                            className="border rounded-xl px-2 py-2"
+                            onChange={handleSortReview}
+                            value={sortReview}
+                        >
+                            {reviewOption.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex">
+                        <CalendarRange />
+                    </div>
+                </div>
             </ItemLayout>
         </div>
     );
