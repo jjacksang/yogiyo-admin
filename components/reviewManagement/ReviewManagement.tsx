@@ -6,8 +6,7 @@ import { useRecoilValue } from "recoil";
 import { shopIdAtom } from "@/app/recoil/state";
 import TotalReview from "./TotalReview";
 import React, { useEffect, useState } from "react";
-import { BsCalendarRange } from "react-icons/bs";
-import CalendarRange from "./DatePicker/CalendarRange";
+import DatePickerComponent from "./DatePicker/DatePickerComponent";
 
 export const ReviewManagement = () => {
     const [sortReview, setSortReview] = useState("LATEST");
@@ -60,7 +59,7 @@ export const ReviewManagement = () => {
                         </select>
                     </div>
                     <div className="flex">
-                        <CalendarRange />
+                        <DatePickerComponent />
                     </div>
                 </div>
             </ItemLayout>
