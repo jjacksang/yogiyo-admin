@@ -147,12 +147,12 @@ export const ReorderMenu = async (shopId: number, menuGroupIds: number[]) => {
     }
 };
 
-// 일시정지
+// 일시정지 기능
 export const tempCloseShop = async (shopId: number, tempCloseRequest: TempCloseShopRequest) => {
     try {
         const response = await getAxios.patch(`/owner/shop/${shopId}/temp-close`, tempCloseRequest);
         if (response.status === 204) {
-            return 'Success'; // 성공 응답 처리
+            return "Success"; // 성공 응답 처리
         }
         return response.data; // 기타 응답 데이터 처리
     } catch (error) {
