@@ -7,6 +7,8 @@ import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { OptionItem } from "./OptionItem";
 import { AddOptionItemModal } from "./AddOptionItemModal";
 import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
+import { ItemLayout } from "../menuModal/common/ItemLayout";
+import { ItemHeader } from "../menuModal/common/ItemHeader";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -113,8 +115,8 @@ const OptionMenu = ({ onClose }: ModalProps) => {
 
     console.log(optionList);
     return (
-        <div className="flex flex-col my-4 mx-8">
-            <div className="flex items-center justify-between border rounded-2xl bg-white my-4 py-4">
+        <ItemLayout>
+            <ItemHeader>
                 <input
                     placeholder="옵션을 검색하세요"
                     className=" border rounded-xl mx-4 px-4 py-2"
@@ -128,7 +130,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                         옵션그룹 추가
                     </button>
                 </div>
-            </div>
+            </ItemHeader>
             {optionList && optionList.length > 0 ? (
                 <>
                     {optionList.map((options) => (
@@ -138,43 +140,39 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                         >
                             <div className="flex justify-between items-center">
                                 <span className="text-xl font-bold">{options.name}</span>
-                                <div className="flex border rounded-xl py-1 px-2 gap-2">
-                                    <div className="flex">
-                                        <>
-                                            <select>
-                                                <option>판매중</option>
-                                                <option>하루 품절</option>
-                                                <option>숨김</option>
-                                            </select>
-                                        </>
-                                        <button
-                                            className="flex items-center relative"
-                                            onClick={() => handleViewOption(options.id)}
-                                        >
-                                            <img src="/Icons/더보기버튼.svg" />
-                                            {viewOption[options.id] && (
-                                                <ul className="flex flex-col divide-y absolute top-5 right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
-                                                    <li className="flex justify-start py-2">
-                                                        옵션그룹명 변경
-                                                    </li>
-                                                    <li className="flex justify-start py-2">
-                                                        연결메뉴 설정
-                                                    </li>
-                                                    <li className="flex justify-start py-2">
-                                                        그룹 숨김
-                                                    </li>
-                                                    <li
-                                                        className="flex justify-start py-2"
-                                                        onClick={() =>
-                                                            deleteOptionGroup(options.id)
-                                                        }
-                                                    >
-                                                        삭제
-                                                    </li>
-                                                </ul>
-                                            )}
-                                        </button>
-                                    </div>
+                                <div className="flex border rounded-xl py-1 px-2 gap-2 ">
+                                    <>
+                                        <select>
+                                            <option>판매중</option>
+                                            <option>하루 품절</option>
+                                            <option>숨김</option>
+                                        </select>
+                                    </>
+                                    <button
+                                        className="flex items-center relative"
+                                        onClick={() => handleViewOption(options.id)}
+                                    >
+                                        <img src="/Icons/더보기버튼.svg" />
+                                        {viewOption[options.id] && (
+                                            <ul className="flex flex-col divide-y absolute top-5 right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                                <li className="flex justify-start py-2">
+                                                    옵션그룹명 변경
+                                                </li>
+                                                <li className="flex justify-start py-2">
+                                                    연결메뉴 설정
+                                                </li>
+                                                <li className="flex justify-start py-2">
+                                                    그룹 숨김
+                                                </li>
+                                                <li
+                                                    className="flex justify-start py-2"
+                                                    onClick={() => deleteOptionGroup(options.id)}
+                                                >
+                                                    삭제
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </button>
                                 </div>
                             </div>
                             <div className="text-xs text-custom-gray py-4">
@@ -232,7 +230,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             {openModal.optionMenuLinkModal && (
                 <OptionMenuLinkModal onClose={() => handleModalClose("optionMenuLinkModal")} />
             )}
-        </div>
+        </ItemLayout>
     );
 };
 

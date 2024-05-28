@@ -7,6 +7,7 @@ import DashboardModal from "./DashboardModal";
 import Link from "next/link";
 import { ManageBusinessHoursLink } from "../businessHoursSidebar/ManageBusinessHoursLink";
 import MenuGroup from "../menuSidebar/MenuGroup";
+import { ReviewTab } from "../reviewManagement/ReviewTab";
 
 // DashboardSidebar 컴포넌트의 props 타입 정의
 interface DashboardSidebarProps {
@@ -167,6 +168,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setSelectedMenu, to
             </a>
             <ManageBusinessHoursLink setSelectedMenu={setSelectedMenu} />
             <MenuGroup />
+            <ReviewTab />
             {/* 실선 부분 */}
             <div
                 style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.05)" }}

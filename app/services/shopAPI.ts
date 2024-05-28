@@ -98,12 +98,27 @@ export const deleteMenuItem = async (menuGroupId: number) => {
 
 // 메뉴 그룹 메뉴 조회
 
+// 메뉴 그룹 순서 변경
+export const ReorderMenu = async (shopId: number, menuGroupIds: number[]) => {
+    try {
+        const res = await getAxios.put(`/owner/menu-group/shop/${shopId}/change-position`, {
+            menuGroupIds: menuGroupIds,
+        });
+        if (res.status === 204) {
+            console.log(res);
+            console.log(res.data);
+        }
+    } catch (error) {
+        console.error("메뉴 그룹 순서 변경 실패", error);
+    }
+};
+
 // 일시정지 기능
 export const tempCloseShop = async (shopId: number, tempCloseRequest: TempCloseShopRequest) => {
     try {
         const response = await getAxios.patch(`/owner/shop/${shopId}/temp-close`, tempCloseRequest);
         if (response.status === 204) {
-            return 'Success'; // 성공 응답 처리
+            return "Success"; // 성공 응답 처리
         }
         return response.data; // 기타 응답 데이터 처리
     } catch (error) {

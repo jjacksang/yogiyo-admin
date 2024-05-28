@@ -2,10 +2,11 @@
 
 import { shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
-import { MenusItem, ModalProps } from "@/lib/types";
+import { ModalProps } from "@/lib/types";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import MainMenuModal from "./MainMenuModal";
+import { MenusItem } from "../menu";
 
 const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -102,7 +103,7 @@ const MainMenu = ({ onClose }: ModalProps) => {
                     ) : (
                         <>
                             {memoizedMainMenu.map((item: MenusItem) => (
-                                <div className="">
+                                <div className="" key={item.id}>
                                     <div className="flex items-center justify-between border-b">
                                         <div className="flex">
                                             <img

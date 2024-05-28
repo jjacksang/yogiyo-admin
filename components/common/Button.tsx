@@ -11,7 +11,7 @@ interface ButtonProps {
 export const Button = ({ onClick, children }: ButtonProps) => {
     return (
         <button
-            className={`${buttonTheme.color} border rounded-xl px-6 py-2 bg-yogiyo-blue text-white font-bold`}
+            className={`${buttonTheme.color.submit},${buttonTheme.theme.default}`}
             onClick={onClick}
         >
             {children}
@@ -21,6 +21,10 @@ export const Button = ({ onClick, children }: ButtonProps) => {
 
 const buttonTheme = {
     color: {
-        default: "bg-yogiyo-blue text-xl text-white font-bold",
+        default: " bg-yogiyo-blue",
+        submit: "bg-yogiyo-blue w-full",
+    },
+    theme: {
+        default: "border rounded-xl px-6 py-2 text-white text-xl font-bold",
     },
 };

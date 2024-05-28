@@ -10,6 +10,9 @@ import { MenuItemList } from "./MenuItemList";
 import MainMenu from "./mainMenu/MainMenu";
 import OptionMenu from "./optionMenu/OptionMenu";
 import AddMenuGroup from "./menuModal/AddMenuGroupModal";
+import { ItemLayout } from "./menuModal/common/ItemLayout";
+import { ItemHeader } from "./menuModal/common/ItemHeader";
+import { ReorderModal } from "../common/ReorderModal";
 
 interface Group {
     id: number;
@@ -21,10 +24,12 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [openModal, setOpenModal] = useState({
         addMenuGroup: false,
         addMenuItem: false,
+        reorderModal: false,
     });
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuItemAtom);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
+    // const [menuGroupIds, setMenuGroupIds] = useState([]);
     const selectedNav = useRecoilValue(navContent);
     const shopId = useRecoilValue(shopIdAtom);
 
@@ -83,71 +88,74 @@ const MenuSet = ({ onClose }: ModalProps) => {
                     picture: `https://yogiyo-clone.shop${data.picture}`,
                 }))
             );
+
             console.log(res);
         } catch (error) {
             console.error("리스트 업데이트 실패", error);
         }
     };
 
-    console.log(menuGroup);
     return (
         <div>
             <MenuNav />
             {selectedNav === "menuSet" && (
                 <>
-                    <div className="flex flex-col px-8 py-4 ">
-                        <div className="flex justify-between px-4 py-2 border rounded-lg w-full bg-white">
+                    <ItemLayout>
+                        <ItemHeader>
                             <input
                                 placeholder="메뉴를 검색하세요"
-                                className="border rounded-lg pl-2 w-[300px]"
-                            ></input>
+                                className="border rounded-xl mx-4 px-4 py-2"
+                            />
                             {/* 메뉴 검색 영역 */}
-                            <div className="flex gap-2">
-                                <button className="text-xs text-custom-gray">메뉴그룹</button>
+                            <div className="text-custom-gray text-sm">
+                                <button onClick={() => handleModalOpen("reorderModal")}>
+                                    메뉴그룹
+                                </button>
                                 {/* 메뉴 그룹 드레그 영역 */}
                                 <button
-                                    className="border rounded-lg bg-yogiyo-blue text-white px-3 py-2"
+                                    className="border rounded-xl px-4 py-2.5 bg-yogiyo-blue text-white font-bold mx-2"
                                     onClick={() => handleModalOpen("addMenuGroup")}
                                 >
                                     메뉴 그룹 추가
                                 </button>
                                 {/* 메뉴 그룹 추가 버튼 */}
                             </div>
-                        </div>
+                        </ItemHeader>
                         {menuGroup.map((menuItem) => (
                             <div
-                                className="flex flex-col px-8 py-4 mt-8 border rounded-lg bg-white"
+                                className="flex flex-col border rounded-2xl bg-white p-4 mt-2 "
                                 key={menuItem.id}
                             >
                                 <div
-                                    className="flex justify-between w-full mb-4"
+                                    className="flex justify-between items-center "
                                     onClick={(e) => {
                                         e.preventDefault();
                                         setSelectGroupId(menuItem.id);
                                     }}
                                 >
-                                    <div className="gap-2">
-                                        <p className="text-base font-bold text-font-black">
+                                    <div className="flex flex-col gap-2 py-4">
+                                        <span className="text-base font-bold text-font-black">
                                             {menuItem.name}
-                                        </p>
-                                        <p className="text-xs text-custom-gray">
+                                        </span>
+                                        <span className="text-xs text-custom-gray">
                                             {menuItem.content}
-                                        </p>
+                                        </span>
                                     </div>
-                                    <div className="flex  items-center pl-2 border rounded-lg relative">
-                                        <>
-                                            <select>
-                                                <option>판매중</option>
-                                                <option>하루 품절</option>
-                                                <option>숨김</option>
-                                            </select>
-                                        </>
-                                        <div className="">
+                                    <div className="relative">
+                                        <div className="flex border rounded-xl py-1 px-2 gap-2 ">
+                                            <>
+                                                <select>
+                                                    <option>판매중</option>
+                                                    <option>하루 품절</option>
+                                                    <option>숨김</option>
+                                                </select>
+                                            </>
+
                                             <button
-                                                className="mx-2"
+                                                className="flex items-center "
                                                 onClick={() => toggleViewOption(menuItem.id)}
                                             >
-                                                보기
+                                                <img src="/Icons/더보기버튼.svg" />
                                                 {viewOption[menuItem.id] && (
                                                     <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
                                                         <li className="flex justify-start py-2">
@@ -180,7 +188,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                 <MenuItemList menuGroupId={menuItem.id} />
                             </div>
                         ))}
-                    </div>
+                    </ItemLayout>
                     {openModal.addMenuGroup && (
                         <AddMenuGroup onClose={() => handleModalClose("addMenuGroup")} />
                     )}
@@ -189,6 +197,9 @@ const MenuSet = ({ onClose }: ModalProps) => {
                             onClose={() => handleModalClose("addMenuItem")}
                             menuGroupId={selectGroupId}
                         />
+                    )}
+                    {openModal.reorderModal && (
+                        <ReorderModal onClose={() => handleModalClose("reorderModal")} />
                     )}
                 </>
             )}

@@ -12,9 +12,9 @@ import PauseService from "@/components/businessHoursSidebar/PauseService";
 import HolidaySchedule from "@/components/businessHoursSidebar/HolidaySchedule";
 import { ManageBusinessHours } from "@/components/businessHoursSidebar/ManageBusinessHours";
 import MenuSet from "@/components/menu/MenuSet";
-import MenuSoldout from "@/components/menu/MenuSoldout";
 import { content } from "../recoil/state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { ReviewManagement } from "@/components/reviewManagement/ReviewManagement";
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,7 +45,7 @@ const Page = () => {
                     {setContent === "menuSet" && (
                         <MenuSet onClose={() => console.log("메인클릭")} />
                     )}
-                    {setContent === "menuSoldout" && <MenuSoldout />}
+                    {setContent === "ReviewManagement" && <ReviewManagement />}
                     <Footer />
                 </div>
             </div>
