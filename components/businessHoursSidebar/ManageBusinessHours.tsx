@@ -29,6 +29,7 @@ export const ManageBusinessHours = () => {
   // 수정 버튼 상태관리 
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDailyMode, setIsDailyMode] = useState(true); // 새로운 상태 변수 추가
+  const [breakTimes, setBreakTimes] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const screenWidth = window.innerWidth;
@@ -55,6 +56,14 @@ export const ManageBusinessHours = () => {
 
   const handleDifferentDaysClick = () => {
     setIsDailyMode(false);
+  };
+
+  const handleAddBreakTime = (day: string) => {
+    setBreakTimes(prev => ({ ...prev, [day]: true }));
+  };
+
+  const handleRemoveBreakTime = (day: string) => {
+    setBreakTimes(prev => ({ ...prev, [day]: false }));
   };
 
   return (
@@ -157,6 +166,50 @@ export const ManageBusinessHours = () => {
                                   <option key={minute} value={minute}>{minute}</option>
                                 ))}
                               </select>
+
+                            <button className="text-blue-500 mt-2" onClick={() => handleAddBreakTime('매일')}>
+                              + 휴게시간 추가
+                            </button>
+
+                            {breakTimes['매일'] && (
+                              <div style={{ width: '600px', height: '100px', backgroundColor: '#efefef', borderRadius: '6px', marginTop: '20px', position: 'relative' }}>
+                                <button style={{ position: 'absolute', top: '5px', right: '5px' }} onClick={() => handleRemoveBreakTime('매일')}>
+                                  X
+                                </button>
+                                <p style={{ color: '#6B7280', fontSize: '1rem', padding: '8px' }}>
+                                  휴게시간
+                                </p>
+                                <div className="flex items-center">
+                                  {/* 시작 부분 */}
+                                  <span className="text-sm text-gray-400">시작</span>
+                                  <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginLeft: '10px', marginRight: '10px' }}>
+                                    {generateHourOptions().map(hour => (
+                                      <option key={hour} value={hour}>{hour}</option>
+                                    ))}
+                                  </select>
+
+                                  <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginRight: '8px' }}>
+                                    {generateMinuteOptions().map(minute => (
+                                      <option key={minute} value={minute}>{minute}</option>
+                                    ))}
+                                  </select>
+
+                                  {/* 종료 부분 */}
+                                  <span className="text-sm text-gray-400"> ~ 종료</span>
+                                  <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginLeft: '10px', marginRight: '10px' }}>
+                                    {generateHourOptions().map(hour => (
+                                      <option key={hour} value={hour}>{hour}</option>
+                                    ))}
+                                  </select>
+
+                                  <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginRight: '8px' }}>
+                                    {generateMinuteOptions().map(minute => (
+                                      <option key={minute} value={minute}>{minute}</option>
+                                    ))}
+                                  </select>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ) : (
                           ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'].map(day => (
@@ -205,6 +258,51 @@ export const ManageBusinessHours = () => {
                                     <option key={minute} value={minute}>{minute}</option>
                                   ))}
                                 </select>
+
+                              <button className="text-blue-500 mt-2" onClick={() => handleAddBreakTime(day)}>
+                                + 휴게시간 추가
+                              </button>
+
+                              {breakTimes[day] && (
+                                <div style={{ width: '600px', height: '100px', backgroundColor: '#efefef', borderRadius: '6px', marginTop: '20px', position: 'relative' }}>
+                                  <button style={{ position: 'absolute', top: '5px', right: '5px' }} onClick={() => handleRemoveBreakTime(day)}>
+                                    X
+                                  </button>
+                                  <p style={{ color: '#6B7280', fontSize: '1rem', padding: '8px' }}>
+                                    휴게시간
+                                  </p>
+                                  <div className="flex items-center">
+                                    {/* 시작 부분 */}
+                                    <span className="text-sm text-gray-400">시작</span>
+                                    <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginLeft: '10px', marginRight: '10px' }}>
+                                      {generateHourOptions().map(hour => (
+                                        <option key={hour} value={hour}>{hour}</option>
+                                      ))}
+                                    </select>
+
+                                    <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginRight: '8px' }}>
+                                      {generateMinuteOptions().map(minute => (
+                                        <option key={minute} value={minute}>{minute}</option>
+                                      ))}
+                                    </select>
+
+                                    {/* 종료 부분 */}
+                                    <span className="text-sm text-gray-400"> ~ 종료</span>
+                                    <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginLeft: '10px', marginRight: '10px' }}>
+                                      {generateHourOptions().map(hour => (
+                                        <option key={hour} value={hour}>{hour}</option>
+                                      ))}
+                                    </select>
+
+                                    <select className="border border-gray-300 text-gray-700 bg-white rounded-md py-2 px-4" style={{ marginRight: '8px' }}>
+                                      {generateMinuteOptions().map(minute => (
+                                        <option key={minute} value={minute}>{minute}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                </div>
+                              )}
+
                               <div style={{ height: '1px', background: 'rgba(0, 0, 0, 0.1)', margin: '20px 0' }}></div>
                             </div>
                           ))
