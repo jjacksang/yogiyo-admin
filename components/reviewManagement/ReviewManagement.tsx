@@ -8,6 +8,7 @@ import TotalReview from "./TotalReview";
 import React, { useEffect, useState } from "react";
 import DatePickerComponent from "./DatePicker/DatePickerComponent";
 import { Button } from "../common/Button";
+import ReviewItem from "./ReviewItem";
 
 export const ReviewManagement = () => {
     const [sortReview, setSortReview] = useState("LATEST");
@@ -59,24 +60,30 @@ export const ReviewManagement = () => {
                 <ItemHeader>
                     <TotalReview />
                 </ItemHeader>
-                <div className="flex border rounded-xl px-4 py-4 w-full bg-white gap-2">
-                    <div className="flex">
-                        <select
-                            className="border rounded-xl px-2 py-2"
-                            onChange={handleSortReview}
-                            value={sortReview}
-                        >
-                            {reviewOption.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                <div className="flex flex-col border rounded-xl px-4 py-4 w-full bg-white">
+                    <div className="flex gap-2">
+                        <div className="flex">
+                            <select
+                                className="border rounded-xl px-2 py-2"
+                                onChange={handleSortReview}
+                                value={sortReview}
+                            >
+                                {reviewOption.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="flex">
+                            <DatePickerComponent
+                                dateRange={dateRange}
+                                onChange={handleDateChange}
+                            />
+                        </div>
+                        <Button onClick={getReviews}>조회</Button>
                     </div>
-                    <div className="flex">
-                        <DatePickerComponent dateRange={dateRange} onChange={handleDateChange} />
-                    </div>
-                    <Button onClick={getReviews}>조회</Button>
+                    <ReviewItem />
                 </div>
             </ItemLayout>
         </div>
