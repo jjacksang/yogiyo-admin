@@ -7,9 +7,14 @@ import { shopIdAtom } from "@/app/recoil/state";
 import TotalReview from "./TotalReview";
 import React, { useEffect, useState } from "react";
 import DatePickerComponent from "./DatePicker/DatePickerComponent";
+import { Button } from "../common/Button";
 
 export const ReviewManagement = () => {
     const [sortReview, setSortReview] = useState("LATEST");
+    const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({
+        startDate: null,
+        endDate: null,
+    });
     const shopId = useRecoilValue(shopIdAtom);
 
     const reviewOption = [
@@ -19,8 +24,14 @@ export const ReviewManagement = () => {
     ];
     const getReviews = async () => {
         try {
+            const StrStartDate = dateRange.startDate
+                ? dateRange.startDate.toISOString().slice(0, 10)
+                : "";
+            const StrEndDate = dateRange.endDate
+                ? dateRange.endDate.toISOString().slice(0, 10)
+                : "";
             const res = await getAxios.get(
-                `/owner/review/shop/${shopId}?sort=LATEST&startDate=2023-10-20&endDate=2023-10-23&status=ALL&cursor=11&limit=10`
+                `/owner/review/shop/${shopId}?sort=${sortReview}&startDate=${StrStartDate}&endDate=${StrEndDate}&status=ALL&cursor=11&limit=10`
             );
             if (res.status === 200) {
                 console.log(res.data);
@@ -32,6 +43,10 @@ export const ReviewManagement = () => {
 
     const handleSortReview = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortReview(e.target.value);
+    };
+
+    const handleDateChange = (newDateRange: { startDate: Date | null; endDate: Date | null }) => {
+        setDateRange(newDateRange);
     };
 
     useEffect(() => {
@@ -59,8 +74,9 @@ export const ReviewManagement = () => {
                         </select>
                     </div>
                     <div className="flex">
-                        <DatePickerComponent />
+                        <DatePickerComponent dateRange={dateRange} onChange={handleDateChange} />
                     </div>
+                    <Button onClick={getReviews}>조회</Button>
                 </div>
             </ItemLayout>
         </div>

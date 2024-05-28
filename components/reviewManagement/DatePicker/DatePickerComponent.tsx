@@ -1,17 +1,19 @@
-import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale/ko";
 
-const DatePickerComponent = () => {
-    const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({
-        startDate: null,
-        endDate: null,
-    });
+interface DatePickerProps {
+    dateRange: {
+        startDate: Date | null;
+        endDate: Date | null;
+    };
+    onChange: (newDateRange: { startDate: Date | null; endDate: Date | null }) => void;
+}
 
+const DatePickerComponent = ({ dateRange, onChange }: DatePickerProps) => {
     const handleDateChange = (update: [Date | null, Date | null]) => {
         const [newStartDate, newEndDate] = update;
-        setDateRange({ startDate: newStartDate, endDate: newEndDate });
+        onChange({ startDate: newStartDate, endDate: newEndDate });
     };
     console.log(dateRange);
     return (
@@ -22,6 +24,7 @@ const DatePickerComponent = () => {
                 locale={ko}
                 startDate={dateRange.startDate}
                 endDate={dateRange.endDate}
+                dateFormat="yy/MM/dd"
                 onChange={handleDateChange}
                 isClearable={true}
             />
