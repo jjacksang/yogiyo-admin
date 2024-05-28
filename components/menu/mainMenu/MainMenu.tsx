@@ -103,7 +103,7 @@ const MainMenu = ({ onClose }: ModalProps) => {
                     ) : (
                         <>
                             {memoizedMainMenu.map((item: MenusItem) => (
-                                <div className="">
+                                <div className="" key={item.id}>
                                     <div className="flex items-center justify-between border-b">
                                         <div className="flex">
                                             <img
