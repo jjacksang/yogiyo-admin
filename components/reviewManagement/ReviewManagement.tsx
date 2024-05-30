@@ -34,12 +34,16 @@ export const ReviewManagement = () => {
                 : "";
             const subCursor = 21;
             const res = await getAxios.get(
-                `/owner/review/shop/${shopId}?sort=${sortReview}&startDate=${StrStartDate}&endDate=${StrEndDate}&status=ALL&cursor=1&subCursor${subCursor}&limit=100`
+                `/owner/review/shop/${shopId}?sort=${sortReview}&startDate=${StrStartDate}&endDate=${StrEndDate}&status=ALL&cursor=1&subCursor=${subCursor}&limit=100`
             );
             console.log(shopId);
             if (res.status === 200) {
-                console.log(res.data.content);
-                setGetReviews(res.data.content);
+                setGetReviews(
+                    res.data.content.map((review: any) => ({
+                        ...review,
+                        reviewImages: `https://yogiyo-clone.shop${review.reviewImages}`,
+                    }))
+                );
             }
         } catch (error) {
             console.log("리뷰 조회 실패", error);
@@ -63,11 +67,11 @@ export const ReviewManagement = () => {
                 <ItemHeader>
                     <TotalReview />
                 </ItemHeader>
-                <div className="flex flex-col border rounded-xl px-4 py-4 w-full bg-white">
-                    <div className="flex gap-2">
+                <div className="flex flex-col border rounded-xl py-4 w-full bg-white">
+                    <div className="flex px-4 gap-2">
                         <div className="flex">
                             <select
-                                className="border rounded-xl px-2 py-2"
+                                className="border rounded-xl px-2 py-2 text-custom-gray"
                                 onChange={handleSortReview}
                                 value={sortReview}
                             >
@@ -86,6 +90,7 @@ export const ReviewManagement = () => {
                         </div>
                         <Button onClick={fetchReviews}>조회</Button>
                     </div>
+
                     <ReviewItem />
                 </div>
             </ItemLayout>

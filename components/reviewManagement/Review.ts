@@ -2,7 +2,7 @@
 export interface IReview {
     nextCursor: number;
     nextSubCursor: number;
-    hasNext: Boolean;
+    hasNext: boolean;
     content: IReviewContent[] | null;
 }
 
@@ -17,10 +17,15 @@ export interface IReviewContent {
     ownerReply: string | null;
     memberName: string;
     createdAt: string;
-    reviewImages: string[];
+    reviewImages?: string[];
     menus: {
         name: string;
         quantity: number;
         price: number;
     }[];
+}
+
+interface reviewImage {
+    url: string;
+    description: string;
 }
