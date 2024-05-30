@@ -2,8 +2,8 @@ import { getAxios } from "@/app/services/loginAPI";
 import { ItemHeader } from "../menu/menuModal/common/ItemHeader";
 import { ItemLayout } from "../menu/menuModal/common/ItemLayout";
 import { FaStar } from "react-icons/fa";
-import { useRecoilValue } from "recoil";
-import { shopIdAtom } from "@/app/recoil/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { TotalReviewsAtom, shopIdAtom } from "@/app/recoil/state";
 import TotalReview from "./TotalReview";
 import React, { useEffect, useState } from "react";
 import DatePickerComponent from "./DatePicker/DatePickerComponent";
@@ -11,6 +11,7 @@ import { Button } from "../common/Button";
 import ReviewItem from "./ReviewItem";
 
 export const ReviewManagement = () => {
+    const [getReviews, setGetReviews] = useRecoilState(TotalReviewsAtom);
     const [sortReview, setSortReview] = useState("LATEST");
     const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({
         startDate: null,
@@ -23,7 +24,7 @@ export const ReviewManagement = () => {
         { value: "RATING_LOW", label: "별점 낮은순" },
         { value: "RATING_HIGH", label: "별점 높은순" },
     ];
-    const getReviews = async () => {
+    const fetchReviews = async () => {
         try {
             const StrStartDate = dateRange.startDate
                 ? dateRange.startDate.toISOString().slice(0, 10)
@@ -31,17 +32,19 @@ export const ReviewManagement = () => {
             const StrEndDate = dateRange.endDate
                 ? dateRange.endDate.toISOString().slice(0, 10)
                 : "";
+            const subCursor = 21;
             const res = await getAxios.get(
-                `/owner/review/shop/${shopId}?sort=${sortReview}&startDate=${StrStartDate}&endDate=${StrEndDate}&status=ALL&cursor=11&limit=10`
+                `/owner/review/shop/${shopId}?sort=${sortReview}&startDate=${StrStartDate}&endDate=${StrEndDate}&status=ALL&cursor=1&subCursor${subCursor}&limit=100`
             );
+            console.log(shopId);
             if (res.status === 200) {
-                console.log(res.data);
+                console.log(res.data.content);
+                setGetReviews(res.data.content);
             }
         } catch (error) {
             console.log("리뷰 조회 실패", error);
         }
     };
-
     const handleSortReview = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortReview(e.target.value);
     };
@@ -81,7 +84,7 @@ export const ReviewManagement = () => {
                                 onChange={handleDateChange}
                             />
                         </div>
-                        <Button onClick={getReviews}>조회</Button>
+                        <Button onClick={fetchReviews}>조회</Button>
                     </div>
                     <ReviewItem />
                 </div>

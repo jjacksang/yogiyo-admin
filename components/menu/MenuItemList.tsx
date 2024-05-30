@@ -66,7 +66,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
     return (
         <div>
             {menuGroup.menus?.map((menuItem: MenusItem) => (
-                <ItemList option={menuItem}>
+                <ItemList option={menuItem} key={menuItem.id}>
                     <div className="flex">
                         <button className="px-0.5" onClick={() => toggleViewOption(menuItem.id)}>
                             <img src="/Icons/더보기버튼.svg" />

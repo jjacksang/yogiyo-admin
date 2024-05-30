@@ -12,7 +12,7 @@ import OptionMenu from "./optionMenu/OptionMenu";
 import AddMenuGroup from "./menuModal/AddMenuGroupModal";
 import { ItemLayout } from "./menuModal/common/ItemLayout";
 import { ItemHeader } from "./menuModal/common/ItemHeader";
-import { ReorderModal } from "../common/ReorderModal";
+import { ReorderModal } from "./menuModal/ReorderModal";
 
 interface Group {
     id: number;
