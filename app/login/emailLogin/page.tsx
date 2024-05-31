@@ -1,7 +1,7 @@
 "use client";
 
 import { HomeLogo } from "@/components/common/HomeLogo";
-import { useState } from "react";
+import { KeyboardEvent, ReactElement, useState } from "react";
 import { emailLogin } from "@/app/services/loginAPI";
 import { useSetRecoilState } from "recoil";
 import { userStateAtom } from "@/app/recoil/state";
@@ -37,6 +37,11 @@ const EmailLogin = () => {
             console.log("로그인 실패");
         }
     };
+    const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.keyCode === 13) {
+            handleSubmit();
+        }
+    };
 
     return (
         <div className="flex-auto">
@@ -59,6 +64,7 @@ const EmailLogin = () => {
                         placeholder="비밀번호를 입력하시요."
                         id="password"
                         type="password"
+                        onKeyDown={onKeyDown}
                         value={password}
                         onChange={handleChange}
                         className="border rounded-xl mt-2 p-4 w-full h-[60px] text-xl"
