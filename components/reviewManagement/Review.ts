@@ -17,7 +17,7 @@ export interface IReviewContent {
     ownerReply: string | null;
     memberName: string;
     createdAt: string;
-    reviewImages?: string[];
+    reviewImages: string[];
     menus: {
         name: string;
         quantity: number;

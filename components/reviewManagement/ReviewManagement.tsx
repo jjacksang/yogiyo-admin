@@ -38,12 +38,7 @@ export const ReviewManagement = () => {
             );
             console.log(shopId);
             if (res.status === 200) {
-                setGetReviews(
-                    res.data.content.map((review: any) => ({
-                        ...review,
-                        reviewImages: `https://yogiyo-clone.shop${review.reviewImages}`,
-                    }))
-                );
+                setGetReviews(res.data.content);
             }
         } catch (error) {
             console.log("리뷰 조회 실패", error);

@@ -7,10 +7,6 @@ const ReviewItem = () => {
     console.log(reviews);
     const reviewReply = reviews.find((reply) => reply.ownerReply); // ownerReply 유무에 따라 설정하기
     console.log(reviewReply);
-    const reviewImage = reviews.map((image) => {
-        if (image.reviewImages !== undefined) return image.reviewImages.slice(25);
-    });
-    console.log(reviewImage);
 
     return (
         <div className="divide-y">
@@ -30,13 +26,15 @@ const ReviewItem = () => {
                     </div>
                     <div className="flex flex-col px-4 py-2 text-custom-gray text-sm gap-2">
                         <span className="text-black text-base">{item.content}</span>
-                        {item.reviewImages?.slice(25).length !== 0 ? (
-                            <img
-                                src={item.reviewImages}
-                                className="w-32 h-32 border-hidden rounded-xl gap-1"
-                            />
-                        ) : (
-                            <div></div>
+                        {item.reviewImages.length > 0 && (
+                            <div>
+                                {item.reviewImages.map((imageUrl) => (
+                                    <img
+                                        src={`https://yogiyo-clone.shop${imageUrl}`}
+                                        className="w-32 h-32 border-hidden rounded-xl gap-1"
+                                    />
+                                ))}
+                            </div>
                         )}
 
                         <div className="flex">
