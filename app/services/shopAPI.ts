@@ -39,21 +39,55 @@ export interface OwnerShopList {
     icon: string;
 }
 
+
+// 가게 영업시간
+export interface BusinessHour {
+    dayOfWeek: string;
+    openTime: string;
+    closeTime: string;
+    breakTimeStart: string | null;
+    breakTimeEnd: string | null;
+    isOpen: boolean;
+}
+
+
+interface ShopBusinessHoursResponse {
+    businessHours: BusinessHour[];
+}
+
+
+export const getShopBusinessHours = async (shopId: number): Promise<ShopBusinessHoursResponse> => {
+    try {
+      const response = await getAxios.get(`/owner/shop/${shopId}/business-hours`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching business hours:", error);
+      throw error;
+    }
+};
+
+
+
 // 가게 일시정지
 export interface TempCloseShopRequest {
     closeUntil: string | null;
     today: boolean | null;
 }
 
+
+
 export const ShopList = async () => {
     try {
         const resShops = await getAxios.get("/owner/shop/");
         console.log(resShops.data);
-        const some = resShops.data.map((ss: any) => ({
-            ...ss,
-            icon: `https://yogiyo-clone.shop${ss.icon}`,
+
+        // 각 상점 데이터에 icon URL 추가 
+        const updatedShops = resShops.data.map((shop: any) => ({
+            ...shop,
+            icon: `https://yogiyo-clone.shop${shop.icon}`,
         }));
-        return some; // 이 부분 수정하세여
+
+        return updatedShops; 
     } catch (error) {
         console.error("Error fetching shop list:", error);
         throw error;

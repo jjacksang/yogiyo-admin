@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { shoplistState, shopIdAtom, tempCloseShopRequestState  } from "../../app/recoil/state";
-import { TempCloseShopRequest, tempCloseShop } from '@/app/services/shopAPI';
+import { TempCloseShopRequest, tempCloseShop, getShopBusinessHours, BusinessHour } from '@/app/services/shopAPI';
 
 interface Props {
   onClose: () => void; 
@@ -21,8 +21,27 @@ const PauseService = ({ onClose }: Props) => {
   const [customTimeActive, setCustomTimeActive] = useState(false);
   const [selectedHour, setSelectedHour] = useState('오후 1시');
   const [selectedMinute, setSelectedMinute] = useState('00분');
- 
+  const [businessHours, setBusinessHours] = useState<BusinessHour[]>([]);
   const timeOptions = ['30분', '1시간', '2시간', '오늘 하루', '직접 설정'];
+
+
+  
+  useEffect(() => {
+    const fetchBusinessHours = async () => {
+      if (selectedShopId) {
+        try {
+          const response = await getShopBusinessHours(selectedShopId);
+          setBusinessHours(response.businessHours);
+        } catch (error) {
+          console.error('Error fetching business hours:', error);
+        }
+      }
+    };
+
+    fetchBusinessHours();
+  }, [selectedShopId]);
+
+
 
   // 현재 시각 업데이트
   const updateCurrentTime = () => {
