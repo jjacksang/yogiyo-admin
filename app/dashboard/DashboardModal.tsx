@@ -2,7 +2,7 @@ import { OwnerShopList } from "@/app/services/shopAPI";
 import axios from "axios";
 import React, { ChangeEvent, useState, useEffect } from "react";
 import { shoplistState } from "@/app/recoil/state";
-import AddressSearch from "./AddressSearch";
+import AddressSearch from "../../components/common/AddressSearch";
 import { getAxios } from "@/app/services/loginAPI";
 import { useRecoilState, useSetRecoilState } from "recoil";
 

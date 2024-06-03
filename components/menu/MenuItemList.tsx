@@ -4,9 +4,9 @@ import { ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
-import { ItemList } from "./menuModal/common/ItemList";
 import { getAxios } from "@/app/services/loginAPI";
 import { MenusItem } from "./menu";
+import { ItemList } from "../common/ItemList";
 
 interface MenuItemListProps {
     menuGroupId: number;
@@ -53,12 +53,10 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
             try {
                 const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
                 const menus = res.data;
-                // setMenuItems(menus);
-                console.log(menus);
-                console.log(res.data);
             } catch (error) {
                 console.log("리스트 가져오기 실패", error);
             }
+            console.log("menuItemList useEffect");
         };
         getItemList();
     }, [menuGroup]);

@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { shopIdAtom, shoplistState } from "../../app/recoil/state";
+import { shopIdAtom, shoplistState } from "../recoil/state";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { OwnerShopList, ShopList } from "../../app/services/shopAPI";
+import { OwnerShopList, ShopList } from "../services/shopAPI";
 import DashboardModal from "./DashboardModal";
 import Link from "next/link";
-import { ManageBusinessHoursLink } from "../businessHoursSidebar/ManageBusinessHoursLink";
-import MenuGroup from "../menuSidebar/MenuGroup";
-import { ReviewTab } from "../menuSidebar/ReviewTab";
+import { ManageBusinessHoursLink } from "../../components/businessHoursSidebar/ManageBusinessHoursLink";
+import MenuGroup from "../../components/menuSidebar/MenuGroup";
+import { ReviewTab } from "../../components/menuSidebar/ReviewTab";
 
 // DashboardSidebar 컴포넌트의 props 타입 정의
 interface DashboardSidebarProps {

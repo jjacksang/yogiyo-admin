@@ -1,14 +1,14 @@
 import { ModalProps, ViewOption } from "@/lib/types";
-import { useEffect, useState } from "react";
-import AddOptionMenu from "./AddOptionGroupModal";
+import { useEffect, useMemo, useState } from "react";
+import AddOptionMenu from "./optionModal/AddOptionGroupModal";
 import { getAxios } from "@/app/services/loginAPI";
-import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { OptionItem } from "./OptionItem";
-import { AddOptionItemModal } from "./AddOptionItemModal";
+import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
 import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
-import { ItemLayout } from "../menuModal/common/ItemLayout";
-import { ItemHeader } from "../menuModal/common/ItemHeader";
+import { ItemLayout } from "../common/ItemLayout";
+import { ItemHeader } from "../common/ItemHeader";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -23,7 +23,8 @@ const OptionMenu = ({ onClose }: ModalProps) => {
 
     useEffect(() => {
         optionGroupList();
-    }, []);
+        console.log("optionmenu useEffect");
+    }, [shopId]);
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -50,7 +51,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         console.log(id);
     };
 
-    const optionGroupList = useRecoilCallback(
+    const optionGroupList = useMemo(
         () => async () => {
             // 옵션 그룹 전체 조회
             try {
@@ -206,6 +207,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
 
                                     <span className="text-xs px-2">옵션 순서변경</span>
                                 </div>
+
                                 <OptionItem optionGroupId={options.id} onClose={onClose} />
                             </div>
                         </div>

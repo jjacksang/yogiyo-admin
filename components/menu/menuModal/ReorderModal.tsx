@@ -31,10 +31,8 @@ export const ReorderModal = ({ onClose }: ModalProps) => {
                 </div>
                 <div className="py-4 px-4">
                     {menuGroup.map((item) => (
-                        <ul className="border rounded-xl px-2 py-2 mb-2">
-                            <li className="text-base" key={item.id}>
-                                {item.name}
-                            </li>
+                        <ul className="border rounded-xl px-2 py-2 mb-2" key={item.id}>
+                            <li className="text-base">{item.name}</li>
                         </ul>
                     ))}
                 </div>

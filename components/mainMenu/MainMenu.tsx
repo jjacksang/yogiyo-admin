@@ -1,12 +1,12 @@
 "use client";
 
-import { shopIdAtom } from "@/app/recoil/state";
+import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { ModalProps } from "@/lib/types";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import MainMenuModal from "./MainMenuModal";
-import { MenusItem } from "../menu";
+import { MenusItem } from "../menu/menu";
 
 const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -63,7 +63,7 @@ const MainMenu = ({ onClose }: ModalProps) => {
 
     useEffect(() => {
         getSignatureMenu();
-    }, [shopId]);
+    }, [shopId, menuItemAtom]);
     console.log(mainMenus);
 
     const ifMainMenuNull = () => {

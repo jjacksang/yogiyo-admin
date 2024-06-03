@@ -6,7 +6,7 @@ interface Options {
     content: string;
     price: number;
 }
-interface AddOptionMenuProps extends ModalProps {
+interface AddOptionGroupProps extends ModalProps {
     addOptionGroup: (
         optionGroupName: string,
         optionType: string,
@@ -16,7 +16,7 @@ interface AddOptionMenuProps extends ModalProps {
     ) => void;
 }
 
-const AddOptionMenuModal = ({ onClose, addOptionGroup }: AddOptionMenuProps) => {
+const AddOptionGroupModal = ({ onClose, addOptionGroup }: AddOptionGroupProps) => {
     const [optionType, setOptionType] = useState<string>("REQUIRED");
     const [optionGroupName, setOptionGroupName] = useState("");
     const [optionName, setOptionName] = useState("");
@@ -170,4 +170,4 @@ const AddOptionMenuModal = ({ onClose, addOptionGroup }: AddOptionMenuProps) => 
     );
 };
 
-export default AddOptionMenuModal;
+export default AddOptionGroupModal;

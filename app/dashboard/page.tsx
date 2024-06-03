@@ -1,20 +1,16 @@
 "use client";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import DashboardModal from "@/components/common/DashboardModal";
 import Footer from "@/components/home/footer";
-import DashboardNavbar from "@/components/common/DashboardNavbar";
-import DashboardSidebar from "@/components/common/DashboardSidebar";
-import OrderHistory from "@/components/common/OrderHistory";
-import DashboardMypageMain from "@/components/common/DashboardMypageMain";
-import { ManageBusinessHoursLink } from "@/components/businessHoursSidebar/ManageBusinessHoursLink";
 import PauseService from "@/components/businessHoursSidebar/PauseService";
 import HolidaySchedule from "@/components/businessHoursSidebar/HolidaySchedule";
 import { ManageBusinessHours } from "@/components/businessHoursSidebar/ManageBusinessHours";
 import MenuSet from "@/components/menu/MenuSet";
 import { content } from "../recoil/state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { ReviewManagement } from "@/components/reviewManagement/ReviewManagement";
+import DashboardNavbar from "./DashboardNavbar";
+import DashboardSidebar from "./DashboardSidebar";
+import DashboardMypageMain from "./DashboardMypageMain";
+import { ReviewManagement } from "@/components/review/ReviewManagement";
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);

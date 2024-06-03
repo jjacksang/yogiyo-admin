@@ -1,9 +1,9 @@
 import { userState } from "@/lib/types";
 import { OwnerShopList, TempCloseShopRequest } from "../../app/services/shopAPI";
 import { AtomEffect, atom, selector } from "recoil";
-import { OptionMenu } from "@/components/menu/optionMenu/option";
+import { OptionMenu } from "@/components/option/option";
 import { AddMenu, AddMenuGroup, MenuItem, MenuList } from "@/components/menu/menu";
-import { IReview, IReviewContent } from "@/components/reviewManagement/Review";
+import { IReview, IReviewContent } from "@/components/review/Review";
 
 const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
     (key: string) =>

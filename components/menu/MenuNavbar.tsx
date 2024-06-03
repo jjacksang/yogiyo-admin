@@ -15,6 +15,7 @@ export const MenuNav = () => {
 
     useEffect(() => {
         setContent(selectedNav);
+        console.log("menuNav useEffect");
     }, [selectedNav]);
     return (
         <div className="flex bg-white border-none divide-y-0">

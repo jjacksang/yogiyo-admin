@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MenuNav } from "./MenuNavbar";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, navContent, shopIdAtom } from "@/app/recoil/state";
@@ -7,12 +7,12 @@ import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { ModalProps, ViewOption } from "@/lib/types";
 import { MenuItemList } from "./MenuItemList";
-import MainMenu from "./mainMenu/MainMenu";
-import OptionMenu from "./optionMenu/OptionMenu";
+import OptionMenu from "../option/OptionMenu";
 import AddMenuGroup from "./menuModal/AddMenuGroupModal";
-import { ItemLayout } from "./menuModal/common/ItemLayout";
-import { ItemHeader } from "./menuModal/common/ItemHeader";
 import { ReorderModal } from "./menuModal/ReorderModal";
+import { ItemLayout } from "../common/ItemLayout";
+import { ItemHeader } from "../common/ItemHeader";
+import MainMenu from "../mainMenu/MainMenu";
 
 interface Group {
     id: number;
@@ -32,10 +32,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
     // const [menuGroupIds, setMenuGroupIds] = useState([]);
     const selectedNav = useRecoilValue(navContent);
     const shopId = useRecoilValue(shopIdAtom);
-
-    useEffect(() => {
-        updateGroupList();
-    }, [setMenuGroup]);
 
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
@@ -70,7 +66,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                 const req = await getAxios.delete(`/owner/menu-group/${menuGroupId}`);
                 if (req.status === 204) {
                     console.log("삭제 성공", req);
-                    updateGroupList();
+                    fetchGroupList();
                 }
             } catch (error) {
                 console.log("삭제 실패", error);
@@ -79,7 +75,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
     };
 
     // 메뉴 그룹 전체 조회 부분
-    const updateGroupList = async () => {
+    const fetchGroupList = async () => {
         try {
             const res = await GroupList(shopId);
             setMenuGroup(
@@ -94,6 +90,15 @@ const MenuSet = ({ onClose }: ModalProps) => {
             console.error("리스트 업데이트 실패", error);
         }
     };
+
+    const memoizedGroupList = useMemo(() => {
+        return menuGroup;
+    }, [menuGroup]);
+
+    useEffect(() => {
+        fetchGroupList();
+        console.log("menuSet useEffect");
+    }, [shopId]);
 
     return (
         <div>
@@ -121,7 +126,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                 {/* 메뉴 그룹 추가 버튼 */}
                             </div>
                         </ItemHeader>
-                        {menuGroup.map((menuItem) => (
+                        {memoizedGroupList.map((menuItem) => (
                             <div
                                 className="flex flex-col border rounded-2xl bg-white p-4 mt-2 "
                                 key={menuItem.id}

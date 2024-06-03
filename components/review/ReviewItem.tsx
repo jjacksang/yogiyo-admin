@@ -62,7 +62,7 @@ const ReviewItem = () => {
                     </div>
                 </div>
                 <textarea
-                    onChange={onChangeReply}
+                    onChange={(e) => onChangeReply}
                     className="px-2 py-2 w-full h-[160px] outline-none resize-none bg-transparent"
                 >
                     {" "}
