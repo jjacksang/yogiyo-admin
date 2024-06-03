@@ -17,7 +17,7 @@ const DatePickerComponent = ({ dateRange, onChange }: DatePickerProps) => {
     };
     console.log(dateRange);
     return (
-        <div className="flex items-center border rounded-xl px-4 gap-2">
+        <div className="flex items-center border rounded-xl px-4 gap-2 text-custom-gray">
             <span>직접설정</span>
             <DatePicker
                 selectsRange={true}

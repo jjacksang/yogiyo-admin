@@ -182,3 +182,46 @@ export const deleteOption = async (optionId: number) => {
         console.error("옵션 삭제 실패", error);
     }
 };
+
+// 리뷰 조회
+interface Reviews {
+    dateRange: {
+        startDate: Date | null;
+        endDate: Date | null;
+    };
+    shopId: number;
+    sortReview: string;
+}
+
+export const fetchReviews = async ({ dateRange, shopId, sortReview }: Reviews) => {
+    try {
+        const StrStartDate = dateRange.startDate
+            ? dateRange.startDate.toISOString().slice(0, 10)
+            : "";
+        const StrEndDate = dateRange.endDate ? dateRange.endDate.toISOString().slice(0, 10) : "";
+        const subCursor = 21;
+        const res = await getAxios.get(
+            `/owner/review/shop/${shopId}?sort=${sortReview}&startDate=${StrStartDate}&endDate=${StrEndDate}&status=ALL&cursor=1&subCursor=${subCursor}&limit=100`
+        );
+        console.log(shopId);
+        if (res.status === 200) {
+            return res.data.content;
+        }
+    } catch (error) {
+        console.log("리뷰 조회 실패", error);
+    }
+};
+
+// 리뷰 댓글 작성
+export const patchReply = async (reviewId: number, replyContent: string | undefined) => {
+    try {
+        const res = await getAxios.patch(`owner/review/${reviewId}/reply`, {
+            reply: replyContent,
+        });
+        if (res.status === 204) {
+            console.log(res.data);
+        }
+    } catch (error) {
+        console.error("댓글달기 실패", error);
+    }
+};

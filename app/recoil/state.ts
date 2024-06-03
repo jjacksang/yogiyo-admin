@@ -1,8 +1,9 @@
 import { userState } from "@/lib/types";
 import { OwnerShopList, TempCloseShopRequest } from "../../app/services/shopAPI";
-import { AtomEffect, atom } from "recoil";
+import { AtomEffect, atom, selector } from "recoil";
 import { OptionMenu } from "@/components/menu/optionMenu/option";
 import { AddMenu, AddMenuGroup, MenuItem, MenuList } from "@/components/menu/menu";
+import { IReview, IReviewContent } from "@/components/reviewManagement/Review";
 
 const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
     (key: string) =>
@@ -110,4 +111,9 @@ export const shopIdAtom = atom<number>({
 export const tempCloseShopRequestState = atom<TempCloseShopRequest | null>({
     key: "tempCloseShopRequestState",
     default: null,
+});
+
+export const TotalReviewsAtom = atom<IReviewContent[]>({
+    key: "totalReview",
+    default: [],
 });

@@ -1,11 +1,9 @@
 import { ReactNode } from "react";
 
-type Size = "sm" | "md" | "full";
-
 interface ButtonProps {
     children: ReactNode;
     onClick?: () => void;
-    size?: Size;
+    Size?: "sm" | "md" | "full";
 }
 
 export const Button = ({ onClick, children }: ButtonProps) => {
