@@ -4,25 +4,27 @@ import { useRecoilValue } from "recoil";
 import { Button } from "../common/Button";
 import { getAxios } from "@/app/services/loginAPI";
 import React, { useState } from "react";
+import { patchReply } from "@/app/services/shopAPI";
 
 const ReviewItem = () => {
     const reviews = useRecoilValue(TotalReviewsAtom);
     const [clickBtn, setClickBtn] = useState<boolean>(false);
-    const [replyContent, setReplyContent] = useState<string>("");
-    console.log(reviews);
+    const [replyContent, setReplyContent] = useState<string | undefined>();
+    // console.log(reviews);
     const reviewReply = reviews.find((reply) => reply.ownerReply); // ownerReply 유무에 따라 설정하기
-    console.log(reviewReply);
+    // console.log(reviewReply);
+    // console.log(replyContent);
 
-    const patchReply = async (reviewId: number) => {
+    const handlePatchReview = (reviewId: number) => {
+        patchReply(reviewId, replyContent);
+    };
+
+    const deleteReply = async (reviewId: number) => {
         try {
-            const res = await getAxios.patch(`owner/review/${reviewId}/reply`, {
-                reply: replyContent,
-            });
-            if (res.status === 204) {
-                console.log(res.data);
-            }
+            const res = await getAxios.delete(`owner/review/${reviewId}`);
+            if (res.status === 204) console.log(res.data);
         } catch (error) {
-            console.error("댓글달기 실패", error);
+            console.error("댓글 삭제 실패", error);
         }
     };
 
@@ -45,18 +47,26 @@ const ReviewItem = () => {
                         <button
                             className="text-yogiyo-blue"
                             onClick={() => {
-                                patchReply(reviewId);
+                                handlePatchReview(reviewId);
                             }}
                         >
-                            수정
+                            저장
                         </button>
-                        <button>삭제</button>
+                        <button
+                            onClick={() => {
+                                deleteReply(reviewId);
+                            }}
+                        >
+                            삭제
+                        </button>
                     </div>
                 </div>
                 <textarea
                     onChange={onChangeReply}
                     className="px-2 py-2 w-full h-[160px] outline-none resize-none bg-transparent"
-                />
+                >
+                    {" "}
+                </textarea>
             </div>
         );
     };
@@ -112,8 +122,8 @@ const ReviewItem = () => {
                                 </div>
                             )}
                             <div className="flex">
-                                {item.menus.map((menu) => (
-                                    <span>
+                                {item.menus.map((menu, index) => (
+                                    <span key={index}>
                                         {menu.name},{menu.quantity}개
                                     </span>
                                 ))}

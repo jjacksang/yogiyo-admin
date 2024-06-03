@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import DatePickerComponent from "./DatePicker/DatePickerComponent";
 import { Button } from "../common/Button";
 import ReviewItem from "./ReviewItem";
+import { fetchReviews } from "@/app/services/shopAPI";
 
 export const ReviewManagement = () => {
     const [getReviews, setGetReviews] = useRecoilState(TotalReviewsAtom);
@@ -17,33 +18,27 @@ export const ReviewManagement = () => {
         startDate: null,
         endDate: null,
     });
-    const shopId = useRecoilValue(shopIdAtom);
 
     const reviewOption = [
         { value: "LATEST", label: "최신순" },
         { value: "RATING_LOW", label: "별점 낮은순" },
         { value: "RATING_HIGH", label: "별점 높은순" },
     ];
-    const fetchReviews = async () => {
-        try {
-            const StrStartDate = dateRange.startDate
-                ? dateRange.startDate.toISOString().slice(0, 10)
-                : "";
-            const StrEndDate = dateRange.endDate
-                ? dateRange.endDate.toISOString().slice(0, 10)
-                : "";
-            const subCursor = 21;
-            const res = await getAxios.get(
-                `/owner/review/shop/${shopId}?sort=${sortReview}&startDate=${StrStartDate}&endDate=${StrEndDate}&status=ALL&cursor=1&subCursor=${subCursor}&limit=100`
-            );
-            console.log(shopId);
-            if (res.status === 200) {
-                setGetReviews(res.data.content);
-            }
-        } catch (error) {
-            console.log("리뷰 조회 실패", error);
-        }
+
+    const handleFetchReviews = async () => {
+        const fetchedReviews = await fetchReviews({
+            shopId: useRecoilValue(shopIdAtom),
+            dateRange,
+            sortReview,
+        });
+        setGetReviews(fetchedReviews);
     };
+    useEffect(() => {
+        if (dateRange.startDate || dateRange.endDate) {
+            handleFetchReviews();
+        }
+    }, [dateRange, sortReview]);
+
     const handleSortReview = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortReview(e.target.value);
     };
@@ -51,10 +46,6 @@ export const ReviewManagement = () => {
     const handleDateChange = (newDateRange: { startDate: Date | null; endDate: Date | null }) => {
         setDateRange(newDateRange);
     };
-
-    useEffect(() => {
-        console.log(sortReview);
-    }, [handleSortReview]);
 
     return (
         <div className="my-4 mx-2">
@@ -83,7 +74,7 @@ export const ReviewManagement = () => {
                                 onChange={handleDateChange}
                             />
                         </div>
-                        <Button onClick={fetchReviews}>조회</Button>
+                        <Button onClick={() => handleFetchReviews}>조회</Button>
                     </div>
 
                     <ReviewItem />
