@@ -1,6 +1,3 @@
-import { getAxios } from "@/app/services/loginAPI";
-import { ItemHeader } from "../menu/menuModal/common/ItemHeader";
-import { ItemLayout } from "../menu/menuModal/common/ItemLayout";
 import { FaStar } from "react-icons/fa";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { TotalReviewsAtom, shopIdAtom } from "@/app/recoil/state";
@@ -10,8 +7,11 @@ import DatePickerComponent from "./DatePicker/DatePickerComponent";
 import { Button } from "../common/Button";
 import ReviewItem from "./ReviewItem";
 import { fetchReviews } from "@/app/services/shopAPI";
+import { ItemLayout } from "../common/ItemLayout";
+import { ItemHeader } from "../common/ItemHeader";
 
 export const ReviewManagement = () => {
+    const shopId = useRecoilValue(shopIdAtom);
     const [getReviews, setGetReviews] = useRecoilState(TotalReviewsAtom);
     const [sortReview, setSortReview] = useState("LATEST");
     const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({
@@ -27,17 +27,12 @@ export const ReviewManagement = () => {
 
     const handleFetchReviews = async () => {
         const fetchedReviews = await fetchReviews({
-            shopId: useRecoilValue(shopIdAtom),
+            shopId: shopId,
             dateRange,
             sortReview,
         });
         setGetReviews(fetchedReviews);
     };
-    useEffect(() => {
-        if (dateRange.startDate || dateRange.endDate) {
-            handleFetchReviews();
-        }
-    }, [dateRange, sortReview]);
 
     const handleSortReview = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortReview(e.target.value);
@@ -74,7 +69,7 @@ export const ReviewManagement = () => {
                                 onChange={handleDateChange}
                             />
                         </div>
-                        <Button onClick={() => handleFetchReviews}>조회</Button>
+                        <Button onClick={handleFetchReviews}>조회</Button>
                     </div>
 
                     <ReviewItem />

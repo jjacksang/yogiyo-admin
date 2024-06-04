@@ -3,9 +3,9 @@ import { deleteOption } from "@/app/services/shopAPI";
 import { ModalProps, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { AddOptionItemModal } from "./AddOptionItemModal";
-import { ItemList } from "../menuModal/common/ItemList";
+import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
 import { Options } from "./option";
+import { ItemList } from "../common/ItemList";
 
 interface optionId extends ModalProps {
     optionGroupId: number;
@@ -42,7 +42,7 @@ export const OptionItem = ({ optionGroupId }: optionId) => {
         <div>
             {optionItem?.menuOptions?.map((option: Options) => (
                 <ItemList option={option}>
-                    <div className="flex">
+                    <div className="flex" key={option.id}>
                         <button
                             className="px-0.5"
                             onClick={() => {

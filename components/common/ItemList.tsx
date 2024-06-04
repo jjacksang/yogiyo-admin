@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Options } from "../../optionMenu/option";
+import { Options } from "../option/option";
 
 interface ItemProps {
     children: ReactNode;

@@ -1,19 +1,9 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import { TotalReviewsAtom } from "@/app/recoil/state";
 
 const TotalReview = () => {
-    // const getReviews = useRecoilValue(TotalReviewsAtom);
-    // const [reviewAvg, setReviewAvg] = useState<number>(0);
-
-    // const totalTasteScore = getReviews.map((taste) => taste.tasteScore);
-
-    //  const tasteValue = totalTasteScore.reduce((taste, currentValue) => {
-    //    return taste + currentValue;
-    // }, 0);
-
-    // const tasteAvg = setReviewAvg(tasteValue / totalTasteScore.length);
     return (
         <div className="flex flex-col w-full divide-y gap-2">
             <div className="px-4 py-2">

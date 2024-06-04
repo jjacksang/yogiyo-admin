@@ -3,8 +3,7 @@ import { content } from "@/app/recoil/state";
 import DashboardMypageMain from "./DashboardMypageMain";
 import React, { ReactNode } from "react";
 import { useRecoilValue } from "recoil";
-import MenuSet from "../menu/MenuSet";
-import MenuSoldout from "../menu/MenuSoldout";
+import MenuSet from "../../components/menu/MenuSet";
 
 interface DashboardMainProps {
     children: ReactNode;
@@ -12,7 +11,6 @@ interface DashboardMainProps {
 
 interface MenuComponentType {
     menuSet: JSX.Element;
-    menuSoldout: JSX.Element;
     [key: string]: JSX.Element;
 }
 
@@ -21,7 +19,6 @@ export default function DashboardMain({ children }: DashboardMainProps) {
 
     const menuComponent: MenuComponentType = {
         menuSet: <MenuSet onClose={() => console.log("메뉴 닫힘")} />,
-        menuSoldout: <MenuSoldout />,
     };
 
     const showContent = menuComponent[selectMenu] || <DashboardMypageMain />;
