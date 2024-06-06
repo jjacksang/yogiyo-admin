@@ -16,7 +16,7 @@ const DatePickerComponent = ({ dateRange, onChange }: DatePickerProps) => {
     };
     return (
         <div className="flex items-center border rounded-xl px-4 gap-2 text-custom-gray">
-            <span>직접설정</span>
+            <span>기간설정</span>
             <DatePicker
                 selectsRange={true}
                 locale={ko}

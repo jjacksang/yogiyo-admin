@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { MenuNav } from "./MenuNavbar";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, navContent, shopIdAtom } from "@/app/recoil/state";
-import { GroupList } from "@/app/services/shopAPI";
+import { GroupList } from "@/app/services/menuAPI";
 import { getAxios } from "@/app/services/loginAPI";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { ModalProps, ViewOption } from "@/lib/types";

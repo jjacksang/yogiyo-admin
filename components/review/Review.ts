@@ -18,14 +18,11 @@ export interface IReviewContent {
     memberName: string;
     createdAt: string;
     reviewImages: string[];
-    menus: {
-        name: string;
-        quantity: number;
-        price: number;
-    }[];
+    menus: IReviewMenus[];
 }
 
-interface reviewImage {
-    url: string;
-    description: string;
+export interface IReviewMenus {
+    name: string;
+    quantity: number;
+    price: number;
 }

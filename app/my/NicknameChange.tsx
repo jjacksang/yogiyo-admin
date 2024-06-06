@@ -36,7 +36,6 @@ const NickChange = ({ toggleComponent }: NickChangeProps) => {
             console.error("닉네임 변경 중 오류가 발생", error);
         }
     };
-    console.log(userNickname);
     return (
         <div className="flex flex-col p-10 m-auto mt-12 relative">
             <p className="flex justify-center mb-4 text-xl font-bold">닉네임 변경하기</p>

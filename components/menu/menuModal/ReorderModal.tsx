@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { ModalLayout } from "../../common/ModalLayout";
 import { Button } from "../../common/Button";
 import { ModalProps } from "@/lib/types";
-import { ReorderMenu } from "@/app/services/shopAPI";
+import { ReorderMenu } from "@/app/services/menuAPI";
 import { useRecoilValue } from "recoil";
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 
