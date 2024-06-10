@@ -1,3 +1,5 @@
+"use client";
+
 import { FaStar } from "react-icons/fa";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { TotalReviewsAtom, shopIdAtom } from "@/app/recoil/state";
@@ -14,7 +16,7 @@ export const ReviewManagement = () => {
     const shopId = useRecoilValue(shopIdAtom);
     const [getReviews, setGetReviews] = useRecoilState(TotalReviewsAtom);
     const [sortReview, setSortReview] = useState("LATEST");
-    const [hasReview, setHasReview] = useState<boolean>();
+    const [hasReview, setHasReview] = useState<boolean>(false);
     const [cursor, setCursor] = useState<number>(0);
     const [subCursor, setSubCursor] = useState<number>(11);
     const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({
@@ -39,6 +41,7 @@ export const ReviewManagement = () => {
             subCursor,
         });
         setGetReviews(fetchedReviews);
+        setHasReview(true);
     };
 
     const handleSortReview = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -48,6 +51,11 @@ export const ReviewManagement = () => {
     const handleDateChange = (newDateRange: { startDate: Date | null; endDate: Date | null }) => {
         setDateRange(newDateRange);
     };
+
+    // useEffect(() => {
+    //     handleFetchReviews();
+    //     console.log("useEffect hook");
+    // }, [shopId, dateRange, sortReview, cursor, subCursor]);
 
     return (
         <div className="my-4 mx-2">
@@ -81,7 +89,7 @@ export const ReviewManagement = () => {
                     </div>
                     <>
                         {hasReview ? (
-                            getReviews.map((item) => {
+                            getReviews.content.map((item) => {
                                 <ReviewItem key={item.id} {...item} />;
                             })
                         ) : (
@@ -96,8 +104,8 @@ export const ReviewManagement = () => {
 
 const EmptyReview = () => {
     return (
-        <div>
-            <span>Review is not loading</span>
+        <div className="flex mx-2 my-2">
+            <span className="px-2">Review is not loading</span>
         </div>
     );
 };
