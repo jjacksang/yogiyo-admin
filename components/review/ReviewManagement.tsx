@@ -89,9 +89,7 @@ export const ReviewManagement = () => {
                     </div>
                     <>
                         {hasReview ? (
-                            getReviews.content.map((item) => {
-                                <ReviewItem key={item.id} {...item} />;
-                            })
+                            getReviews.content.map((item) => <ReviewItem key={item.id} {...item} />)
                         ) : (
                             <EmptyReview />
                         )}
