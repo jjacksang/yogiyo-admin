@@ -113,6 +113,7 @@ export const tempCloseShopRequestState = atom<TempCloseShopRequest | null>({
     default: null,
 });
 
+// 리뷰 저장 아톰
 export const TotalReviewsAtom = atom<IReviewContent[]>({
     key: "totalReview",
     default: [],

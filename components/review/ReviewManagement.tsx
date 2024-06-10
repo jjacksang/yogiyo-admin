@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import DatePickerComponent from "./DatePicker/DatePickerComponent";
 import { Button } from "../common/Button";
 import ReviewItem from "./ReviewItem";
-import { fetchReviews } from "@/app/services/shopAPI";
+import { fetchReviews } from "@/app/services/reviewAPI";
 import { ItemLayout } from "../common/ItemLayout";
 import { ItemHeader } from "../common/ItemHeader";
 
@@ -14,10 +14,15 @@ export const ReviewManagement = () => {
     const shopId = useRecoilValue(shopIdAtom);
     const [getReviews, setGetReviews] = useRecoilState(TotalReviewsAtom);
     const [sortReview, setSortReview] = useState("LATEST");
+    const [hasReview, setHasReview] = useState<boolean>();
+    const [cursor, setCursor] = useState<number>(0);
+    const [subCursor, setSubCursor] = useState<number>(11);
     const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({
         startDate: null,
         endDate: null,
     });
+
+    console.log(getReviews);
 
     const reviewOption = [
         { value: "LATEST", label: "최신순" },
@@ -30,6 +35,8 @@ export const ReviewManagement = () => {
             shopId: shopId,
             dateRange,
             sortReview,
+            cursor,
+            subCursor,
         });
         setGetReviews(fetchedReviews);
     };
@@ -69,12 +76,28 @@ export const ReviewManagement = () => {
                                 onChange={handleDateChange}
                             />
                         </div>
+
                         <Button onClick={handleFetchReviews}>조회</Button>
                     </div>
-
-                    <ReviewItem />
+                    <>
+                        {hasReview ? (
+                            getReviews.map((item) => {
+                                <ReviewItem key={item.id} {...item} />;
+                            })
+                        ) : (
+                            <EmptyReview />
+                        )}
+                    </>
                 </div>
             </ItemLayout>
+        </div>
+    );
+};
+
+const EmptyReview = () => {
+    return (
+        <div>
+            <span>Review is not loading</span>
         </div>
     );
 };
