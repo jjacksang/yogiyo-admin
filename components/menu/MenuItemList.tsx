@@ -1,5 +1,5 @@
 import { menuItemAtom } from "@/app/recoil/state";
-import { deleteMenuItem } from "@/app/services/shopAPI";
+import { deleteMenuItem } from "@/app/services/menuAPI";
 import { ViewOption } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";

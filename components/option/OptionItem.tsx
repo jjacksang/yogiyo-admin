@@ -1,5 +1,5 @@
 import { optionGroupAtom } from "@/app/recoil/state";
-import { deleteOption } from "@/app/services/shopAPI";
+import { deleteOption } from "@/app/services/optionAPI";
 import { ModalProps, ViewOption } from "@/lib/types";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";

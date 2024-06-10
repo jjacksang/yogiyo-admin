@@ -1,7 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { useRecoilValue } from "recoil";
-import { TotalReviewsAtom } from "@/app/recoil/state";
 
 const TotalReview = () => {
     return (
