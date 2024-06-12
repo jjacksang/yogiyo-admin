@@ -1,10 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ModalLayout } from "../../common/ModalLayout";
 import { Button } from "../../common/Button";
 import { ModalProps } from "@/lib/types";
 import { ReorderMenu } from "@/app/services/menuAPI";
 import { useRecoilValue } from "recoil";
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
+import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { MenuItem } from "../menu";
 
 interface ReorderModalProps {
     // children: ReactNode;
@@ -14,9 +16,43 @@ interface ReorderModalProps {
 export const ReorderModal = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
     const menuGroup = useRecoilValue(menuItemAtom);
-    const menuGroupIds = menuGroup.map((item) => item.id);
+    const initialMenuGroupIds = menuGroup.map((item) => item.id);
+    const [menuGroupIds, setMenuGroupIds] = useState(initialMenuGroupIds);
+    const [enabled, setEnabled] = useState(false);
 
-    console.log(menuGroupIds);
+    const onDragEnd = ({ source, destination }: DropResult) => {
+        if (!destination) return null;
+
+        const updatedMenuGroupIds = Array.from(menuGroupIds);
+        const [targetId] = updatedMenuGroupIds.splice(source.index, 1);
+        updatedMenuGroupIds.splice(destination.index, 0, targetId);
+
+        setMenuGroupIds(updatedMenuGroupIds);
+        console.log(menuGroupIds);
+
+        console.log([targetId]);
+        console.log(">> source", source);
+        console.log(">> Destination", destination);
+    };
+
+    useEffect(() => {
+        const animation = requestAnimationFrame(() => setEnabled(true));
+
+        return () => {
+            cancelAnimationFrame(animation);
+            setEnabled(false);
+        };
+    }, []);
+
+    const orderedMenuGroup = menuGroupIds.map(
+        (id) => menuGroup.find((item) => item.id === id) as MenuItem
+    );
+
+    console.log(orderedMenuGroup);
+    if (!enabled) {
+        return null;
+    }
+
     return (
         <ModalLayout>
             <div className="flex flex-col">
@@ -30,12 +66,35 @@ export const ReorderModal = ({ onClose }: ModalProps) => {
                     <span className="text-base">ㅇㅇ을 끌어서 원하는 순서로 바꿀 수 있습니다.</span>
                 </div>
                 <div className="py-4 px-4">
-                    {menuGroup.map((item) => (
-                        <ul className="border rounded-xl px-2 py-2 mb-2" key={item.id}>
-                            <li className="text-base">{item.name}</li>
-                        </ul>
-                    ))}
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="droppable">
+                            {(provided) => (
+                                <div ref={provided.innerRef} {...provided.droppableProps}>
+                                    {orderedMenuGroup.map((item, index) => (
+                                        <Draggable
+                                            key={item.id}
+                                            draggableId={`item${item.id}`}
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    className="border rounded-xl px-4 py-2 mb-2"
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    {item.name}
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </div>
+
                 <Button
                     onClick={() => {
                         ReorderMenu(shopId, menuGroupIds);

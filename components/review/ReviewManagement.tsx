@@ -41,7 +41,9 @@ export const ReviewManagement = () => {
             subCursor,
         });
         setGetReviews(fetchedReviews);
-        setHasReview(true);
+        if (getReviews.content !== null) {
+            setHasReview(true);
+        }
     };
 
     const handleSortReview = (e: React.ChangeEvent<HTMLSelectElement>) => {
