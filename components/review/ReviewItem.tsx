@@ -135,7 +135,7 @@ const ReviewItem = ({
                             ))}
                         </div>
                         <span>몇명이 도움됬는지?</span>
-                        <Button onClick={onClickReplyBtn}>댓글 쓰기</Button>
+                        <Button onClick={onClickReplyBtn} text={"리뷰 쓰기"} />
                         {clickBtn ? ReviewReply(id) : <div></div>}
                     </div>
                 </div>

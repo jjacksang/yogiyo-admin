@@ -99,9 +99,8 @@ export const ReorderModal = ({ onClose }: ModalProps) => {
                     onClick={() => {
                         ReorderMenu(shopId, menuGroupIds);
                     }}
-                >
-                    저장
-                </Button>
+                    text={"저장"}
+                />
             </div>
         </ModalLayout>
     );

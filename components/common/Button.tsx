@@ -1,18 +1,18 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-    children: ReactNode;
     onClick?: () => void;
+    text: string;
     Size?: "sm" | "md" | "full";
 }
 
-export const Button = ({ onClick, children }: ButtonProps) => {
+export const Button = ({ text, onClick }: ButtonProps) => {
     return (
         <button
             className={`${buttonTheme.color.submit},${buttonTheme.theme.default}`}
             onClick={onClick}
         >
-            {children}
+            {text}
         </button>
     );
 };

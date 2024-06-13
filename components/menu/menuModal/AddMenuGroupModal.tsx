@@ -47,7 +47,7 @@ export default function AddMenuGroupModal({ onClose }: ModalProps) {
     };
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="flex flex-col bg-white w-1/2 h-auto rounded-2xl my-20">
+            <div className="flex flex-col bg-white w-[32rem] h-auto rounded-2xl my-20">
                 <div className="border py-6 px-3 bg- rounded-t-2xl">
                     <div className="flex justify-center text-xl font-bold w-full relative">
                         <span>메뉴 그룹 추가</span>
@@ -61,7 +61,7 @@ export default function AddMenuGroupModal({ onClose }: ModalProps) {
                         <p>메뉴 그룹명</p>
                         <input
                             placeholder="메뉴그룹 입력란"
-                            className="border rounded-lg w-[300px] h-[50px] pl-4"
+                            className="border rounded-lg w-[300px] h-[32px] pl-4"
                             value={menuName}
                             type="text"
                             onChange={handleMenuGroup}
@@ -71,11 +71,11 @@ export default function AddMenuGroupModal({ onClose }: ModalProps) {
                     </div>
                 </div>
                 <div className="flex items-center mx-8 py-4 ">
-                    <div className="flex flex-col w-full">
+                    <div className="flex flex-col w-full gap-4">
                         <span>메뉴그룹 설명(선택)</span>
                         <input
                             placeholder="그룹에 대한 설명을 입력해주세요"
-                            className="border rounded-lg w-full"
+                            className="border rounded-lg w-full h-[32px] px-4"
                             value={content}
                             onChange={handleMenuGroup}
                         ></input>
@@ -83,11 +83,11 @@ export default function AddMenuGroupModal({ onClose }: ModalProps) {
                     </div>
                 </div>
                 <div className="flex items-center mx-8 py-4">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-4">
                         <span>상태설정</span>
-                        <div className="border rounded-lg">
-                            <button>판매중</button>
-                            <button>숨김</button>
+                        <div className="flex border rounded-lg p-1 divide-x">
+                            <button className="px-2">판매중</button>
+                            <button className="px-2">숨김</button>
                         </div>
                     </div>
                 </div>

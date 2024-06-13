@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import { ModalProps } from "@/lib/types";
 import { getAxios } from "@/app/services/loginAPI";
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
+import { Button } from "../common/Button";
 
 export default function MainMenuModal({ onClose }: ModalProps) {
     const menuGroup = useRecoilValue(menuItemAtom);
@@ -38,10 +39,10 @@ export default function MainMenuModal({ onClose }: ModalProps) {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="flex flex-col bg-white w-1/2 h-3/4 rounded-2xl my-20 overflow-y-auto">
+            <div className="flex flex-col bg-white w-[32rem] h-3/4 rounded-2xl my-20 overflow-y-auto">
                 <div className="flex py-4 mb-4 border-y">
                     <p className="flex justify-center text-xl font-bold w-full">대표메뉴 설정</p>
-                    <button className="px-4" onClick={() => onClose}>
+                    <button className="px-4" onClick={() => onClose()}>
                         X
                     </button>
                 </div>
@@ -112,14 +113,12 @@ export default function MainMenuModal({ onClose }: ModalProps) {
                     </form>
                 </div>
                 <div className="flex justify-center p-4 border-t ">
-                    <button
+                    <Button
                         onClick={() => {
                             setMainMenu(), onClose();
                         }}
-                        className="border rounded-xl w-full h-auto bg-yogiyo-blue text-white py-4 mx-4 text-xl font-bold"
-                    >
-                        저장
-                    </button>
+                        text={"저장"}
+                    />
                 </div>
             </div>
         </div>
