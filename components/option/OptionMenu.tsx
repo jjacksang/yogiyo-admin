@@ -9,6 +9,7 @@ import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
 import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
 import { ItemLayout } from "../common/ItemLayout";
 import { ItemHeader } from "../common/ItemHeader";
+import { ReorderOptionGroup } from "./optionModal/ReorderOptionGroup";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -19,6 +20,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         addOptionGroupModal: false,
         addOptionItemModal: false,
         optionMenuLinkModal: false,
+        reorderOptionGroupModal: false,
     });
 
     useEffect(() => {
@@ -123,7 +125,9 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                     className=" border rounded-xl mx-4 px-4 py-2"
                 />
                 <div className="text-custom-gray text-sm">
-                    <button>옵션 순서 변경</button>
+                    <button onClick={() => handleModalOpen("reorderOptionGroupModal")}>
+                        옵션 순서 변경
+                    </button>
                     <button
                         className="border rounded-xl px-4 py-2.5 bg-yogiyo-blue text-white font-bold mx-2"
                         onClick={() => handleModalOpen("addOptionGroupModal")}
@@ -231,6 +235,9 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             )}
             {openModal.optionMenuLinkModal && (
                 <OptionMenuLinkModal onClose={() => handleModalClose("optionMenuLinkModal")} />
+            )}
+            {openModal.reorderOptionGroupModal && (
+                <ReorderOptionGroup onClose={() => handleModalClose("reorderOptionGroupModal")} />
             )}
         </ItemLayout>
     );

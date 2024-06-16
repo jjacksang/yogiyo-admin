@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface ButtonProps {
     onClick?: () => void;
     text: string;
-    Size?: "sm" | "md" | "full";
+    Size?: "default" | "wide";
 }
 
 export const Button = ({ text, onClick }: ButtonProps) => {
@@ -24,5 +24,6 @@ const buttonTheme = {
     },
     theme: {
         default: "border rounded-xl px-6 py-2 text-white text-xl font-bold",
+        wideButton: "border rounded-xl px-6 py-2 text-white text-xl font-bold w-full",
     },
 };
