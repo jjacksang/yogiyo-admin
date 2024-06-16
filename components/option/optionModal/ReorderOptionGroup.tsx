@@ -27,7 +27,15 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
                 <div className="border rounded-xl text-sm text-custom-gray p-4 my-4 bg-[#f5f5dc]">
                     <span>옵션을 끌어서 원하는 순서로 바꿀 수 있습니다.</span>
                 </div>
-                <div className="flex flex-col gap-2">{noneOptionGroup()}</div>
+                <div className="flex flex-col gap-2">
+                    {optionGroupList.length === 0
+                        ? noneOptionGroup()
+                        : optionGroupList.map((optionGroup) => (
+                              <div className="border rounded-xl px-4 py-2" key={optionGroup.id}>
+                                  <span>{optionGroup.name}</span>
+                              </div>
+                          ))}
+                </div>
                 <div className="flex pt-4 justify-center">
                     <Button text={"저장"} />
                 </div>
