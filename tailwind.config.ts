@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-const config: Config = {
+module.exports = {
     content: [
         "./pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -34,9 +34,8 @@ const config: Config = {
             margin: {
                 "15": "60px",
             },
+            plugins: [require("tailwind-scrollbar-hide")],
         },
     },
     plugins: [],
 };
-
-export default config;

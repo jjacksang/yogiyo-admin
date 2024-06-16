@@ -29,7 +29,6 @@ const MenuSet = ({ onClose }: ModalProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [menuGroup, setMenuGroup] = useRecoilState(menuItemAtom);
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
-    // const [menuGroupIds, setMenuGroupIds] = useState([]);
     const selectedNav = useRecoilValue(navContent);
     const shopId = useRecoilValue(shopIdAtom);
 

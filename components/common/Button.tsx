@@ -1,18 +1,18 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-    children: ReactNode;
     onClick?: () => void;
-    Size?: "sm" | "md" | "full";
+    text: string;
+    Size?: "default" | "wide";
 }
 
-export const Button = ({ onClick, children }: ButtonProps) => {
+export const Button = ({ text, onClick }: ButtonProps) => {
     return (
         <button
             className={`${buttonTheme.color.submit},${buttonTheme.theme.default}`}
             onClick={onClick}
         >
-            {children}
+            {text}
         </button>
     );
 };
@@ -24,5 +24,6 @@ const buttonTheme = {
     },
     theme: {
         default: "border rounded-xl px-6 py-2 text-white text-xl font-bold",
+        wideButton: "border rounded-xl px-6 py-2 text-white text-xl font-bold w-full",
     },
 };

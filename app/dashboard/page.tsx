@@ -29,7 +29,7 @@ const Page = () => {
             <DashboardNavbar />
             <div className="flex flex-row flex-1">
                 <DashboardSidebar toggleModal={toggleModal} setSelectedMenu={setSelectedMenu} />
-                <div className="flex flex-col flex-1 bg-[#F7F7F7] relative overflow-auto z-10 overscroll-none">
+                <div className="flex flex-col flex-1 bg-[#F7F7F7] overflow-auto z-10 overscroll-none">
                     {" "}
                     {/* 메인 컨텐츠 영역 */}
                     {setContent === "main" && <DashboardMypageMain />}

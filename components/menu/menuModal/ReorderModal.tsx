@@ -62,7 +62,7 @@ export const ReorderModal = ({ onClose }: ModalProps) => {
                         X
                     </button>
                 </div>
-                <div className="border bg-custom-gray rounded-xl mx-4 px-4 py-4 mb-4">
+                <div className="border bg-[#f5f5dc] rounded-xl mx-4 px-4 py-4 mb-4">
                     <span className="text-base">ㅇㅇ을 끌어서 원하는 순서로 바꿀 수 있습니다.</span>
                 </div>
                 <div className="py-4 px-4">
@@ -99,9 +99,8 @@ export const ReorderModal = ({ onClose }: ModalProps) => {
                     onClick={() => {
                         ReorderMenu(shopId, menuGroupIds);
                     }}
-                >
-                    저장
-                </Button>
+                    text={"저장"}
+                />
             </div>
         </ModalLayout>
     );

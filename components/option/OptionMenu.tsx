@@ -9,6 +9,7 @@ import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
 import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
 import { ItemLayout } from "../common/ItemLayout";
 import { ItemHeader } from "../common/ItemHeader";
+import { ReorderOptionGroup } from "./optionModal/ReorderOptionGroup";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -19,6 +20,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         addOptionGroupModal: false,
         addOptionItemModal: false,
         optionMenuLinkModal: false,
+        reorderOptionGroupModal: false,
     });
 
     useEffect(() => {
@@ -123,7 +125,9 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                     className=" border rounded-xl mx-4 px-4 py-2"
                 />
                 <div className="text-custom-gray text-sm">
-                    <button>옵션 순서 변경</button>
+                    <button onClick={() => handleModalOpen("reorderOptionGroupModal")}>
+                        옵션 순서 변경
+                    </button>
                     <button
                         className="border rounded-xl px-4 py-2.5 bg-yogiyo-blue text-white font-bold mx-2"
                         onClick={() => handleModalOpen("addOptionGroupModal")}
@@ -155,7 +159,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                     >
                                         <img src="/Icons/더보기버튼.svg" />
                                         {viewOption[options.id] && (
-                                            <ul className="flex flex-col divide-y absolute top-5 right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                            <ul className="flex flex-col divide-y absolute top-4 right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
                                                 <li className="flex justify-start py-2">
                                                     옵션그룹명 변경
                                                 </li>
@@ -231,6 +235,9 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             )}
             {openModal.optionMenuLinkModal && (
                 <OptionMenuLinkModal onClose={() => handleModalClose("optionMenuLinkModal")} />
+            )}
+            {openModal.reorderOptionGroupModal && (
+                <ReorderOptionGroup onClose={() => handleModalClose("reorderOptionGroupModal")} />
             )}
         </ItemLayout>
     );
