@@ -1,5 +1,5 @@
 import { ModalProps, ViewOption } from "@/lib/types";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import AddOptionMenu from "./optionModal/AddOptionGroupModal";
 import { getAxios } from "@/app/services/loginAPI";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -23,11 +23,6 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         reorderOptionGroupModal: false,
     });
 
-    useEffect(() => {
-        optionGroupList();
-        console.log("optionmenu useEffect");
-    }, [shopId]);
-
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
             ...prevModal,
@@ -45,6 +40,11 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         }));
     };
 
+    const matchOptionIds = () => {
+        const prevIds = optionList.map((option) => option.id);
+        console.log(prevIds);
+    };
+
     const handleViewOption = (id: number) => {
         setViewOption((prev) => ({
             ...prev,
@@ -53,57 +53,60 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         console.log(id);
     };
 
-    const optionGroupList = useMemo(
-        () => async () => {
-            // 옵션 그룹 전체 조회
+    const optionGroupList = useCallback(async () => {
+        // 옵션 그룹 전체 조회
+        try {
+            const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
+            if (res.status === 200) {
+                setOptionList(res.data.menuOptionGroups);
+            }
+        } catch (error) {
+            console.error("옵션전체조회 실패", error);
+        }
+    }, [shopId, setOptionList]);
+
+    // 옵션 그룹 추가
+    const addOptionGroup = useCallback(
+        async (
+            optionGroupName: string,
+            optionType: string,
+            count: number,
+            options: { content: string; price: number }[],
+            isPossibleCount: boolean
+        ) => {
             try {
-                const res = await getAxios.get(`/owner/menu-option-group/shop/${shopId}`);
-                if (res.status === 200) {
-                    setOptionList(res.data.menuOptionGroups);
+                const res = await getAxios.post(`/owner/menu-option-group/shop/${shopId}/add`, {
+                    name: optionGroupName,
+                    optionType: optionType,
+                    count: 1,
+                    options: options,
+                    isPossibleCount: isPossibleCount,
+                });
+                if (res.status === 201) {
+                    console.log("요청 성공", res.data);
+                    optionGroupList();
                 }
             } catch (error) {
-                console.error("옵션전체조회 실패", error);
+                console.error("옵션그룹추가실패", error);
             }
         },
         []
     );
 
-    const addOptionGroup = async (
-        optionGroupName: string,
-        optionType: string,
-        count: number,
-        options: { content: string; price: number }[],
-        isPossibleCount: boolean
-    ) => {
-        try {
-            const res = await getAxios.post(`/owner/menu-option-group/shop/${shopId}/add`, {
-                name: optionGroupName,
-                optionType: optionType,
-                count: 1,
-                options: options,
-                isPossibleCount: isPossibleCount,
-            });
-            if (res.status === 201) {
-                console.log("요청 성공", res.data);
-                optionGroupList();
-            }
-        } catch (error) {
-            console.error("옵션그룹추가실패", error);
-        }
-    };
-
-    const deleteOptionGroup = async (optionId: number) => {
+    // 옵션 그룹 삭제
+    const deleteOptionGroup = useCallback(async (optionId: number) => {
         try {
             const res = await getAxios.delete(`owner/menu-option-group/${optionId}/delete`);
             if (res.status === 204) {
-                setOptionList((prevOptionList) =>
-                    prevOptionList.filter((option) => option.id !== optionId)
-                );
+                // setOptionList((prevOptionList) =>
+                //     prevOptionList.filter((option) => option.id !== optionId)
+                // );
+                optionGroupList();
             }
         } catch (error) {
             console.error("삭제 실패", error);
         }
-    };
+    }, []);
 
     // 옵션 그룹 메뉴 연결
     const LinkOptionMenu = () => {
@@ -115,6 +118,10 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             console.error("옵션 그룹 메뉴 연결 실패", error);
         }
     };
+    useEffect(() => {
+        optionGroupList();
+        console.log("optionmenu useEffect");
+    }, [optionGroupList]);
 
     console.log(optionList);
     return (
