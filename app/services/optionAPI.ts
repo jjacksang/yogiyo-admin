@@ -21,3 +21,15 @@ export const deleteOption = async (optionId: number) => {
         console.error("옵션 삭제 실패", error);
     }
 };
+
+// 옵션 그룹 순서 변경
+export const changeOptionList = async (shopId: number, optionGroupIds: number[]) => {
+    try {
+        const res = await getAxios.put(`/owner/menu-option-group/shop/${shopId}/change-position`, {
+            menuOptionGroupIds: optionGroupIds,
+        });
+        if (res.status === 204) console.log(res.data);
+    } catch (error) {
+        console.error("옵션 그룹 순서 변경 실패", error);
+    }
+};
