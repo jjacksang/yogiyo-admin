@@ -74,8 +74,8 @@ export const AddMenuItemModal = ({
     return (
         <ModalLayout>
             <div>
-                <p className="flex justify-center text-xl font-bold">메뉴 추가</p>
-                <div className="flex justify-end gap-2 mb-4">
+                <p className="flex justify-center text-2xl font-bold">메뉴 추가</p>
+                <div className="flex justify-end border-b gap-2 pb-4">
                     <button
                         className="border rounded-md px-2 py-1 bg-yogiyo-gray text-md font-bold"
                         onClick={onClose}
@@ -91,7 +91,7 @@ export const AddMenuItemModal = ({
                 </div>
             </div>
             <div className="flex  py-4 px-2">
-                <span className="flex text-xl font-bold">메뉴명</span>
+                <span className="flex text-lg font-bold pr-4">메뉴명</span>
                 <input
                     onChange={handleAddMenu}
                     value={filterMenuItem ? filterMenuItem?.name : prevData?.menuName}
@@ -100,26 +100,30 @@ export const AddMenuItemModal = ({
                     className="border rounded-lg h-auto"
                 ></input>
             </div>
-            <div className="flex py-4 px-2">
-                <span className="col-start-1 text-xl font-bold">메뉴설명(선택)</span>
-                <div className="py-4 px-2">
-                    <input
-                        onChange={handleAddMenu}
-                        value={filterMenuItem ? filterMenuItem?.content : prevData?.content}
-                        id="content"
-                        type="text"
-                        className="border rounded-lg"
-                    ></input>
+            <div className="flex flex-col py-4 px-2">
+                <span className="col-start-1 text-lg font-bold">메뉴설명(선택)</span>
+                <div className="py-4 px-4">
+                    <div className="flex flex-col gap-2 pl-4">
+                        <input
+                            onChange={handleAddMenu}
+                            value={filterMenuItem ? filterMenuItem?.content : prevData?.content}
+                            id="content"
+                            type="text"
+                            className="border rounded-lg"
+                        ></input>
 
-                    <ul className=" text-custom-gray list-disc">
-                        <span className="font-bold">주문수 올리는 메뉴설명 팁 작성팁 더보기</span>
-                        <li className="">구성품목, 양 알려주기</li>
-                        <li className="">들어가는 재료, 맛과 식감 알려주기</li>
-                    </ul>
+                        <ul className=" text-custom-gray text-sm list-disc">
+                            <span className="font-bold">
+                                주문수 올리는 메뉴설명 팁 작성팁 더보기
+                            </span>
+                            <li className="">구성품목, 양 알려주기</li>
+                            <li className="">들어가는 재료, 맛과 식감 알려주기</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div className="flex py-4 px-2">
-                <span className="text-xl font-bold">가격</span>
+            <div className="flex py-4 px-2 gap-4">
+                <span className="text-lg font-bold">가격</span>
                 <input
                     onChange={handleAddMenu}
                     value={filterMenuItem ? filterMenuItem?.price : prevData?.price}
@@ -128,16 +132,16 @@ export const AddMenuItemModal = ({
                     className="border rounded-lg"
                 ></input>
             </div>
-            <div className="flex items-center py-4 px-2">
-                <span className="text-xl font-bold">노출상태</span>
-                <div className="border divide-x rounded-lg text-lg px-2 py-2">
-                    <button className="text-md font-bold text-custom-gray  px-2">판매중</button>
-                    <button className="text-md font-bold text-custom-gray  px-2">하루품절</button>
-                    <button className="text-md font-bold text-custom-gray px-2">숨김</button>
+            <div className="flex items-center py-2 px-2 gap-2">
+                <span className="text-lg font-bold">노출상태</span>
+                <div className="flex items-center border divide-x rounded-lg text-lg py-1">
+                    <button className="text-sm font-bold text-custom-gray  px-2">판매중</button>
+                    <button className="text-sm font-bold text-custom-gray  px-2">하루품절</button>
+                    <button className="text-sm font-bold text-custom-gray px-2">숨김</button>
                 </div>
             </div>
             <div className="flex items-center py-4 px-2">
-                <span className="text-xl font-bold">메뉴사진(선택)</span>
+                <span className="text-lg font-bold">메뉴사진(선택)</span>
                 <div className="flex items-center">
                     <ImageUploadBtn onImageSelect={handleImageSelect} />
                     {imagePreview && (
