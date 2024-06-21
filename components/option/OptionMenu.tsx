@@ -16,6 +16,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
     const [optionList, setOptionList] = useRecoilState(optionGroupAtom);
+    const [sortIds, setSortIds] = useState<number[]>([]);
     const [openModal, setOpenModal] = useState({
         addOptionGroupModal: false,
         addOptionItemModal: false,
@@ -40,9 +41,10 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         }));
     };
 
-    const matchOptionIds = () => {
+    const matchOptionIds = (newIds: number[]) => {
         const prevIds = optionList.map((option) => option.id);
         console.log(prevIds);
+        setSortIds(newIds);
     };
 
     const handleViewOption = (id: number) => {
