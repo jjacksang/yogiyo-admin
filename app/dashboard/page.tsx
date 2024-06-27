@@ -11,6 +11,7 @@ import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardMypageMain from "./DashboardMypageMain";
 import { ReviewManagement } from "@/components/review/ReviewManagement";
+import { useSession } from "next-auth/react";
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
