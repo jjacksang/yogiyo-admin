@@ -96,12 +96,14 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
                         </Droppable>
                     </DragDropContext>
                 </div>
-                <div className="flex pt-4 justify-center">
+                <div className="flex justify-center pt-4">
                     <Button
                         onClick={() => {
                             changeOptionList(shopId, optionGroupIds);
                         }}
                         text={"저장"}
+                        color="submit"
+                        size="wideButton"
                     />
                 </div>
             </div>

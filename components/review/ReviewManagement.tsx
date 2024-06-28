@@ -87,7 +87,12 @@ export const ReviewManagement = () => {
                             />
                         </div>
 
-                        <Button onClick={handleFetchReviews} text={"조회"} />
+                        <Button
+                            onClick={handleFetchReviews}
+                            text={"조회"}
+                            color="submit"
+                            size="default"
+                        />
                     </div>
                     <>
                         {hasReview ? (

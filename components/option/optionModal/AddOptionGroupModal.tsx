@@ -100,7 +100,12 @@ const AddOptionGroupModal = ({ onClose, addOptionGroup }: AddOptionGroupProps) =
                         >
                             뒤로
                         </button>
-                        <Button onClick={handleSubmit} text={"저장"} />
+                        <Button
+                            onClick={handleSubmit}
+                            text={"저장"}
+                            color="submit"
+                            size="default"
+                        />
                     </div>
                 </div>
             </div>
@@ -161,7 +166,12 @@ const AddOptionGroupModal = ({ onClose, addOptionGroup }: AddOptionGroupProps) =
                             </div>
                         </div>
                         <div className="flex justify-end py-4">
-                            <Button onClick={handleNextOption} text={"저장"} />
+                            <Button
+                                onClick={handleNextOption}
+                                text={"저장"}
+                                color="submit"
+                                size="default"
+                            />
                         </div>
                     </>
                 )}

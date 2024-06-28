@@ -135,7 +135,14 @@ const ReviewItem = ({
                             ))}
                         </div>
                         <span>몇명이 도움됬는지?</span>
-                        <Button onClick={onClickReplyBtn} text={"리뷰 쓰기"} />
+                        <div className="flex">
+                            <Button
+                                onClick={onClickReplyBtn}
+                                text={"리뷰 쓰기"}
+                                color="submit"
+                                size="default"
+                            />
+                        </div>
                         {clickBtn ? ReviewReply(id) : <div></div>}
                     </div>
                 </div>

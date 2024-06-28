@@ -117,6 +117,8 @@ export default function MainMenuModal({ onClose }: ModalProps) {
                         setMainMenu(), onClose();
                     }}
                     text={"저장"}
+                    color="submit"
+                    size="wideButton"
                 />
             </div>
         </ModalLayout>
