@@ -34,8 +34,7 @@ module.exports = {
             margin: {
                 "15": "60px",
             },
-            plugins: [require("tailwind-scrollbar-hide")],
         },
     },
-    plugins: [],
+    plugins: [require("tailwind-scrollbar-hide")],
 };

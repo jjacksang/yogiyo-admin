@@ -69,7 +69,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
                         <button className="px-0.5" onClick={() => toggleViewOption(menuItem.id)}>
                             <img src="/Icons/더보기버튼.svg" />
                             {viewOption[menuItem.id] ? (
-                                <ul className="flex flex-col divide-y absolute right-0 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
+                                <ul className="flex flex-col divide-y absolute right-0 top-5 w-[200px] border rounded-lg bg-white mt-4 px-2 py-1 z-10">
                                     <li
                                         className="flex justify-start py-2"
                                         onClick={() => {

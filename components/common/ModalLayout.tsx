@@ -8,8 +8,10 @@ interface IModalLayout {
 export const ModalLayout = ({ children, onClick }: IModalLayout) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="flex flex-col bg-white w-[32rem] h-1/2 overflow-y-auto scrollbar-hide rounded-2xl my-20">
-                <div className="border py-6 px-3 rounded-2xl">{children}</div>
+            <div className="flex flex-col bg-white w-[32rem] h-1/2  rounded-2xl my-20">
+                <div className="border py-6 px-3 rounded-2xl overflow-y-auto scrollbar-hide">
+                    {children}
+                </div>
             </div>
         </div>
     );
