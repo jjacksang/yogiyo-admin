@@ -39,7 +39,7 @@ export const OptionMenuLinkModal = ({ onClose }: ModalProps) => {
                         </div>
                     ))}
                 </div>
-                <Button text={"저장"}></Button>
+                <Button text={"저장"} color="submit" size="wideButton"></Button>
             </div>
         </div>
     );

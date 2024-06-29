@@ -1,15 +1,17 @@
-import { ReactNode } from "react";
+type Color = "default" | "submit";
+type Size = "default" | "wideButton";
 
 interface ButtonProps {
     onClick?: () => void;
     text: string;
-    Size?: "default" | "wide";
+    size: Size;
+    color: Color;
 }
 
-export const Button = ({ text, onClick }: ButtonProps) => {
+export const Button = ({ text, onClick, color, size }: ButtonProps) => {
     return (
         <button
-            className={`${buttonTheme.color.submit},${buttonTheme.theme.default}`}
+            className={`${buttonTheme.color[color]},${buttonTheme.theme[size]}`}
             onClick={onClick}
         >
             {text}

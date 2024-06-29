@@ -4,6 +4,7 @@ import SwiperCore from "swiper";
 import { Autoplay } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { PiPlusBold } from "react-icons/pi";
+import { BsClock } from "react-icons/bs";
 
 SwiperCore.use([Autoplay]);
 

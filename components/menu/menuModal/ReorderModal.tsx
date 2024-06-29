@@ -94,12 +94,13 @@ export const ReorderModal = ({ onClose }: ModalProps) => {
                         </Droppable>
                     </DragDropContext>
                 </div>
-
                 <Button
                     onClick={() => {
                         ReorderMenu(shopId, menuGroupIds);
                     }}
                     text={"저장"}
+                    color="submit"
+                    size="wideButton"
                 />
             </div>
         </ModalLayout>

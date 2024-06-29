@@ -5,10 +5,28 @@ export const getAxios = axios.create({
     headers: {
         "Content-Type": "application/json",
         SameSite: "lax",
-        timeout: 1000,
     },
     withCredentials: true,
 });
+
+let lastTimeAccessToken = Date.now();
+const TOKEN_REFRESH_INTERVAL = 10 * 60 * 1000;
+
+setInterval(async () => {
+    const now = Date.now();
+    const diffTimeAccessToken = Math.floor((now - lastTimeAccessToken) / 1000 / 60);
+
+    if (diffTimeAccessToken >= 10) {
+        console.log("**** 10분 경과 토큰 갱신");
+        try {
+            const refreshRes = await getAxios.post("/re-issue");
+            console.log("setInterval 안쪽 console", refreshRes.data);
+            console.log("**** refreshToken 갱신 완료");
+        } catch (error) {
+            console.error("****토큰 갱신 실패", error);
+        }
+    }
+}, TOKEN_REFRESH_INTERVAL);
 
 getAxios.interceptors.request.use(
     (config) => {
@@ -35,15 +53,13 @@ getAxios.interceptors.response.use(
 
             if (refreshToken) {
                 try {
-                    const refreshResponse = await getAxios.post("/reissue");
-                    const retryResponse = await getAxios(error.config);
-
-                    const newAccessToken = refreshResponse.data.accessToken;
-                    const newRefreshToken = refreshResponse.data.refreshToken;
-
-                    error.config.headers.Authorization = `Bearer ${newAccessToken}`;
+                    const refreshResponse = await getAxios.post("/re-issue");
+                    console.log("axios response use 안쪽", refreshResponse.data);
+                    document.cookie = `accessToken=${refreshResponse.data.accessToken}`;
+                    lastTimeAccessToken = Date.now();
+                    error.config.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
                     console.log("refreshToken 작동");
-                    return retryResponse;
+                    return getAxios(error.config);
                 } catch (refreshError) {
                     console.error("토큰 갱신 실패함", refreshError);
                 }
