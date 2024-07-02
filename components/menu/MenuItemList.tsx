@@ -10,9 +10,10 @@ import { ItemList } from "../common/ItemList";
 
 interface MenuItemListProps {
     menuGroupId: number;
+    fetchGroupList: () => void;
 }
 
-export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
+export const MenuItemList = ({ menuGroupId, fetchGroupList }: MenuItemListProps) => {
     const [viewOption, setViewOption] = useState<ViewOption>({});
     const menuItemGroups = useRecoilValue(menuItemAtom);
     const menuGroup = menuItemGroups.find((group) => group.id === menuGroupId);
@@ -96,6 +97,7 @@ export const MenuItemList = ({ menuGroupId }: MenuItemListProps) => {
             {openModal.addMenuItemModal && (
                 <AddMenuItemModal
                     menuGroupId={selectGroupId}
+                    fetchGroupList={fetchGroupList}
                     itemId={parseInt(Object.keys(viewOption)[0])}
                     onClose={() => handleModalClose("addMenuItemModal")}
                 />

@@ -12,11 +12,16 @@ interface MenuData {
     price?: number;
 }
 
+interface fetchGroupListProps extends ModalProps {
+    fetchGroupList: () => void;
+}
+
 export const AddMenuItemModal = ({
     onClose,
     menuGroupId,
     itemId,
-}: ModalProps & { menuGroupId: number | null; itemId?: number | null | undefined }) => {
+    fetchGroupList,
+}: fetchGroupListProps & { menuGroupId: number | null; itemId?: number | null | undefined }) => {
     const [prevData, setPrevData] = useState<MenuData | null>(null);
     const [itemImage, setItemImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -62,6 +67,8 @@ export const AddMenuItemModal = ({
                 },
             });
             console.log(res.data);
+            fetchGroupList();
+            onClose();
         } catch (error) {
             console.log(error);
         }

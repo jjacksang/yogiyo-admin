@@ -2,18 +2,17 @@ import { ReactNode, useEffect, useState } from "react";
 import { ModalLayout } from "../../common/ModalLayout";
 import { Button } from "../../common/Button";
 import { ModalProps } from "@/lib/types";
-import { ReorderMenu } from "@/app/services/menuAPI";
 import { useRecoilValue } from "recoil";
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 import { MenuItem } from "../menu";
+import { getAxios } from "@/app/services/loginAPI";
 
-interface ReorderModalProps {
-    // children: ReactNode;
-    onClick?: () => void;
+interface fetchGroupListProps extends ModalProps {
+    fetchGroupList: () => void;
 }
 
-export const ReorderModal = ({ onClose }: ModalProps) => {
+export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) => {
     const shopId = useRecoilValue(shopIdAtom);
     const menuGroup = useRecoilValue(menuItemAtom);
     const initialMenuGroupIds = menuGroup.map((item) => item.id);
@@ -43,6 +42,22 @@ export const ReorderModal = ({ onClose }: ModalProps) => {
             setEnabled(false);
         };
     }, []);
+
+    // 메뉴 그룹 순서 변경
+    const ReorderMenu = async (shopId: number, menuGroupIds: number[]) => {
+        try {
+            const res = await getAxios.put(`/owner/menu-group/shop/${shopId}/change-position`, {
+                menuGroupIds: menuGroupIds,
+            });
+            if (res.status === 204) {
+                console.log(res);
+                console.log(res.data);
+                fetchGroupList();
+            }
+        } catch (error) {
+            console.error("메뉴 그룹 순서 변경 실패", error);
+        }
+    };
 
     const orderedMenuGroup = menuGroupIds.map(
         (id) => menuGroup.find((item) => item.id === id) as MenuItem
