@@ -5,7 +5,11 @@ import { ModalProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-export default function AddMenuGroupModal({ onClose }: ModalProps) {
+interface fetchGroupListProps extends ModalProps {
+    fetchGroupList: () => void;
+}
+
+export default function AddMenuGroupModal({ onClose, fetchGroupList }: fetchGroupListProps) {
     const [menuList, setMenuList] = useRecoilState(menuListState);
     const [menuName, setMenuName] = useState("");
     const [content, setContent] = useState("");
@@ -40,6 +44,7 @@ export default function AddMenuGroupModal({ onClose }: ModalProps) {
             console.log(req.data);
             console.log(newMenuData);
             setMenuList((prevMenuList) => [...prevMenuList, newMenuData]);
+            fetchGroupList();
             onClose();
         } catch (error) {
             console.error("메뉴 추가 안되고 있음", error);
