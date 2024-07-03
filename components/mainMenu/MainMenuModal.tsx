@@ -7,7 +7,11 @@ import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
 import { Button } from "../common/Button";
 import { ModalLayout } from "../common/ModalLayout";
 
-export default function MainMenuModal({ onClose }: ModalProps) {
+interface SetMainMenu extends ModalProps {
+    fetchedMainMenu: () => void;
+}
+
+export default function MainMenuModal({ onClose, fetchedMainMenu }: SetMainMenu) {
     const menuGroup = useRecoilValue(menuItemAtom);
     const shopId = useRecoilValue(shopIdAtom);
     const [checkMenuList, setCheckMenuList] = useState<number[]>([]);
@@ -19,6 +23,7 @@ export default function MainMenuModal({ onClose }: ModalProps) {
                 menuIds: checkMenuList,
             });
             if (res.status === 204) {
+                fetchedMainMenu();
                 console.log(res);
                 console.log(res.data);
             } else {
