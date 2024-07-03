@@ -1,7 +1,7 @@
 import { menuItemAtom } from "@/app/recoil/state";
 import { deleteMenuItem } from "@/app/services/menuAPI";
 import { ViewOption } from "@/lib/types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { getAxios } from "@/app/services/loginAPI";
@@ -20,6 +20,7 @@ export const MenuItemList = ({ menuGroupId, fetchGroupList }: MenuItemListProps)
     if (!menuGroup) return null;
     const [selectGroupId, setSelectGroupId] = useState<number | null>(null);
     const [selectItemId, setSelectItemId] = useState<number>();
+    const [transItems, setTransItems] = useState([]);
     const [openModal, setOpenModal] = useState({
         addMenuItemModal: false,
     });
@@ -49,24 +50,34 @@ export const MenuItemList = ({ menuGroupId, fetchGroupList }: MenuItemListProps)
         console.log(id);
     };
 
+    const memoizedMenuItem = useMemo(() => {
+        return transItems;
+    }, [transItems]);
+
     useEffect(() => {
         const getItemList = async () => {
             try {
                 const res = await getAxios.get(`owner/menu-group/${menuGroupId}/menu`);
-                const menus = res.data;
+                if (res.status === 200) {
+                    setTransItems(
+                        res.data.signatureMenus.map((sm: any) => ({
+                            ...sm,
+                            picture: `https://yogiyo-clone.shop${sm.picture}`,
+                        }))
+                    );
+                }
             } catch (error) {
                 console.log("리스트 가져오기 실패", error);
             }
             console.log("menuItemList useEffect");
         };
-        getItemList();
     }, [menuGroup]);
 
     return (
         <div>
             {menuGroup.menus?.map((menuItem: MenusItem) => (
-                <ItemList option={menuItem} key={menuItem.id}>
-                    <div className="flex">
+                <ItemList option={menuItem} showImage={true} key={menuItem.id}>
+                    <div className="flex items-center">
                         <button className="px-0.5" onClick={() => toggleViewOption(menuItem.id)}>
                             <img src="/Icons/더보기버튼.svg" />
                             {viewOption[menuItem.id] ? (
