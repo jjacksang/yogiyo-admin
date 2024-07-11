@@ -47,50 +47,52 @@ export const ReorderItemModal = ({ onClose, menuGroupId }: ReoderItemProps) => {
 
     return (
         <ModalLayout>
-            <div className="flex justify-center items-center font-bold text-xl relative border-b pb-4">
-                <span>메뉴 순서 변경</span>
-                <button className="absolute right-4 pr-6" onClick={onClose}>
-                    X
-                </button>
+            <div className="flex flex-col h-full">
+                <div className="flex justify-center items-center font-bold text-xl relative border-b pb-4">
+                    <span>메뉴 순서 변경</span>
+                    <button className="absolute right-4 pr-6" onClick={onClose}>
+                        X
+                    </button>
+                </div>
+                <div className="flex-grow overflow-auto py-4 px-4">
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="droppable">
+                            {(provided) => (
+                                <div ref={provided.innerRef} {...provided.droppableProps}>
+                                    {sortItem.menus?.map((item, index) => (
+                                        <Draggable
+                                            key={item.id}
+                                            draggableId={`item${item.id}`}
+                                            index={index}
+                                        >
+                                            {(provided) => (
+                                                <div
+                                                    className="border rounded-xl px-4 py-2 mb-2"
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    {item.name}
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                </div>
+                <Button
+                    onClick={() => {
+                        console.log("hello");
+                    }}
+                    text={"저장"}
+                    color="submit"
+                    size="wideButton"
+                    className="sticky bottom-0"
+                />
             </div>
-            <div className="flex-grow overflow-auto py-4 px-4">
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable">
-                        {(provided) => (
-                            <div ref={provided.innerRef} {...provided.droppableProps}>
-                                {sortItem.menus?.map((item, index) => (
-                                    <Draggable
-                                        key={item.id}
-                                        draggableId={`item${item.id}`}
-                                        index={index}
-                                    >
-                                        {(provided) => (
-                                            <div
-                                                className="border rounded-xl px-4 py-2 mb-2"
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                {item.name}
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-            </div>
-            <Button
-                onClick={() => {
-                    console.log("hello");
-                }}
-                text={"저장"}
-                color="submit"
-                size="wideButton"
-                className="sticky bottom-0"
-            />
         </ModalLayout>
     );
 };
