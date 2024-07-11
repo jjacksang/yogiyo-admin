@@ -70,7 +70,7 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
 
     return (
         <ModalLayout>
-            <div className="flex flex-col">
+            <div className="flex flex-col h-full">
                 <div className="flex items-center justify-center relative font-bold text-xl py-2 mb-4 border-b">
                     <span>순서 변경</span>
                     <button className="absolute right-4 pr-6" onClick={onClose}>
@@ -80,7 +80,7 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
                 <div className="border bg-[#f5f5dc] rounded-xl mx-4 px-4 py-4 mb-4">
                     <span className="text-base">메뉴를 끌어서 원하는 순서로 바꿀 수 있습니다.</span>
                 </div>
-                <div className="py-4 px-4">
+                <div className="flex-grow overflow-auto py-4 px-4">
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(provided) => (
@@ -116,6 +116,7 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
                     text={"저장"}
                     color="submit"
                     size="wideButton"
+                    className="sticky bottom-0"
                 />
             </div>
         </ModalLayout>
