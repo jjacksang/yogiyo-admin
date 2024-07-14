@@ -1,4 +1,5 @@
 import { menuItemAtom } from "@/app/recoil/state";
+import { getAxios } from "@/app/services/loginAPI";
 import { Button } from "@/components/common/Button";
 import { ModalLayout } from "@/components/common/ModalLayout";
 import { ModalProps } from "@/lib/types";
@@ -12,18 +13,24 @@ interface ReoderItemProps extends ModalProps {
 
 export const ReorderItemModal = ({ onClose, menuGroupId }: ReoderItemProps) => {
     const menuGroup = useRecoilValue(menuItemAtom);
+
+    const initialMenusIds = menuGroup
+        .filter((menu) => menu.id === menuGroupId)
+        .flatMap((item) => (item.menus ? item.menus : []))
+        .map((item) => item.id);
     const [enabled, setEnabled] = useState(false);
-    const initialMenusIds = menuGroup.map((menu) => menu.id);
+    console.log(initialMenusIds);
+
     const [menusIds, setMenusIds] = useState(initialMenusIds);
 
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return null;
 
-        const updatedMenuGroupIds = Array.from(menusIds);
-        const [targetId] = updatedMenuGroupIds.splice(source.index, 1);
-        updatedMenuGroupIds.splice(destination.index, 0, targetId);
+        const updatedMenuIds = Array.from(menusIds);
+        const [targetId] = updatedMenuIds.splice(source.index, 1);
+        updatedMenuIds.splice(destination.index, 0, targetId);
 
-        setMenusIds(updatedMenuGroupIds);
+        setMenusIds(updatedMenuIds);
         console.log(menusIds);
 
         console.log([targetId]);
@@ -40,10 +47,37 @@ export const ReorderItemModal = ({ onClose, menuGroupId }: ReoderItemProps) => {
         };
     }, []);
 
-    const sortItem = menuGroup.find((item) => item.id === menuGroupId);
-    if (!sortItem) return null;
+    // sortItem으로 menusIds를 포함하여 실시간으로 변경되고 있는 menuGroup.menus의 데이터를 보여줌
+    const sortItem = menusIds
+        .map((id) => {
+            for (const group of menuGroup) {
+                const foundItem = group.menus?.find((menu) => menu.id === id);
+                if (foundItem) {
+                    return foundItem;
+                }
+            }
+            return null;
+        })
+        .filter((item) => item !== null);
 
+    if (!sortItem) return null;
     console.log(sortItem);
+    if (!enabled) {
+        return null;
+    }
+
+    const onSubmitReorderMenu = async () => {
+        try {
+            const res = await getAxios.put(`owner/menu-group/${menuGroupId}/change-menu-position`, {
+                menuIds: menusIds,
+            });
+            if (res.status === 204) {
+                console.log("메뉴 그룹 메뉴 순서 변경 완료", res.data);
+            }
+        } catch (error) {
+            console.error("메뉴 그룹 메뉴 순서 변경 실패", error);
+        }
+    };
 
     return (
         <ModalLayout>
@@ -59,24 +93,31 @@ export const ReorderItemModal = ({ onClose, menuGroupId }: ReoderItemProps) => {
                         <Droppable droppableId="droppable">
                             {(provided) => (
                                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                                    {sortItem.menus?.map((item, index) => (
-                                        <Draggable
-                                            key={item.id}
-                                            draggableId={`item${item.id}`}
-                                            index={index}
-                                        >
-                                            {(provided) => (
-                                                <div
-                                                    className="border rounded-xl px-4 py-2 mb-2"
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    {item.name}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
+                                    {sortItem.length > 0 ? (
+                                        sortItem?.map(
+                                            (item, index) =>
+                                                item && ( // item이 null일수 있는 상황 제거
+                                                    <Draggable
+                                                        key={item.id}
+                                                        draggableId={`item${item.id}`}
+                                                        index={index}
+                                                    >
+                                                        {(provided) => (
+                                                            <div
+                                                                className="border rounded-xl px-4 py-2 mb-2"
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                            >
+                                                                {item.name}
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                )
+                                        )
+                                    ) : (
+                                        <div>null</div>
+                                    )}
                                     {provided.placeholder}
                                 </div>
                             )}
@@ -84,9 +125,7 @@ export const ReorderItemModal = ({ onClose, menuGroupId }: ReoderItemProps) => {
                     </DragDropContext>
                 </div>
                 <Button
-                    onClick={() => {
-                        console.log("hello");
-                    }}
+                    onClick={() => onSubmitReorderMenu()}
                     text={"저장"}
                     color="submit"
                     size="wideButton"

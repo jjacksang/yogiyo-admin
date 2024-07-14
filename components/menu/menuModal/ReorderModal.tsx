@@ -19,6 +19,8 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
     const [menuGroupIds, setMenuGroupIds] = useState(initialMenuGroupIds);
     const [enabled, setEnabled] = useState(false);
 
+    console.log(menuGroupIds);
+
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return null;
 
