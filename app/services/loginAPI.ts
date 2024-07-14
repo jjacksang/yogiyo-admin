@@ -20,7 +20,8 @@ setInterval(async () => {
         console.log("**** 10분 경과 토큰 갱신");
         try {
             const refreshRes = await getAxios.post("/re-issue");
-            console.log(Date.now());
+            const timeStamp = new Date();
+            console.log(timeStamp);
             console.log("**** refreshToken 갱신 완료");
         } catch (error) {
             console.error("****토큰 갱신 실패", error);
