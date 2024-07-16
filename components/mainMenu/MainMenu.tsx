@@ -65,7 +65,6 @@ const MainMenu = ({ onClose }: ModalProps) => {
     useEffect(() => {
         getSignatureMenu();
     }, [shopId, menuItemAtom]);
-    console.log(mainMenus);
 
     const ifMainMenuNull = () => {
         // 만약 대표메뉴가 없을 때 렌더하기 위한 요소
