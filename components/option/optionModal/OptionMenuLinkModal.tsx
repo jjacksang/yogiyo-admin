@@ -1,4 +1,5 @@
 import { menuItemAtom } from "@/app/recoil/state";
+import { getAxios } from "@/app/services/loginAPI";
 import { Button } from "@/components/common/Button";
 import { Checkbox } from "@/components/common/Checkbox";
 import { Header } from "@/components/common/Header";
@@ -7,7 +8,11 @@ import { ModalProps } from "@/lib/types";
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 
-export const OptionMenuLinkModal = ({ onClose }: ModalProps) => {
+interface IlinkMenu extends ModalProps {
+    optionId?: number | null | undefined;
+}
+
+export const OptionMenuLinkModal = ({ onClose, optionId }: IlinkMenu) => {
     const menuGroups = useRecoilValue(menuItemAtom);
     const [checkMenu, setCheckMenu] = useState<Array<number>>([]);
 
@@ -19,8 +24,18 @@ export const OptionMenuLinkModal = ({ onClose }: ModalProps) => {
         }
     };
     console.log(checkMenu);
+    console.log(optionId);
 
-    console.log(menuGroups);
+    const linkMenuButton = async () => {
+        try {
+            const res = await getAxios.put(`/owner/menu-option-group/${optionId}/link-menu`, {
+                menuIds: checkMenu,
+            });
+            if (res.status === 204) console.log(res.data, "link요청 성공");
+        } catch (error) {
+            console.error("link fail", error);
+        }
+    };
     return (
         <ModalLayout>
             <div className="flex flex-col w-full">
@@ -60,6 +75,7 @@ export const OptionMenuLinkModal = ({ onClose }: ModalProps) => {
                     color="submit"
                     size="wideButton"
                     className="sticky bottom-0"
+                    onClick={() => linkMenuButton()}
                 ></Button>
             </div>
         </ModalLayout>

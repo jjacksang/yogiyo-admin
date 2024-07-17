@@ -200,7 +200,9 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                         리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드
                                         <button
                                             className="px-2 text-yogiyo-blue"
-                                            onClick={() => handleModalOpen("optionMenuLinkModal")}
+                                            onClick={() =>
+                                                handleModalOpen("optionMenuLinkModal", options.id)
+                                            }
                                         >
                                             메뉴연결
                                         </button>
@@ -243,7 +245,10 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                 />
             )}
             {openModal.optionMenuLinkModal && (
-                <OptionMenuLinkModal onClose={() => handleModalClose("optionMenuLinkModal")} />
+                <OptionMenuLinkModal
+                    onClose={() => handleModalClose("optionMenuLinkModal")}
+                    optionId={selectGroupId}
+                />
             )}
             {openModal.reorderOptionGroupModal && (
                 <ReorderOptionGroup onClose={() => handleModalClose("reorderOptionGroupModal")} />
