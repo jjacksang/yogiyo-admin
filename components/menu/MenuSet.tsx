@@ -178,7 +178,7 @@ const MenuSet = ({ onClose }: ModalProps) => {
                                     </div>
                                     {/* 판매, 품절 등 드롭다운 메뉴 */}
                                 </div>
-                                <div className="flex border-t py-4 text-sm gap-2.5">
+                                <div className="flex border-t py-4 text-sm gap-2.5 cursor-pointer">
                                     <p
                                         className="text-yogiyo-blue"
                                         onClick={() => handleModalOpen("addMenuItem", menuItem.id)}

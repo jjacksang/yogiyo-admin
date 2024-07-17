@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { OptionItem } from "./OptionItem";
 import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
-import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
+import { OptionMenuLinkModal } from "./optionModal/OptionMenuLinkModal";
 import { ItemLayout } from "../common/ItemLayout";
 import { ItemHeader } from "../common/ItemHeader";
 import { ReorderOptionGroup } from "./optionModal/ReorderOptionGroup";
@@ -208,7 +208,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                 </div>
                             </div>
                             <div className="flex flex-col border-t py-4">
-                                <div>
+                                <div className="cursor-pointer">
                                     <button
                                         className="text-xs px-2 text-yogiyo-blue"
                                         onClick={() =>

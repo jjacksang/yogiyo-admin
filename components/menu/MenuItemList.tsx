@@ -69,7 +69,6 @@ export const MenuItemList = ({ menuGroupId, fetchGroupList }: MenuItemListProps)
             console.log("리스트 가져오기 실패", error);
         }
     };
-    console.log(transItems);
 
     useEffect(() => {
         getItemList();
