@@ -82,7 +82,7 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
                 <div className="border bg-[#f5f5dc] rounded-xl mx-4 px-4 py-4 mb-4">
                     <span className="text-base">메뉴를 끌어서 원하는 순서로 바꿀 수 있습니다.</span>
                 </div>
-                <div className="flex-grow overflow-auto py-4 px-4">
+                <div className="flex-grow overflow-auto py-4 px-4 scrollbar-hide">
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(provided) => (

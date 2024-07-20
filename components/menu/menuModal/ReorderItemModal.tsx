@@ -88,7 +88,7 @@ export const ReorderItemModal = ({ onClose, menuGroupId }: ReoderItemProps) => {
                         X
                     </button>
                 </div>
-                <div className="flex-grow overflow-auto py-4 px-4">
+                <div className="flex-grow overflow-auto py-4 px-4 scrollbar-hide">
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(provided) => (
