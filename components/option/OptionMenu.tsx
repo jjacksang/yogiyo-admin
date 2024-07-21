@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { OptionItem } from "./OptionItem";
 import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
-import { OptionMenuLinkModal } from "./OptionMenuLinkModal";
+import { OptionMenuLinkModal } from "./optionModal/OptionMenuLinkModal";
 import { ItemLayout } from "../common/ItemLayout";
 import { ItemHeader } from "../common/ItemHeader";
 import { ReorderOptionGroup } from "./optionModal/ReorderOptionGroup";
@@ -200,7 +200,9 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                         리코타치즈샐러드, 연어샐러드, 닭가슴살샐러드
                                         <button
                                             className="px-2 text-yogiyo-blue"
-                                            onClick={() => handleModalOpen("optionMenuLinkModal")}
+                                            onClick={() =>
+                                                handleModalOpen("optionMenuLinkModal", options.id)
+                                            }
                                         >
                                             메뉴연결
                                         </button>
@@ -208,7 +210,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                 </div>
                             </div>
                             <div className="flex flex-col border-t py-4">
-                                <div>
+                                <div className="cursor-pointer">
                                     <button
                                         className="text-xs px-2 text-yogiyo-blue"
                                         onClick={() =>
@@ -243,7 +245,10 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                 />
             )}
             {openModal.optionMenuLinkModal && (
-                <OptionMenuLinkModal onClose={() => handleModalClose("optionMenuLinkModal")} />
+                <OptionMenuLinkModal
+                    onClose={() => handleModalClose("optionMenuLinkModal")}
+                    optionId={selectGroupId}
+                />
             )}
             {openModal.reorderOptionGroupModal && (
                 <ReorderOptionGroup onClose={() => handleModalClose("reorderOptionGroupModal")} />

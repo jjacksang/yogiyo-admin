@@ -1,35 +1,37 @@
-import { ReactNode, useEffect, useState } from "react";
-import { ModalLayout } from "../../common/ModalLayout";
-import { Button } from "../../common/Button";
-import { ModalProps } from "@/lib/types";
-import { useRecoilValue } from "recoil";
-import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
-import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
-import { MenuItem } from "../menu";
+import { shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
+import { Button } from "@/components/common/Button";
+import { ModalLayout } from "@/components/common/ModalLayout";
+import { MenusItem } from "@/components/menu/menu";
+import { ModalProps } from "@/lib/types";
+import { useEffect, useState } from "react";
+import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { useRecoilValue } from "recoil";
 
-interface fetchGroupListProps extends ModalProps {
-    fetchGroupList: () => void;
+interface IReorderMainMenu extends ModalProps {
+    fetchedMainMenu: () => void;
+    mainMenu: MenusItem[];
 }
 
-export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) => {
+export const ReorderMainMenuModal = ({ onClose, fetchedMainMenu, mainMenu }: IReorderMainMenu) => {
     const shopId = useRecoilValue(shopIdAtom);
-    const menuGroup = useRecoilValue(menuItemAtom);
-    const initialMenuGroupIds = menuGroup.map((item) => item.id);
-    const [menuGroupIds, setMenuGroupIds] = useState(initialMenuGroupIds);
+
+    const initialOptionGroup = mainMenu.map((item: MenusItem) => item.id);
+    const [mainMenuIds, setMainMenuIds] = useState(initialOptionGroup);
     const [enabled, setEnabled] = useState(false);
 
-    console.log(menuGroupIds);
+    console.log(mainMenu);
+    console.log(initialOptionGroup);
 
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return null;
 
-        const updatedMenuGroupIds = Array.from(menuGroupIds);
-        const [targetId] = updatedMenuGroupIds.splice(source.index, 1);
-        updatedMenuGroupIds.splice(destination.index, 0, targetId);
+        const updatedMainMenuIds = Array.from(mainMenuIds);
+        const [targetId] = updatedMainMenuIds.splice(source.index, 1);
+        updatedMainMenuIds.splice(destination.index, 0, targetId);
 
-        setMenuGroupIds(updatedMenuGroupIds);
-        console.log(menuGroupIds);
+        setMainMenuIds(updatedMainMenuIds);
+        console.log(mainMenuIds);
 
         console.log([targetId]);
         console.log(">> source", source);
@@ -45,49 +47,44 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
         };
     }, []);
 
-    // 메뉴 그룹 순서 변경
-    const ReorderMenu = async (shopId: number, menuGroupIds: number[]) => {
-        try {
-            const res = await getAxios.put(`/owner/menu-group/shop/${shopId}/change-position`, {
-                menuGroupIds: menuGroupIds,
-            });
-            if (res.status === 204) {
-                console.log(res);
-                console.log(res.data);
-                fetchGroupList();
-            }
-        } catch (error) {
-            console.error("메뉴 그룹 순서 변경 실패", error);
-        }
-    };
-
-    const orderedMenuGroup = menuGroupIds.map(
-        (id) => menuGroup.find((item) => item.id === id) as MenuItem
+    const orderedMainMenu = mainMenuIds.map(
+        (id) => mainMenu.find((item) => item.id === id) as MenusItem
     );
 
-    console.log(orderedMenuGroup);
     if (!enabled) {
         return null;
     }
+    // 대표메뉴 순서 변경 api요청
+    const reorderMainMenu = async () => {
+        try {
+            const res = await getAxios.put(`/owner/signature-menu/${shopId}/change-position`, {
+                menuIds: mainMenuIds,
+            });
+            if (res.status === 204) {
+                console.log(res.data, "대표메뉴 순서 변경 성공");
+                fetchedMainMenu();
+            }
+        } catch (error) {
+            console.error("대표메뉴 변경 요청 실패", error);
+        }
+    };
 
     return (
         <ModalLayout>
             <div className="flex flex-col h-full">
-                <div className="flex items-center justify-center relative font-bold text-xl py-2 mb-4 border-b">
-                    <span>순서 변경</span>
+                <div className="flex justify-center text-xl font-bold w-full relative pb-4">
+                    <span>대표메뉴 순서 변경</span>
                     <button className="absolute right-4 pr-6" onClick={onClose}>
                         X
                     </button>
                 </div>
-                <div className="border bg-[#f5f5dc] rounded-xl mx-4 px-4 py-4 mb-4">
-                    <span className="text-base">메뉴를 끌어서 원하는 순서로 바꿀 수 있습니다.</span>
-                </div>
+
                 <div className="flex-grow overflow-auto py-4 px-4 scrollbar-hide">
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(provided) => (
                                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                                    {orderedMenuGroup.map((item, index) => (
+                                    {orderedMainMenu.map((item, index) => (
                                         <Draggable
                                             key={item.id}
                                             draggableId={`item${item.id}`}
@@ -112,13 +109,11 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
                     </DragDropContext>
                 </div>
                 <Button
-                    onClick={() => {
-                        ReorderMenu(shopId, menuGroupIds);
-                    }}
                     text={"저장"}
-                    color="submit"
                     size="wideButton"
+                    color="submit"
                     className="sticky bottom-0"
+                    onClick={() => reorderMainMenu()}
                 />
             </div>
         </ModalLayout>

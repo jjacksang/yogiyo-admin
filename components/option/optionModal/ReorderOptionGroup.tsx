@@ -57,7 +57,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
     }
     return (
         <ModalLayout>
-            <div>
+            <div className="flex flex-col h-full">
                 <div className="flex justify-center border-b text-xl font-bold pb-4 relative">
                     <button className="absolute left-4" onClick={onClose}>
                         X
@@ -67,7 +67,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
                 <div className="border rounded-xl text-sm text-custom-gray p-4 my-4 bg-[#f5f5dc]">
                     <span>옵션을 끌어서 원하는 순서로 바꿀 수 있습니다.</span>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex-grow overflow-auto gap-2 scrollbar-hide">
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(provided) => (
@@ -80,7 +80,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
                                         >
                                             {(provided) => (
                                                 <div
-                                                    className="border rounded-xl px-4 py-2"
+                                                    className="border rounded-xl px-4 py-2 mb-2"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
@@ -96,16 +96,15 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
                         </Droppable>
                     </DragDropContext>
                 </div>
-                <div className="flex justify-center pt-4">
-                    <Button
-                        onClick={() => {
-                            changeOptionList(shopId, optionGroupIds);
-                        }}
-                        text={"저장"}
-                        color="submit"
-                        size="wideButton"
-                    />
-                </div>
+                <Button
+                    onClick={() => {
+                        changeOptionList(shopId, optionGroupIds);
+                    }}
+                    text={"저장"}
+                    color="submit"
+                    size="wideButton"
+                    className="sticky bottom-0"
+                />
             </div>
         </ModalLayout>
     );

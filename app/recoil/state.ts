@@ -4,6 +4,7 @@ import { AtomEffect, atom, selector } from "recoil";
 import { OptionMenu } from "@/components/option/option";
 import { AddMenu, AddMenuGroup, MenuItem, MenuList } from "@/components/menu/menu";
 import { IReview, IReviewContent } from "@/components/review/Review";
+import { IMainMenu } from "@/components/mainMenu/mainMenu";
 
 const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
     (key: string) =>
@@ -121,5 +122,20 @@ export const TotalReviewsAtom = atom<IReview>({
         nextSubCursor: null,
         hasNext: false,
         content: [],
+    },
+});
+
+export const mainMenuAtom = atom<IMainMenu>({
+    key: "mainMenus",
+    default: {
+        signatureMenus: [
+            {
+                id: 1,
+                name: "hello",
+                content: "yeah",
+                picture: "empty",
+                price: 10000,
+            },
+        ],
     },
 });
