@@ -92,12 +92,26 @@ export const ReorderMainMenuModal = ({ onClose, fetchedMainMenu, mainMenu }: IRe
                                         >
                                             {(provided) => (
                                                 <div
-                                                    className="border rounded-xl px-4 py-2 mb-2"
+                                                    className="flex border rounded-xl px-4 py-2 mb-2 gap-2"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                 >
-                                                    {item.name}
+                                                    <img
+                                                        src={item.picture}
+                                                        alt={item.name}
+                                                        style={{
+                                                            width: "50px",
+                                                            height: "50px",
+                                                            borderRadius: "5px",
+                                                        }}
+                                                    />
+                                                    <div className="flex flex-col text-custom-gray">
+                                                        <span className="font-bold">
+                                                            {item.name}
+                                                        </span>
+                                                        <span>{item.price} 원</span>
+                                                    </div>
                                                 </div>
                                             )}
                                         </Draggable>
