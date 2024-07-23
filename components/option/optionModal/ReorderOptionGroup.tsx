@@ -16,6 +16,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
     const [optionGroupIds, setOptionGroupIds] = useState(initialOptionGroup);
 
     console.log(optionGroupList);
+    console.log(initialOptionGroup);
 
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return null;

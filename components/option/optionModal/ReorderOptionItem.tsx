@@ -1,5 +1,3 @@
-"use client";
-
 import { getAxios } from "@/app/services/loginAPI";
 import { Button } from "@/components/common/Button";
 import { ModalLayout } from "@/components/common/ModalLayout";
@@ -26,11 +24,11 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return null;
 
-        const updatedMenuIds = Array.from(optionItemIds);
-        const [targetId] = updatedMenuIds.splice(source.index, 1);
-        updatedMenuIds.splice(destination.index, 0, targetId);
+        const updatedOptionIds = Array.from(optionItemIds);
+        const [targetId] = updatedOptionIds.splice(source.index, 1);
+        updatedOptionIds.splice(destination.index, 0, targetId);
 
-        setOptionItemIds(updatedMenuIds);
+        setOptionItemIds(updatedOptionIds);
         console.log([targetId]);
         console.log(">> source", source);
         console.log(">> Destination", destination);
@@ -43,7 +41,7 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
             cancelAnimationFrame(animation);
             setEnabled(false);
         };
-    }, [initialOptionItems]);
+    }, []);
 
     if (!enabled) {
         return null;
@@ -66,11 +64,15 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
     };
 
     // 원본 데이터 수정을 방지하고 react-dnd에 적용시킬 데이터
-    const orderedOptionItem = optionList.flatMap((item) =>
-        item.menuOptions
-            ? item.menuOptions.filter((option) => optionItemIds.includes(option.id))
-            : []
-    );
+    const orderedOptionItem = optionItemIds
+        .map((id) => {
+            const foundOption = optionList
+                .flatMap((item) => item.menuOptions || [])
+                .find((option) => option.id === id);
+
+            return foundOption || null;
+        })
+        .filter((item) => item !== null);
 
     return (
         <ModalLayout>
