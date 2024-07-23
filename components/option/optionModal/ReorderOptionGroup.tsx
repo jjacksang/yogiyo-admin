@@ -4,7 +4,7 @@ import { ModalLayout } from "@/components/common/ModalLayout";
 import { ModalProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { OptionMenu } from "../option";
 import { changeOptionList } from "@/app/services/optionAPI";
 
@@ -52,6 +52,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
             </div>
         );
     };
+
     if (!enabled) {
         return null;
     }
