@@ -4,7 +4,7 @@ import { ModalLayout } from "@/components/common/ModalLayout";
 import { ModalProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { OptionMenu } from "../option";
 import { changeOptionList } from "@/app/services/optionAPI";
 
@@ -16,6 +16,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
     const [optionGroupIds, setOptionGroupIds] = useState(initialOptionGroup);
 
     console.log(optionGroupList);
+    console.log(initialOptionGroup);
 
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return null;
@@ -41,6 +42,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
         };
     }, []);
 
+    // 원본 데이터 수정을 방지하고 react-dnd에 적용시킬 데이터
     const orderedOptionGroup = optionGroupIds.map(
         (id) => optionGroupList.find((item) => item.id === id) as OptionMenu
     );
@@ -52,6 +54,7 @@ export const ReorderOptionGroup = ({ onClose }: ModalProps) => {
             </div>
         );
     };
+
     if (!enabled) {
         return null;
     }

@@ -61,6 +61,7 @@ export const ReorderModal = ({ onClose, fetchGroupList }: fetchGroupListProps) =
         }
     };
 
+    // 원본 데이터 수정을 방지하고 react-dnd에 적용시킬 데이터
     const orderedMenuGroup = menuGroupIds.map(
         (id) => menuGroup.find((item) => item.id === id) as MenuItem
     );

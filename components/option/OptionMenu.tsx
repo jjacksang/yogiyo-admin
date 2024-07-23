@@ -10,6 +10,7 @@ import { OptionMenuLinkModal } from "./optionModal/OptionMenuLinkModal";
 import { ItemLayout } from "../common/ItemLayout";
 import { ItemHeader } from "../common/ItemHeader";
 import { ReorderOptionGroup } from "./optionModal/ReorderOptionGroup";
+import { ReorderOptionItem } from "./optionModal/ReorderOptionItem";
 
 const OptionMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -22,6 +23,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         addOptionItemModal: false,
         optionMenuLinkModal: false,
         reorderOptionGroupModal: false,
+        reorderOptionItem: false,
     });
 
     const handleModalOpen = (modalName: string, id?: number) => {
@@ -110,16 +112,6 @@ const OptionMenu = ({ onClose }: ModalProps) => {
         }
     }, []);
 
-    // 옵션 그룹 메뉴 연결
-    const LinkOptionMenu = () => {
-        const menuIds = [];
-        const menuGroupId = useRecoilValue(menuItemAtom);
-        try {
-            const res = getAxios.put(`/owner/menu-option-group//link-menu`);
-        } catch (error) {
-            console.error("옵션 그룹 메뉴 연결 실패", error);
-        }
-    };
     useEffect(() => {
         optionGroupList();
         console.log("optionmenu useEffect");
@@ -210,7 +202,7 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                 </div>
                             </div>
                             <div className="flex flex-col border-t py-4">
-                                <div className="cursor-pointer">
+                                <div>
                                     <button
                                         className="text-xs px-2 text-yogiyo-blue"
                                         onClick={() =>
@@ -220,7 +212,14 @@ const OptionMenu = ({ onClose }: ModalProps) => {
                                         옵션추가
                                     </button>
 
-                                    <span className="text-xs px-2">옵션 순서변경</span>
+                                    <button
+                                        className="text-xs px-2"
+                                        onClick={() =>
+                                            handleModalOpen("reorderOptionItem", options.id)
+                                        }
+                                    >
+                                        옵션 순서변경
+                                    </button>
                                 </div>
 
                                 <OptionItem optionGroupId={options.id} onClose={onClose} />
@@ -252,6 +251,13 @@ const OptionMenu = ({ onClose }: ModalProps) => {
             )}
             {openModal.reorderOptionGroupModal && (
                 <ReorderOptionGroup onClose={() => handleModalClose("reorderOptionGroupModal")} />
+            )}
+            {openModal.reorderOptionItem && (
+                <ReorderOptionItem
+                    onClose={() => handleModalClose("reorderOptionItem")}
+                    optionGroupId={selectGroupId}
+                    optionList={optionList}
+                />
             )}
         </ItemLayout>
     );
