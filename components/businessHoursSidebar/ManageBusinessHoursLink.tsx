@@ -60,7 +60,13 @@ export const ManageBusinessHoursLink: React.FC<ManageBusinessHoursLinkProps> = (
                 </a>
 
                 {/* Toggle Icon */}
-                <svg width="20" height="20" viewBox="0 0 24 24" className="mr-2">
+                <svg
+                    onClick={toggleOpen}
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    className="mr-2"
+                >
                     <path
                         fill="rgba(0,0,0,0.4)"
                         d="M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6-6-6z"
@@ -69,12 +75,24 @@ export const ManageBusinessHoursLink: React.FC<ManageBusinessHoursLinkProps> = (
             </div>
 
             {isOpen && (
-                <div>
+                <div className="ml-5 text-sm text-custom-gray">
                     {/* 영업시간, 휴무일, 일시정지 항목 클릭 핸들러 구현 */}
-                    <ul>
-                        <li onClick={() => setSelectedMenu("manageBusinessHours")}>영업시간</li>
-                        <li onClick={() => setSelectedMenu("holidaySchedule")}>휴무일</li>
-                        <li onClick={() => setSelectedMenu("pauseService")}>일시정지</li>
+                    <ul className="flex flex-col">
+                        <li
+                            className="pt-2 pl-6"
+                            onClick={() => setSelectedMenu("manageBusinessHours")}
+                        >
+                            영업시간
+                        </li>
+                        <li
+                            className="pt-2 pl-6"
+                            onClick={() => setSelectedMenu("holidaySchedule")}
+                        >
+                            휴무일
+                        </li>
+                        <li className="pt-2 pl-6" onClick={() => setSelectedMenu("pauseService")}>
+                            일시정지
+                        </li>
                     </ul>
                 </div>
             )}
