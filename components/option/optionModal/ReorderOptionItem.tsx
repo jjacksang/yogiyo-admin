@@ -1,3 +1,5 @@
+"use client";
+
 import { getAxios } from "@/app/services/loginAPI";
 import { Button } from "@/components/common/Button";
 import { ModalLayout } from "@/components/common/ModalLayout";
@@ -19,9 +21,7 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
 
     const [optionItemIds, setOptionItemIds] = useState(initialOptionItems);
 
-    console.log(optionList);
     console.log(initialOptionItems);
-    console.log(optionItemIds);
 
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return null;
@@ -31,7 +31,6 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
         updatedMenuIds.splice(destination.index, 0, targetId);
 
         setOptionItemIds(updatedMenuIds);
-        console.log(optionItemIds);
         console.log([targetId]);
         console.log(">> source", source);
         console.log(">> Destination", destination);
@@ -66,6 +65,13 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
         }
     };
 
+    // 원본 데이터 수정을 방지하고 react-dnd에 적용시킬 데이터
+    const orderedOptionItem = optionList.flatMap((item) =>
+        item.menuOptions
+            ? item.menuOptions.filter((option) => optionItemIds.includes(option.id))
+            : []
+    );
+
     return (
         <ModalLayout>
             <div className="flex flex-col h-full">
@@ -80,7 +86,7 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
                         <Droppable droppableId="droppable">
                             {(provided) => (
                                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                                    {/* {orderedOptionItem.length > 0 ? (
+                                    {orderedOptionItem.length > 0 ? (
                                         orderedOptionItem.map(
                                             (item, index) =>
                                                 item && ( // item이 null일수 있는 상황 제거
@@ -96,7 +102,7 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
                                                             >
-                                                                {item.name}
+                                                                {item.content}
                                                             </div>
                                                         )}
                                                     </Draggable>
@@ -105,7 +111,7 @@ export const ReorderOptionItem = ({ onClose, optionGroupId, optionList }: IReord
                                     ) : (
                                         <div>null</div>
                                     )}
-                                    {provided.placeholder} */}
+                                    {provided.placeholder}
                                 </div>
                             )}
                         </Droppable>
