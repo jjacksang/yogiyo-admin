@@ -78,7 +78,7 @@ export default function MainMenuModal({ onClose, fetchedMainMenu }: SetMainMenu)
                                     >
                                         <div className="flex justify-between w-full mb-2">
                                             <div className="gap-2">
-                                                <p className="text-xl font-bold text-font-black">
+                                                <p className="text-base font-bold text-font-black">
                                                     {menuItem.name}
                                                 </p>
                                             </div>
@@ -89,12 +89,12 @@ export default function MainMenuModal({ onClose, fetchedMainMenu }: SetMainMenu)
                                                 className="flex justify-between w-full mb-4 px-2"
                                                 key={item.id}
                                             >
-                                                <div className="flex flex-col">
+                                                <div className="flex flex-col text-sm ">
                                                     <div className="flex">
                                                         <input
                                                             type="checkbox"
                                                             value={item.id}
-                                                            className="text-base font-bold mr-2"
+                                                            className="mr-2"
                                                             checked={
                                                                 checkMenuList.includes(item.id)
                                                                     ? true
@@ -107,11 +107,13 @@ export default function MainMenuModal({ onClose, fetchedMainMenu }: SetMainMenu)
                                                                 );
                                                             }}
                                                         />
-                                                        <label>{item.name}</label>
+                                                        <div className="flex flex-col">
+                                                            <label>{item.name}</label>
+                                                            <p className="text-xs text-custom-gray">
+                                                                {item.price}원
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <p className="text-xs text-custom-gray pl-[22px]">
-                                                        {item.price}원
-                                                    </p>
                                                 </div>
                                             </div>
                                         ))}
