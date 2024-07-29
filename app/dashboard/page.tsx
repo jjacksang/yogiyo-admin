@@ -22,11 +22,6 @@ const Page = () => {
     const user = useRecoilValue(userStateAtom);
     const router = useRouter();
 
-    if (!user?.isLoggedIn) {
-        window.alert("로그인 안되어있음");
-        router.push("/login");
-    }
-
     const setContent = useRecoilValue(content);
     const setRecoilContent = useSetRecoilState(content);
 
