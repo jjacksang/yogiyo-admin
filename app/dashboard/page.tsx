@@ -1,22 +1,26 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Footer from "@/components/home/footer";
+import { content, userStateAtom } from "../recoil/state";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+
+import { ManageBusinessHours } from "@/components/businessHoursSidebar/ManageBusinessHours";
+import Footer from "@/components/home/Footer";
 import PauseService from "@/components/businessHoursSidebar/PauseService";
 import HolidaySchedule from "@/components/businessHoursSidebar/HolidaySchedule";
-import { ManageBusinessHours } from "@/components/businessHoursSidebar/ManageBusinessHours";
 import MenuSet from "@/components/menu/MenuSet";
-import { content } from "../recoil/state";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardMypageMain from "./DashboardMypageMain";
 import { ReviewManagement } from "@/components/review/ReviewManagement";
-import { useSession } from "next-auth/react";
+
+import { useRouter } from "next/navigation";
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState("main"); // 초기 메뉴를 "main"으로 설정
     const toggleModal = () => setIsModalOpen(!isModalOpen);
+    const user = useRecoilValue(userStateAtom);
+    const router = useRouter();
 
     const setContent = useRecoilValue(content);
     const setRecoilContent = useSetRecoilState(content);

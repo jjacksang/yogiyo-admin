@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { emailJoin } from "@/app/services/loginAPI";
-import Footer from "@/components/home/footer";
+import Footer from "@/components/home/Footer";
 
 import { HomeLogo } from "@/components/common/HomeLogo";
 import { useRouter } from "next/navigation";

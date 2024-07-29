@@ -1,7 +1,7 @@
 "use client";
 
 import { HomeLogo } from "@/components/common/HomeLogo";
-import { KeyboardEvent, ReactElement, useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { emailLogin } from "@/app/services/loginAPI";
 import { useSetRecoilState } from "recoil";
 import { userStateAtom } from "@/app/recoil/state";
