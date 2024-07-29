@@ -1,10 +1,10 @@
 import { userState } from "@/lib/types";
 import { OwnerShopList, TempCloseShopRequest } from "../../app/services/shopAPI";
-import { AtomEffect, atom, selector } from "recoil";
+import { AtomEffect, atom } from "recoil";
 import { OptionMenu } from "@/components/option/option";
 import { AddMenu, AddMenuGroup, MenuItem, MenuList } from "@/components/menu/menu";
-import { IReview, IReviewContent } from "@/components/review/Review";
-import { IMainMenu } from "@/components/mainMenu/mainMenu";
+import { IReview } from "@/components/review/Review";
+import { IMainMenu } from "@/components/mainMenu/mainMenus";
 
 const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
     (key: string) =>
