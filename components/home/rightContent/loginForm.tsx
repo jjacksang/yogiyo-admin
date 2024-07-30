@@ -3,7 +3,7 @@ import { LogoutBtn } from "@/app/services/loginAPI";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 export const LoginForm = () => {
     const router = useRouter();
