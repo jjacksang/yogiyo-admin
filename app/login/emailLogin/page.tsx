@@ -45,7 +45,7 @@ const EmailLogin = () => {
                 setIsPopupOpen(true);
             }
         } catch (error) {
-            setPopupMessage("아이디 혹은 비밀번호를 확인해주세요");
+            setPopupMessage("아이디 혹은 비밀번호를 확인해주세요.");
             setIsPopupOpen(true);
         } finally {
             setLoading(false);

@@ -64,7 +64,10 @@ export const Navbar = () => {
                         </Link>
                     </div>
                     <div className="lg:hidden flex justify-center items-center">
-                        <button className="bg-yogiyo-blue w-full relative text-white text-xs leading-4 px-8 h-7 rounded-md font-normal">
+                        <button
+                            onClick={() => router.push("/login")}
+                            className="bg-yogiyo-blue w-full relative text-white text-xs leading-4 px-8 h-7 rounded-md font-normal"
+                        >
                             <span className="text-xs font-normal">사장님 로그인</span>
                         </button>
                     </div>

@@ -18,7 +18,7 @@ const sessionStorageEffect: <T>(key: string) => AtomEffect<T> =
         }
     };
 
-export const userStateAtom = atom<userState>({
+export const userStateAtom = atom<userState | null>({
     key: "user",
     default: {
         userId: 1111111,
