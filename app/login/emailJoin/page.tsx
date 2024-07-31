@@ -103,18 +103,8 @@ const EmailJoin = () => {
                             회원가입
                         </button>
                     </div>
-
-                    <div className="flex justify-between">
-                        <label className="h-fit text-xs mt-8">
-                            <input
-                                className="relative inline-flex flex-col flex-none h-auto cursor-pointer"
-                                type="checkbox"
-                            />
-                        </label>
-                    </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };
