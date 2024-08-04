@@ -31,19 +31,12 @@ export const Navbar = () => {
     return (
         <nav className="bg-white flex justify-between items-center border-b border-gray-200 lg:min-w-[1024px] px-6 py-3 h-16">
             <div className="flex items-center">
-                <div className="lg:hidden w-6 h-6 mr-4">
-                    <svg width="100%" height="100%" viewBox="0 0 24 24">
-                        <rect y="4" width="24" height="2"></rect>
-                        <rect y="11" width="24" height="2"></rect>
-                        <rect y="18" width="24" height="2"></rect>
-                    </svg>
-                </div>
                 <Link href="/" className="w-[92px] h-[16px]">
                     <img src="/images/yogiyologo.png" alt="Yogiyo Logo" />
                 </Link>
             </div>
             {user && user.isLoggedIn ? (
-                <div className="hidden lg:flex items-center gap-2 py-0 px-2">
+                <div className="flex lg:flex items-center gap-2 py-0 px-2">
                     <p className="flex items-center text-sm text-font-gray">{user.nickname}님</p>
                     <div className="flex items-center w-auto px-2 h-[28px] border rounded-md text-xs text-font-gray">
                         <button onClick={toOwnerInfo}>내정보</button>
