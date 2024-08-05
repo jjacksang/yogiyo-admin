@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { content, userStateAtom } from "../recoil/state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -16,12 +16,18 @@ import { useRouter } from "next/navigation";
 import { ReviewManagement } from "./review/ReviewManagement";
 import MenuSet from "./menu/MenuSet";
 
+function Loading() {
+    return <div>Loading...</div>;
+}
+
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState("main"); // 초기 메뉴를 "main"으로 설정
     const toggleModal = () => setIsModalOpen(!isModalOpen);
     const user = useRecoilValue(userStateAtom);
     const router = useRouter();
+
+    const MenuPage = React.lazy(() => import("./menu/MenuSet"));
 
     const setContent = useRecoilValue(content);
     const setRecoilContent = useSetRecoilState(content);
@@ -50,7 +56,9 @@ const Page = () => {
                     )}
                     {setContent === "holidaySchedule" && <HolidaySchedule />}
                     {setContent === "menuSet" && (
-                        <MenuSet onClose={() => console.log("메인클릭")} />
+                        <Suspense fallback={<Loading />}>
+                            <MenuPage onClose={() => console.log("메인클릭")} />
+                        </Suspense>
                     )}
                     {setContent === "ReviewManagement" && <ReviewManagement />}
                     <Footer />
