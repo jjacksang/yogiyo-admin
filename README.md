@@ -10,7 +10,7 @@
 
 -   react, typescript, nextjs, tailwindcss
 
-** 사용한 라이브러리 **
+**사용한 라이브러리**
 
 -   axios, swiper, react-beautiful-dnd, react-datepicker, react-icons
 
