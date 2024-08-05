@@ -6,22 +6,22 @@
 
 ## 사용스택
 
-작성언어
+**작성언어**
 
 -   react, typescript, nextjs, tailwindcss
 
-사용한 라이브러리
+** 사용한 라이브러리 **
 
 -   axios, swiper, react-beautiful-dnd, react-datepicker, react-icons
 
-상태관리
+**상태관리**
 
 -   recoil
 
-배포
+**배포**
 
 -   vercel
 
-협업도구
+**협업도구**
 
 -   git, figma, REST API
