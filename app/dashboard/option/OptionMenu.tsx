@@ -7,8 +7,8 @@ import { menuItemAtom, optionGroupAtom, shopIdAtom } from "@/app/recoil/state";
 import { OptionItem } from "./OptionItem";
 import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
 import { OptionMenuLinkModal } from "./optionModal/OptionMenuLinkModal";
-import { ItemLayout } from "../common/ItemLayout";
-import { ItemHeader } from "../common/ItemHeader";
+import { ItemLayout } from "../../../components/common/ItemLayout";
+import { ItemHeader } from "../../../components/common/ItemHeader";
 import { ReorderOptionGroup } from "./optionModal/ReorderOptionGroup";
 import { ReorderOptionItem } from "./optionModal/ReorderOptionItem";
 

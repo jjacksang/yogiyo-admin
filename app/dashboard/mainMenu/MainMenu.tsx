@@ -8,8 +8,8 @@ import { useRecoilValue } from "recoil";
 import MainMenuModal from "./MainMenuModal";
 import { MenusItem } from "../menu/menu";
 import { ReorderMainMenuModal } from "./mainMenuModal/ReorderMainMenuModal";
-import { ItemLayout } from "../common/ItemLayout";
-import { ItemHeader } from "../common/ItemHeader";
+import { ItemLayout } from "@/components/common/ItemLayout";
+import { ItemHeader } from "@/components/common/ItemHeader";
 
 const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);

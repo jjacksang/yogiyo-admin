@@ -2,7 +2,7 @@ import { shopIdAtom } from "@/app/recoil/state";
 import { getAxios } from "@/app/services/loginAPI";
 import { Button } from "@/components/common/Button";
 import { ModalLayout } from "@/components/common/ModalLayout";
-import { MenusItem } from "@/components/menu/menu";
+import { MenusItem } from "@/app/dashboard/menu/menu";
 import { ModalProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";

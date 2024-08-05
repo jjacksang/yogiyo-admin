@@ -3,7 +3,7 @@ import { content } from "@/app/recoil/state";
 import DashboardMypageMain from "./DashboardMypageMain";
 import React, { ReactNode } from "react";
 import { useRecoilValue } from "recoil";
-import MenuSet from "../../components/menu/MenuSet";
+import MenuSet from "./menu/MenuSet";
 
 interface DashboardMainProps {
     children: ReactNode;

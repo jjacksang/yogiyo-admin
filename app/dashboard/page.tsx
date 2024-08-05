@@ -7,13 +7,14 @@ import { ManageBusinessHours } from "@/components/businessHoursSidebar/ManageBus
 import Footer from "@/components/home/Footer";
 import PauseService from "@/components/businessHoursSidebar/PauseService";
 import HolidaySchedule from "@/components/businessHoursSidebar/HolidaySchedule";
-import MenuSet from "@/components/menu/MenuSet";
+
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardMypageMain from "./DashboardMypageMain";
-import { ReviewManagement } from "@/components/review/ReviewManagement";
 
 import { useRouter } from "next/navigation";
+import { ReviewManagement } from "./review/ReviewManagement";
+import MenuSet from "./menu/MenuSet";
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +25,12 @@ const Page = () => {
 
     const setContent = useRecoilValue(content);
     const setRecoilContent = useSetRecoilState(content);
+
+    useEffect(() => {
+        if (!user?.isLoggedIn) {
+            router.push("/login");
+        }
+    }, []);
 
     useEffect(() => {
         setRecoilContent(selectedMenu);

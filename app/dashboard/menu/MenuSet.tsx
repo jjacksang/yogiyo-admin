@@ -10,8 +10,8 @@ import { MenuItemList } from "./MenuItemList";
 import OptionMenu from "../option/OptionMenu";
 import AddMenuGroup from "./menuModal/AddMenuGroupModal";
 import { ReorderModal } from "./menuModal/ReorderModal";
-import { ItemLayout } from "../common/ItemLayout";
-import { ItemHeader } from "../common/ItemHeader";
+import { ItemLayout } from "../../../components/common/ItemLayout";
+import { ItemHeader } from "../../../components/common/ItemHeader";
 import MainMenu from "../mainMenu/MainMenu";
 import { ReorderItemModal } from "./menuModal/ReorderItemModal";
 
