@@ -4,8 +4,8 @@ import React, { useContext, useState } from "react";
 import { ModalProps } from "@/lib/types";
 import { getAxios } from "@/app/services/loginAPI";
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";
-import { Button } from "../common/Button";
-import { ModalLayout } from "../common/ModalLayout";
+import { ModalLayout } from "@/components/common/ModalLayout";
+import { Button } from "@/components/common/Button";
 
 interface SetMainMenu extends ModalProps {
     fetchedMainMenu: () => void;

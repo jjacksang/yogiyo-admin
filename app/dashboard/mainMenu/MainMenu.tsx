@@ -8,8 +8,22 @@ import { useRecoilValue } from "recoil";
 import MainMenuModal from "./MainMenuModal";
 import { MenusItem } from "../menu/menu";
 import { ReorderMainMenuModal } from "./mainMenuModal/ReorderMainMenuModal";
-import { ItemLayout } from "../common/ItemLayout";
-import { ItemHeader } from "../common/ItemHeader";
+import { ItemLayout } from "@/components/common/ItemLayout";
+import { ItemHeader } from "@/components/common/ItemHeader";
+
+const ifMainMenuNull = () => {
+    // 만약 대표메뉴가 없을 때 렌더하기 위한 요소
+    return (
+        <div className="flex flex-col items-center my-28">
+            <img
+                src="/Icons/대표메뉴없을때.svg"
+                alt="대표메뉴없을때"
+                className="w-[160px] h-[160px]"
+            />
+            <span className="flex justify-center">설정한 대표메뉴가 없습니다</span>
+        </div>
+    );
+};
 
 const MainMenu = ({ onClose }: ModalProps) => {
     const shopId = useRecoilValue(shopIdAtom);
@@ -69,20 +83,6 @@ const MainMenu = ({ onClose }: ModalProps) => {
     useEffect(() => {
         getSignatureMenu();
     }, [shopId, menuItemAtom]);
-
-    const ifMainMenuNull = () => {
-        // 만약 대표메뉴가 없을 때 렌더하기 위한 요소
-        return (
-            <div className="flex flex-col items-center my-28">
-                <img
-                    src="/Icons/대표메뉴없을때.svg"
-                    alt="대표메뉴없을때"
-                    className="w-[160px] h-[160px]"
-                />
-                <span className="flex justify-center">설정한 대표메뉴가 없습니다</span>
-            </div>
-        );
-    };
 
     return (
         <ItemLayout>

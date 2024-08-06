@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { content, userStateAtom } from "../recoil/state";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -7,13 +7,18 @@ import { ManageBusinessHours } from "@/components/businessHoursSidebar/ManageBus
 import Footer from "@/components/home/Footer";
 import PauseService from "@/components/businessHoursSidebar/PauseService";
 import HolidaySchedule from "@/components/businessHoursSidebar/HolidaySchedule";
-import MenuSet from "@/components/menu/MenuSet";
+
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardMypageMain from "./DashboardMypageMain";
-import { ReviewManagement } from "@/components/review/ReviewManagement";
 
 import { useRouter } from "next/navigation";
+import { ReviewManagement } from "./review/ReviewManagement";
+import MenuSet from "./menu/MenuSet";
+
+function Loading() {
+    return <div>Loading...</div>;
+}
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,8 +27,16 @@ const Page = () => {
     const user = useRecoilValue(userStateAtom);
     const router = useRouter();
 
+    const MenuPage = React.lazy(() => import("./menu/MenuSet"));
+
     const setContent = useRecoilValue(content);
     const setRecoilContent = useSetRecoilState(content);
+
+    useEffect(() => {
+        if (!user?.isLoggedIn) {
+            router.push("/login");
+        }
+    }, []);
 
     useEffect(() => {
         setRecoilContent(selectedMenu);
@@ -43,7 +56,9 @@ const Page = () => {
                     )}
                     {setContent === "holidaySchedule" && <HolidaySchedule />}
                     {setContent === "menuSet" && (
-                        <MenuSet onClose={() => console.log("메인클릭")} />
+                        <Suspense fallback={<Loading />}>
+                            <MenuPage onClose={() => console.log("메인클릭")} />
+                        </Suspense>
                     )}
                     {setContent === "ReviewManagement" && <ReviewManagement />}
                     <Footer />

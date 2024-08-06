@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
-import { ModalLayout } from "../../common/ModalLayout";
-import { Button } from "../../common/Button";
+import { ModalLayout } from "../../../../components/common/ModalLayout";
+import { Button } from "../../../../components/common/Button";
 import { ModalProps } from "@/lib/types";
 import { useRecoilValue } from "recoil";
 import { menuItemAtom, shopIdAtom } from "@/app/recoil/state";

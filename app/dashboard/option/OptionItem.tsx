@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { AddOptionItemModal } from "./optionModal/AddOptionItemModal";
 import { Options } from "./option";
-import { ItemList } from "../common/ItemList";
+import { ItemList } from "../../../components/common/ItemList";
 
 interface optionId extends ModalProps {
     optionGroupId: number;
@@ -20,7 +20,7 @@ export const OptionItem = ({ optionGroupId }: optionId) => {
     const [openModal, setOpenModal] = useState({
         addOptionItemModal: false,
     });
-    console.log(optionList);
+
     const handleModalOpen = (modalName: string, id?: number) => {
         setOpenModal((prevModal) => ({
             ...prevModal,

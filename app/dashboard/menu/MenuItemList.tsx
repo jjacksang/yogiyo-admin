@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { AddMenuItemModal } from "./menuModal/AddMenuItemModal";
 import { getAxios } from "@/app/services/loginAPI";
 import { MenusItem } from "./menu";
-import { ItemList } from "../common/ItemList";
+import { ItemList } from "../../../components/common/ItemList";
 
 interface MenuItemListProps {
     menuGroupId: number;
