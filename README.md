@@ -25,3 +25,29 @@
 **협업도구**
 
 -   git, figma, REST API
+
+
+**미리보기**
+
+- 홈화면 반응형 처리
+  ![yogiyo_home](https://github.com/user-attachments/assets/786c990a-3c54-4b10-b008-46be4428692c)
+
+
+- URL입력시 /login으로 이동
+  
+![url입력시login](https://github.com/user-attachments/assets/ebba40f1-ac6c-42aa-a01b-be6a5d61dcaa)
+
+- dashboard 페이지 구현
+
+  ![대시보드 메뉴관리](https://github.com/user-attachments/assets/25eee910-b46e-4685-a3a6-5967b8b51f84)
+
+- 검색기능
+
+  ![검색기능](https://github.com/user-attachments/assets/c714cf57-7ef4-4a0d-bbde-b940943d42be)
+
+- 리뷰보기
+
+  ![리뷰보기](https://github.com/user-attachments/assets/939aa46c-f92d-40eb-b4d5-031c2c4fe7a2)
+
+
+
