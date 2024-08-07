@@ -1,11 +1,7 @@
 import axios from "axios";
 
 export const getAxios = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    headers: {
-        "Content-Type": "application/json",
-        SameSite: "lax",
-    },
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
     withCredentials: true,
 });
 
@@ -113,7 +109,7 @@ export const emailLogin = async (email: string, password: string) => {
 
     console.log(userData);
 
-    const resSubmit = await getAxios.post("/owner/login", userData, {});
+    const resSubmit = await getAxios.post("/owner/login", userData);
     if (resSubmit.status >= 200 && resSubmit.status < 300) {
         const { userId, email: userEmail } = resSubmit.data;
         console.log(`${resSubmit.data.userId} 로그인 성공`);
