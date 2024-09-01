@@ -56,9 +56,5 @@
 
   ![검색기능](https://github.com/user-attachments/assets/c714cf57-7ef4-4a0d-bbde-b940943d42be)
 
-- 리뷰보기
-
-  ![리뷰보기](https://github.com/user-attachments/assets/939aa46c-f92d-40eb-b4d5-031c2c4fe7a2)
-
 
 
