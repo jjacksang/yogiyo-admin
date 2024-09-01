@@ -1,4 +1,5 @@
 # 요기요 사장님 사이트 클론 코딩
+(해당 프로젝트는 사정상 9월부터 서비스가 종료되었습니다.)
 
 요기요 사장님 사이트 클론 코딩을 진행함으로써 recoil로 상태관리를 익히고 Nextjs의 파일 라우팅 기법을 이용하여 폴더를 나누어 작업하였습니다.<br>
 백엔드와 REST API를 사용하여 SERVER와 통신하고 figma를 통하여 작업을 분할하여 분배하였습니다.<br>
@@ -37,9 +38,19 @@
   
 ![url입력시login](https://github.com/user-attachments/assets/ebba40f1-ac6c-42aa-a01b-be6a5d61dcaa)
 
+- 닉네임 변경
+
+  ![닉네임변경-배포](https://github.com/user-attachments/assets/99a41ae6-2d3d-47d5-87fb-124b58ac8671)
+
+
 - dashboard 페이지 구현
 
-  ![대시보드 메뉴관리](https://github.com/user-attachments/assets/25eee910-b46e-4685-a3a6-5967b8b51f84)
+ ![대시보드 메뉴관리](https://github.com/user-attachments/assets/6d850f78-1075-4a9c-938c-10141c2704dc)
+![메뉴 추가_삭제-배포](https://github.com/user-attachments/assets/56a9fab6-8eef-4c0a-b473-3c65330afd63)
+![옵션추가-배포](https://github.com/user-attachments/assets/0147a01a-b012-4e25-97b6-5895b6e2861c)
+![리뷰보기](https://github.com/user-attachments/assets/b2e0cb2b-fe71-4175-9553-caec3934074a)
+
+ 
 
 - 검색기능
 
